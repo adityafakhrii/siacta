@@ -1,0 +1,20 @@
+// Cards Mixins 
+
+@mixin card-inverse-variant($bg, $border, $color) {
+  background: $bg;
+  border: 1px solid $border;
+  color: $color;
+}
+@mixin card-variant-triangle($color) {
+  color: $color;
+  width: 0;
+  height: 0;
+  border-top: 35px solid tint($color,60%);
+  border-right: 35px solid transparent;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+@mixin card-variant-border($color) {
+  border: 1px solid tint($color,60%);
+}
