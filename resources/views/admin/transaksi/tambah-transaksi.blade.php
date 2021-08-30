@@ -210,9 +210,29 @@
 	                    <div class="col-lg-4">
 	                      <label class="col-form-label">Beban Penyusutan</label>
 	                    </div>
-	                    <div class="col-8 grid-margin stretch-card">
+	                    {{-- <div class="col-3 grid-margin stretch-card">
+		                      <select class="js-example-basic-single w-100" name="id_akun_debit">
+			                      <option value="" selected disabled>Pilih Akun Debit</option>
+				                      @foreach($akuns as $akun)
+
+				                      	<option value="{{$akun->id}}">{{$akun->no_akun}} - {{$akun->nama_akun}}</option>
+
+				                      @endforeach
+			                    </select>
+		                	</div>
+		                	<div class="col-3 grid-margin stretch-card">
+		                      <select class="js-example-basic-single w-100" name="id_akun_kredit">
+			                      <option value="" selected disabled>Pilih Akun Kredit</option>
+				                      @foreach($akuns as $akun)
+
+				                      	<option value="{{$akun->id}}">{{$akun->no_akun}} - {{$akun->nama_akun}}</option>
+
+				                      @endforeach
+			                    </select>
+		                	</div> --}}
+		                	<div class="col-2 grid-margin stretch-card">
 		                      <input name="beban_penyusutan" class="form-control" type="text" readonly />
-		                </div>
+		                	</div>
 	                  </div>
 	                  <div class="form-group row">
 	                    <button type="submit" class="btn btn-primary mr-2"><i class="mdi mdi-file-check btn-icon-prepend"></i> Submit</button>

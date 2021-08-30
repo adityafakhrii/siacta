@@ -41,7 +41,7 @@
                 <li class="nav-item"> <a class="nav-link" href="/buku-besar"><p>Buku Besar</p></a></li>
                 <li class="nav-item"> <a class="nav-link" href="/jasa/neraca-saldo"><p>Neraca Saldo</p> <p>Sebelum</p> <p>Penyesuaian</p></a></li>
                 <li class="nav-item"> <a class="nav-link" href="/jasa/jurnal-penyesuaian"><p>Jurnal</p> <p>Penyesuaian</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo/setelah-disesuaikan"><p>Neraca Saldo</p> <p>Setelah</p> <p>Disesuaikan</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/jasa/neraca-saldo/setelah-disesuaikan"><p>Neraca Saldo</p> <p>Setelah</p> <p>Disesuaikan</p></a></li>
                 <li class="nav-item"> <a class="nav-link" href="/jurnal-penutup"><p>Jurnal Penutup</p></a></li>
                 <li class="nav-item"> <a class="nav-link" href="/neraca-saldo/setelah-penutup"><p>Neraca Saldo</p> <p>Setelah Penutup</p></a></li>
 

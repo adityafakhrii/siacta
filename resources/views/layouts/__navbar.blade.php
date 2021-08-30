@@ -44,7 +44,7 @@
                     <i class="mdi mdi-account-outline ml-1"></i>
                   </span>
                 </a>
-                <a class="dropdown-item py-1  px-2 d-flex align-items-center justify-content-between" href="#">
+                <a class="dropdown-item py-1  px-2 d-flex align-items-center justify-content-between" href="/logout">
                   <span>Log Out</span>
                   <i class="mdi mdi-logout ml-1"></i>
                 </a>

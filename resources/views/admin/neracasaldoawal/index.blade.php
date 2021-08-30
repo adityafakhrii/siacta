@@ -30,11 +30,7 @@
                   </h4>
                   
                   @if(auth()->user()->status_neracaawal == 'belum_final')
-                  <a id="btn-submit" href="/neraca-saldo-awal/tambah" class="btn btn-sm btn-primary btn-icon-text">
-                    <i class="mdi mdi-database-plus btn-icon-prepend"></i>
-                          Tambah data
-                  </a>
-                  
+                               
                   <form action="/neraca-saldo-awal/konfirmasi" method="post">
                     @csrf
                   <button onclick="return confirm('Konfirmasi saldo awal? data ini tidak bisa diubah!')" type="submit" href="/neraca-saldo-awal/konfirmasi" class="float-right btn btn-sm btn-success btn-icon-text">
@@ -79,6 +75,16 @@
                           <td>-</td>
                           @endif
                           <td>
+                            @if(auth()->user()->status_neracaawal == 'belum_final')
+                              @if(($awal->debit == NULL || $awal->debit == 0) && ($awal->kredit == NULL || $awal->kredit == 0))
+                                <a class="btn btn-sm btn-inverse-warning" href="/neraca-saldo-awal/edit/{{$awal->id}}"><i class="mdi mdi-pencil-box-outline btn-icon-prepend"></i>
+                                  Tambah Saldo
+                                </a>
+                              @else
+
+                              @endif
+                            @endif
+
                             <a class="btn btn-sm btn-inverse-danger" href="/neraca-saldo-awal/hapus/{{$awal->id}}" onclick="return confirm('Apakah anda yakin?')"><i class="mdi mdi-delete-forever btn-icon-prepend"></i>
                             Hapus</a>
                           </td>

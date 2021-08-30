@@ -27,6 +27,10 @@ class Akun extends Model
         return $this->hasMany('App\Models\Bukubesar','id_akun');
     }
 
+    public function bukubesarpenyesuaian(){  
+        return $this->hasMany('App\Models\Bukubesar','id_akun');
+    }
+
     public function jurnalpenyesuaian(){   
         return $this->hasMany('App\Models\jurnalpenyesuaian','id_akun');
     }

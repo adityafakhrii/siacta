@@ -36,10 +36,10 @@ Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
 
 	//Jasa
 	Route::get('/neraca-saldo-awal','NeracasaldoawalController@index');
-	Route::get('/neraca-saldo-awal/tambah','NeracasaldoawalController@create');
+	Route::get('/neraca-saldo-awal/edit/{id}','NeracasaldoawalController@edit');
 	Route::get('/neraca-saldo-awal/hapus/{id}','NeracasaldoawalController@destroy');
 	Route::post('/neraca-saldo-awal/konfirmasi','NeracasaldoawalController@confirm');
-	Route::post('/store-neracaawal','NeracasaldoawalController@store');
+	Route::post('/update-neracaawal/{id}','NeracasaldoawalController@update');
 
 	Route::get('/transaksi','TransaksiController@create');
 	Route::post('/store-transaksi','TransaksiController@store');
@@ -55,6 +55,10 @@ Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
 
 	Route::get('/jasa/jurnal-penyesuaian/transaksi','TransbaruController@create');
 	Route::post('/jurnal-penyesuaian/store-transaksi','TransbaruController@store');
+
+	Route::get('/jasa/neraca-saldo/setelah-disesuaikan','NeracasaldosetelahpenController@index');
+
+	
 
 	//Dagang
 

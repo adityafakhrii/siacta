@@ -126,34 +126,26 @@ class TransaksiController extends Controller
                         );
 
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    $bb1 = array(
-                                        'id_akun' => 1,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbkaspen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    $bb2 = array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
+                                $ns = array(
+                                        array(
+                                            'id_akun' => 1,
+                                            'debit' => $bbkas->saldo + $request->nominal,
+                                            'kredit' => NULL,
+                                            'created_at' => Carbon::now(),
+                                            'updated_at' => Carbon::now(),
+                                        ),
+                                        array(
+                                            'id_akun' => $request->id_akun,
+                                            'debit' => NULL,
+                                            'kredit' => $bbesar->saldo - $request->nominal,
+                                            'created_at' => Carbon::now(),
+                                            'updated_at' => Carbon::now(),
+                                        ),
+                                );
+                            Neracasaldo::insert($ns);
                         }
+
+                        // Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan ada diskon
@@ -228,46 +220,7 @@ class TransaksiController extends Controller
                                 ),
                         );
 
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',2)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => $request->nominal - $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbkaspen->saldo + ($request->nominal - $request->diskon),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 2,
-                                        'debit' => $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan tidak ada diskon
@@ -341,46 +294,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => $request->nominal + $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbkaspen->saldo + ($request->nominal + $request->nominal_ppn),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_ppn,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan ada diskon
@@ -476,57 +390,7 @@ class TransaksiController extends Controller
                                 ),
                         );
 
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpen::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpen::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpen::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpen::where('id_akun','=',2)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbkaspen->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 2,
-                                        'debit' => $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_ppn,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
             }
 
@@ -583,35 +447,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',3)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => 3,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbpiutangusahapen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan ada diskon
@@ -685,46 +521,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',3)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',2)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => 3,
-                                        'debit' => $request->nominal - $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbpiutangusahapen->saldo + ($request->nominal - $request->diskon),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 2,
-                                        'debit' => $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan tidak ada diskon
@@ -798,34 +595,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan ada diskon
@@ -920,57 +690,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',3)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',2)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => 3,
-                                        'debit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbpiutangusahapen->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 2,
-                                        'debit' => $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_ppn,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
             }
 
@@ -1048,46 +768,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',3)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => $request->nominal_dp,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbkaspen->saldo + $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 3,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbpiutangusahapen->saldo + ($request->nominal - $request->nominal_dp),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan ada diskon
@@ -1182,57 +863,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',3)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',2)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => $request->nominal_dp,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbkaspen->saldo + $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 3,
-                                        'debit' => $request->nominal_dp - $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbpiutangusahapen->saldo + ($request->nominal_dp - $request->diskon),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 2,
-                                        'debit' => $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan tidak ada diskon
@@ -1327,57 +958,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',3)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => $request->nominal_dp,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbkaspen->saldo + $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 3,
-                                        'debit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_dp,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbpiutangusahapen->saldo + (($request->nominal + $request->nominal_ppn) - $request->nominal_dp),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_ppn,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan ada diskon
@@ -1493,68 +1074,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',3)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',2)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => $request->nominal_dp,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbkaspen->saldo + $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 3,
-                                        'debit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp+$request->diskon),
-                                        'kredit' => NULL,
-                                        'saldo' => $bbpiutangusahapen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp+$request->diskon)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 2,
-                                        'debit' => $request->diskon,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_ppn,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
             }
 
@@ -1586,7 +1106,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1601,7 +1121,7 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                         $bb = array(
@@ -1624,7 +1144,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -1633,47 +1153,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal - $request->nominal_pph23,
-                                        'saldo' => $bbkaspen->saldo - ($request->nominal - $request->nominal_pph23),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph23,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan ada diskon dan ada pph23 tidak ada pph22
@@ -1701,7 +1181,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1711,7 +1191,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1726,9 +1206,9 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                         $bb = array(
@@ -1751,7 +1231,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -1760,7 +1240,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -1769,58 +1249,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                            
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal - $request->diskon - $request->nominal_pph23,
-                                        'saldo' => $bbkaspen->saldo - ($request->nominal - $request->diskon - $request->nominal_pph23),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph23,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan tidak ada diskon dan ada pph22 tidak ada pph23
@@ -1848,7 +1277,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1863,7 +1292,7 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -1885,7 +1314,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -1894,46 +1323,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal - $request->nominal_pph22,
-                                        'saldo' => $bbkaspen->saldo - ($request->nominal - $request->nominal_pph22),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan ada diskon dan ada pph22 tidak ada pph23
@@ -1961,7 +1351,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1971,7 +1361,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1986,9 +1376,9 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                         $bb = array(
@@ -2011,16 +1401,16 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->st7s,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -2029,58 +1419,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                            
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal - $request->diskon - $request->nominal_pph22,
-                                        'saldo' => $bbkaspen->saldo - ($request->nominal - $request->diskon - $request->nominal_pph22),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->st7s,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan ada diskon dan tidak ada pph22 maupun pph23
@@ -2108,7 +1447,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2123,7 +1462,7 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
                         $bb = array(
                                 array(
@@ -2145,7 +1484,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -2154,46 +1493,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                            
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal - $request->diskon,
-                                        'saldo' => $bbkaspen->saldo - ($request->nominal - $request->diskon),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan tidak ada diskon dan tidak ada pph22 maupun pph23
@@ -2222,12 +1522,12 @@ class TransaksiController extends Controller
                         );
 
                         // MASUKKAN KE BUKU BESAR
-                        $bbesar = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
-                        $bbpen = array(
+                        $bb = array(
                                 array(
                                     'id_akun' => $request->id_akun,
                                     'debit' => $request->nominal,
@@ -2241,42 +1541,13 @@ class TransaksiController extends Controller
                                     'id_akun' => 1,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal,
-                                    'saldo' => $bbkaspen->saldo - $request->nominal,
+                                    'saldo' => $bbkas->saldo - $request->nominal,
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-
-                            $bb = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbkas->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan ada diskon dan tidak ada pph22 maupun pph23
@@ -2294,7 +1565,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -2314,7 +1585,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2327,11 +1598,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -2344,9 +1615,9 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
-                                    'kredit' => N9L,
+                                    'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
@@ -2362,7 +1633,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -2371,57 +1642,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                            
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => N9L,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
-                                        'saldo' => $bbkaspen->saldo - (($request->nominal + $request->nominal_ppn) - $request->diskon),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan tidak ada diskon dan tidak ada pph22 maupun pph23
@@ -2439,7 +1660,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -2464,7 +1685,7 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -2483,10 +1704,10 @@ class TransaksiController extends Controller
                                     'saldo' => $bbkas->saldo - ($request->nominal + $request->nominal_ppn),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->s9tus,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -2495,46 +1716,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal + $request->nominal_ppn,
-                                        'saldo' => $bbkaspen->saldo - ($request->nominal + $request->nominal_ppn),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->s9tus,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan ada diskon dan ada pph22 dan tidak ada pph23
@@ -2552,7 +1734,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -2572,7 +1754,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2582,7 +1764,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2595,13 +1777,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -2614,7 +1796,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -2629,10 +1811,10 @@ class TransaksiController extends Controller
                                     'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22)),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->st7s,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -2641,7 +1823,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -2650,69 +1832,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                            
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bb = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
-                                        'saldo' => $bbkaspen->saldo - (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->st7s,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan tidak ada diskon dan ada pph22 dan tidak ada pph23
@@ -2730,7 +1850,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -2750,7 +1870,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2765,9 +1885,9 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -2783,13 +1903,13 @@ class TransaksiController extends Controller
                                     'id_akun' => 1,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
-                                    'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - $request->nominal9ph22),
+                                    'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - $request->nominal_pph22),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -2798,7 +1918,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -2807,57 +1927,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
-                                        'saldo' => $bbkaspen->saldo - (($request->nominal + $request->nominal_ppn) - $request->nominal9ph22),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
 
                 }
 
@@ -2876,7 +1946,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -2896,7 +1966,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2906,7 +1976,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2919,13 +1989,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -2938,7 +2008,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -2953,10 +2023,10 @@ class TransaksiController extends Controller
                                     'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23)),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->st7s,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -2965,7 +2035,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -2974,68 +2044,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                            
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
-                                        'saldo' => $bbkaspen->saldo - (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->st7s,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph23,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan tidak ada diskon dan ada pph23 dan tidak ada pph22
@@ -3053,7 +2062,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -3073,7 +2082,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3088,9 +2097,9 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3106,13 +2115,13 @@ class TransaksiController extends Controller
                                     'id_akun' => 1,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
-                                    'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - $request->nominal9ph23),
+                                    'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - $request->nominal_pph23),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -3121,7 +2130,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -3130,57 +2139,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
-                                        'saldo' => $bbkaspen->saldo - (($request->nominal + $request->nominal_ppn) - $request->nominal9ph23),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph23,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
             }
 
@@ -3202,7 +2161,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => $request->nominal - $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3212,7 +2171,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3225,9 +2184,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3240,7 +2199,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->nominal_pph23,
                                     'saldo' => $bbutang->saldo + ($request->nominal - $request->nominal_pph23),
@@ -3249,7 +2208,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -3258,46 +2217,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal - $request->nominal_pph23,
-                                        'saldo' => $bbutangpen->saldo + ($request->nominal - $request->nominal_pph23),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph23,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan ada diskon dan ada pph23 tidak ada pph22
@@ -3315,7 +2235,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3325,7 +2245,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3335,7 +2255,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3348,11 +2268,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3365,7 +2285,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph23,
                                     'saldo' => $bbutang->saldo + ($request->nominal - $request->diskon - $request->nominal_pph23),
@@ -3374,7 +2294,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -3383,7 +2303,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -3392,57 +2312,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal - $request->diskon - $request->nominal_pph23,
-                                        'saldo' => $bbutangpen->saldo + ($request->nominal - $request->diskon - $request->nominal_pph23),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph23,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan tidak ada diskon dan ada pph22 tidak ada pph23
@@ -3460,7 +2330,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => $request->nominal - $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3470,7 +2340,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3483,9 +2353,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3498,7 +2368,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->nominal_pph22,
                                     'saldo' => $bbutang->saldo + ($request->nominal - $request->nominal_pph22),
@@ -3507,7 +2377,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -3516,46 +2386,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal - $request->nominal_pph22,
-                                        'saldo' => $bbutangpen->saldo + ($request->nominal - $request->nominal_pph22),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan ada diskon dan ada pph22 tidak ada pph23
@@ -3573,7 +2404,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3583,7 +2414,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3593,7 +2424,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3606,11 +2437,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3623,7 +2454,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph22,
                                     'saldo' => $bbutang->saldo + ($request->nominal - $request->diskon - $request->nominal_pph22),
@@ -3632,7 +2463,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -3641,7 +2472,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -3650,57 +2481,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal - $request->diskon - $request->nominal_pph22,
-                                        'saldo' => $bbutangpen->saldo + ($request->nominal - $request->diskon - $request->nominal_pph22),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan ada diskon dan tidak ada pph22 maupun pph23
@@ -3718,7 +2499,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal - $request->diskon),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3728,7 +2509,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3741,9 +2522,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3756,7 +2537,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->diskon,
                                     'saldo' => $bbutang->saldo + ($request->nominal - $request->diskon),
@@ -3765,7 +2546,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -3774,46 +2555,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal - $request->diskon,
-                                        'saldo' => $bbutangpen->saldo + ($request->nominal - $request->diskon),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika tidak ada PAJAK dan tidak ada diskon dan tidak ada pph22 maupun pph23
@@ -3831,7 +2573,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => $request->nominal,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3843,7 +2585,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3856,7 +2598,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal,
                                     'saldo' => $bbutang->saldo + $request->nominal,
@@ -3865,35 +2607,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbutangpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
                 }
 
                 // Jika ada PAJAK dan ada diskon dan tidak ada pph22 maupun pph23
@@ -3911,7 +2625,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -3921,7 +2635,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3931,7 +2645,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3944,11 +2658,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3961,7 +2675,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -3970,7 +2684,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
@@ -3979,7 +2693,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -3989,54 +2703,44 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 350,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->diskon,
+                                                    'saldo' => $bbdiskon->saldo + $request->diskon,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -4056,7 +2760,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4066,7 +2770,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => $request->nominal + $request->nominal_ppn,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4079,9 +2783,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4094,16 +2798,16 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal + $request->nominal_ppn,
                                     'saldo' => $bbutang->saldo + ($request->nominal + $request->nominal_ppn),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->s9tus,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4113,43 +2817,35 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal + $request->nominal_ppn,
-                                        'saldo' => $bbutangpen->saldo + ($request->nominal + $request->nominal_ppn),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->s9tus,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal + $request->nominal_ppn,
+                                                    'saldo' => $bbutang->saldo + ($request->nominal + $request->nominal_ppn),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -4169,7 +2865,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4179,7 +2875,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4189,7 +2885,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4199,7 +2895,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4212,13 +2908,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4231,7 +2927,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4240,16 +2936,16 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22)),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->st7s,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -4258,7 +2954,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -4268,65 +2964,53 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->st7s,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 350,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->diskon,
+                                                    'saldo' => $bbdiskon->saldo + $request->diskon,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 14,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph22,
+                                                    'saldo' => $bbpph22->saldo + $request->nominal_pph22,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -4346,7 +3030,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4356,7 +3040,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4366,7 +3050,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4379,11 +3063,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4396,16 +3080,16 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
-                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->nomin9_pph22),
+                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->nominal_pph22),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4414,7 +3098,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -4424,54 +3108,44 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - $request->nomin9_pph22),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->nominal_pph22),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 14,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph22,
+                                                    'saldo' => $bbpph22->saldo + $request->nominal_pph22,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -4491,7 +3165,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4501,7 +3175,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4511,7 +3185,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4521,7 +3195,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4534,13 +3208,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4553,7 +3227,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4562,16 +3236,16 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23)),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->st7s,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -4580,7 +3254,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -4590,65 +3264,53 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->st7s,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph23,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 350,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->diskon,
+                                                    'saldo' => $bbdiskon->saldo + $request->diskon,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 15,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph23,
+                                                    'saldo' => $bbpph23->saldo + $request->nominal_pph23,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -4668,7 +3330,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4678,7 +3340,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4688,7 +3350,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4701,11 +3363,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4718,16 +3380,16 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
-                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->nomin9_pph23),
+                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->nominal_pph23),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4736,7 +3398,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -4746,54 +3408,44 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - $request->nomin9_pph23),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->nominal_pph23),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 15,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph22,
+                                                    'saldo' => $bbpph23->saldo + $request->nominal_pph23,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -4817,7 +3469,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4837,7 +3489,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4847,7 +3499,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4862,11 +3514,11 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4879,7 +3531,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22)),
@@ -4897,7 +3549,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4906,7 +3558,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -4916,65 +3568,53 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_dp,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 14,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph22,
+                                                    'saldo' => $bbpph22->saldo + $request->nominal_pph22,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -5004,7 +3644,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5014,7 +3654,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5029,9 +3669,9 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -5044,7 +3684,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph22),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph22)),
@@ -5062,7 +3702,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -5072,54 +3712,44 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph22),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph22)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_dp,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph22),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph22)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 14,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph22,
+                                                    'saldo' => $bbpph22->saldo + $request->nominal_pph22,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -5139,7 +3769,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -5159,7 +3789,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5169,7 +3799,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5179,7 +3809,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5194,15 +3824,15 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpen = array(
+                        $bb = array(
                                 array(
                                     'id_akun' => $request->id_akun,
                                     'debit' => $request->nominal,
@@ -5213,22 +3843,22 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
-                                    'kredit' => N9L,
+                                    'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22)),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->st7s,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
                                     'id_akun' => 1,
@@ -5240,7 +3870,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -5249,7 +3879,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -5259,76 +3889,62 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                            
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => N9L,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->st7s,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_dp,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 350,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->diskon,
+                                                    'saldo' => $bbdiskon->saldo + $request->diskon,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 14,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph22,
+                                                    'saldo' => $bbpph22->saldo + $request->nominal_pph22,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -5358,7 +3974,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5368,7 +3984,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5378,7 +3994,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5393,11 +4009,11 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
-                        $bbpph22 = Bukubesar::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -5410,7 +4026,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22)),
@@ -5425,10 +4041,10 @@ class TransaksiController extends Controller
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->st7s,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -5437,7 +4053,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 6,
+                                    'id_akun' => 14,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -5447,65 +4063,53 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                            
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',6)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_dp,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->st7s,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 6,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph22,
-                                        'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 350,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->diskon,
+                                                    'saldo' => $bbdiskon->saldo + $request->diskon,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 14,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph22,
+                                                    'saldo' => $bbpph22->saldo + $request->nominal_pph22,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -5525,7 +4129,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -5545,7 +4149,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5555,7 +4159,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5570,11 +4174,11 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -5587,7 +4191,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -5596,7 +4200,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23)),
@@ -5614,7 +4218,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -5624,65 +4228,53 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_dp,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph23,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 15,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph23,
+                                                    'saldo' => $bbpph23->saldo + $request->nominal_pph23,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -5712,7 +4304,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5722,7 +4314,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5737,9 +4329,9 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -5747,6 +4339,15 @@ class TransaksiController extends Controller
                                     'debit' => $request->nominal,
                                     'kredit' => NULL,
                                     'saldo' => $bbesar->saldo + $request->nominal,
+                                    'created_at' => Carbon::now(),
+                                    'updated_at' => Carbon::now(),
+                                    'keterangan' => $request->status,
+                                ),
+                                array(
+                                    'id_akun' => 16,
+                                    'debit' => NULL,
+                                    'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph23),
+                                    'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph23)),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
@@ -5761,16 +4362,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
-                                    'debit' => NULL,
-                                    'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph23),
-                                    'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph23)),
-                                    'created_at' => Carbon::now(),
-                                    'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->status,
-                                ),
-                                array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -5780,54 +4372,44 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                        array(
-                                            'id_akun' => $request->id_akun,
-                                            'debit' => $request->nominal,
-                                            'kredit' => NULL,
-                                            'saldo' => $bbesarpen->saldo + $request->nominal,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => 1,
-                                            'debit' => NULL,
-                                            'kredit' => $request->nominal_dp,
-                                            'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => 4,
-                                            'debit' => NULL,
-                                            'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph23),
-                                            'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph23)),
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => 5,
-                                            'debit' => NULL,
-                                            'kredit' => $request->nominal_pph23,
-                                            'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph23),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph23)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 15,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph23,
+                                                    'saldo' => $bbpph23->saldo + $request->nominal_pph23,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -5847,7 +4429,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -5867,7 +4449,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5877,7 +4459,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5887,7 +4469,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5902,13 +4484,13 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -5921,22 +4503,22 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
-                                    'kredit' => N9L,
+                                    'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23)),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->st7s,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
                                     'id_akun' => 1,
@@ -5948,7 +4530,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -5957,7 +4539,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -5967,76 +4549,62 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                            
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => N9L,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->st7s,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_dp,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph23,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 350,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->diskon,
+                                                    'saldo' => $bbdiskon->saldo + $request->diskon,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 15,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph23,
+                                                    'saldo' => $bbpph23->saldo + $request->nominal_pph23,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -6066,7 +4634,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6076,7 +4644,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6086,7 +4654,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6101,11 +4669,11 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
-                        $bbpph23 = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -6127,16 +4695,16 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23)),
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->st7s,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -6145,7 +4713,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 15,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -6155,65 +4723,53 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                            
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_dp,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->st7s,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 5,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_pph23,
-                                        'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 350,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->diskon,
+                                                    'saldo' => $bbdiskon->saldo + $request->diskon,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 15,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_pph23,
+                                                    'saldo' => $bbpph23->saldo + $request->nominal_pph23,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -6243,7 +4799,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6253,7 +4809,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6268,9 +4824,9 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
                         $bb = array(
                                 array(
@@ -6292,7 +4848,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon)),
@@ -6301,7 +4857,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -6311,54 +4867,44 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                            
-                            $bb = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_dp,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 350,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->diskon,
+                                                    'saldo' => $bbdiskon->saldo + $request->diskon,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -6388,7 +4934,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6403,7 +4949,7 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -6416,7 +4962,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp)),
@@ -6435,43 +4981,35 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                        array(
-                                            'id_akun' => $request->id_akun,
-                                            'debit' => $request->nominal,
-                                            'kredit' => NULL,
-                                            'saldo' => $bbesarpen->saldo + $request->nominal,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => 4,
-                                            'debit' => NULL,
-                                            'kredit' => ($request->nominal) - ($request->nominal_dp),
-                                            'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp)),
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => 1,
-                                            'debit' => NULL,
-                                            'kredit' => $request->nominal_dp,
-                                            'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal) - ($request->nominal_dp),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -6491,7 +5029,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -6511,7 +5049,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6521,7 +5059,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6536,11 +5074,11 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
                         $bb = array(
                                 array(
@@ -6553,7 +5091,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -6562,7 +5100,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon)),
@@ -6580,7 +5118,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 7,
+                                    'id_akun' => 350,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -6590,65 +5128,53 @@ class TransaksiController extends Controller
                                 ),
                         );
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',7)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                            
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_dp,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 7,
-                                        'debit' => NULL,
-                                        'kredit' => $request->diskon,
-                                        'saldo' => $bbdiskonpen->saldo + $request->diskon,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 350,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->diskon,
+                                                    'saldo' => $bbdiskon->saldo + $request->diskon,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -6668,7 +5194,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -6688,7 +5214,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6703,9 +5229,9 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -6718,16 +5244,16 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
-                                    'keterangan' => $request->s9tus,
+                                    'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp)),
@@ -6745,55 +5271,46 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
+
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->s9tus,
-                                    ),
-                                    array(
-                                        'id_akun' => 4,
-                                        'debit' => NULL,
-                                        'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp),
-                                        'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp)),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_dp,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal_dp,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo + $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => NULL,
+                                                    'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp),
+                                                    'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp)),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_dp,
+                                                    'saldo' => $bbkas->saldo - $request->nominal_dp,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -6851,32 +5368,26 @@ class TransaksiController extends Controller
                         );
                         
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bb = array(
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbkaspen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                            $bb1 = array(
+                                                'id_akun' => 1,
+                                                'debit' => $request->nominal,
+                                                'kredit' => NULL,
+                                                'saldo' => $bbkas->saldo + $request->nominal,
+                                                'created_at' => Carbon::now(),
+                                                'updated_at' => Carbon::now(),
+                                                'keterangan' => $request->status,
+                                            ),
+                                            $bb2 = array(
+                                                'id_akun' => $request->id_akun,
+                                                'debit' => NULL,
+                                                'kredit' => $request->nominal,
+                                                'saldo' => $bbesar->saldo - $request->nominal,
+                                                'created_at' => Carbon::now(),
+                                                'updated_at' => Carbon::now(),
+                                                'keterangan' => $request->status,
+                                            ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
             }
@@ -6884,7 +5395,7 @@ class TransaksiController extends Controller
             // Pengeluaaran Kas
             else if ($trans->status == 'pengeluaran_kas') {
                     $data = array(
-                                $akun_bb = array(
+                                array(
                                 'id_transaksi' => $trans->id,
                                 'id_akun' => $request->id_akun,
                                 'kredit' => NULL,
@@ -6894,7 +5405,7 @@ class TransaksiController extends Controller
                                 'created_at' => Carbon::now(),
                                 'updated_at' => null,
                                 ),
-                                $kas = array(
+                                array(
                                 'id_transaksi' => $trans->id,
                                 'id_akun' => 1,
                                 'kredit' => $request->nominal,
@@ -6931,35 +5442,8 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-
-                        if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
-                            Bukubesarpenyesuaian::insert($bbpen);
-                        }
+                        Bukubesar::insert($bb);
+                        Bukubesarpenyesuaian::insert($bb);
             }
 
             // Retur Penjualan Tunai
@@ -7036,46 +5520,40 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
+
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbppnpen->saldo - $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal + $request->nominal_ppn,
-                                        'saldo' => $bbkaspen->saldo - ($request->nominal + $request->nominal_ppn),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 9,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo - $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal + $request->nominal_ppn,
+                                                    'saldo' => $bbkas->saldo - ($request->nominal + $request->nominal_ppn),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
+
                 }
 
                 // Tidak Ada Pajak
@@ -7128,35 +5606,30 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
+                        
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => $request->nominal,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => 1,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbkaspen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal,
+                                                    'saldo' => $bbkas->saldo - $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
-                        }  
+                        }
                 }    
             }
 
@@ -7234,43 +5707,37 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
+                        
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',3)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                        array(
-                                            'id_akun' => $request->id_akun,
-                                            'debit' => $request->nominal,
-                                            'kredit' => NULL,
-                                            'saldo' => $bbesarpen->saldo + $request->nominal,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => 9,
-                                            'debit' => $request->nominal_ppn,
-                                            'kredit' => NULL,
-                                            'saldo' => $bbppnpen->saldo - $request->nominal_ppn,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => 3,
-                                            'debit' => NULL,
-                                            'kredit' => $request->nominal + $request->nominal_ppn,
-                                            'saldo' => $bbpiutangusahapen->saldo - ($request->nominal + $request->nominal_ppn),
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                            );
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 9,
+                                                    'debit' => $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbppn->saldo - $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 3,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal + $request->nominal_ppn,
+                                                    'saldo' => $bbpiutangusaha->saldo - ($request->nominal + $request->nominal_ppn),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
 
@@ -7326,33 +5793,28 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
+                        
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',3)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                        array(
-                                            'id_akun' => $request->id_akun,
-                                            'debit' => $request->nominal,
-                                            'kredit' => NULL,
-                                            'saldo' => $bbesarpen->saldo + $request->nominal,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => 3,
-                                            'debit' => NULL,
-                                            'kredit' => $request->nominal,
-                                            'saldo' => $bbpiutangusahapen->saldo - $request->nominal,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 3,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal,
+                                                    'saldo' => $bbpiutangusaha->saldo - $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }    
@@ -7386,7 +5848,7 @@ class TransaksiController extends Controller
                                 ),
                                 $ppn_masukan = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 9,
+                                'id_akun' => 13,
                                 'kredit' => $request->nominal_ppn,
                                 'debit' => NULL,
                                 'tgl' => $request->tgl,
@@ -7401,7 +5863,7 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -7423,7 +5885,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_ppn,
                                     'saldo' => $bbppn->saldo - $request->nominal_ppn,
@@ -7432,47 +5894,40 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
+                        
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-
-                            $bbpen = array(
-                                        array(
-                                            'id_akun' => 1,
-                                            'debit' => $request->nominal + $request->nominal_ppn,
-                                            'kredit' => NULL,
-                                            'saldo' => $bbkaspen->saldo + ($request->nominal + $request->nominal_ppn),
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => $request->id_akun,
-                                            'debit' => NULL,
-                                            'kredit' => $request->nominal,
-                                            'saldo' => $bbesarpen->saldo - $request->nominal,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => 9,
-                                            'debit' => NULL,
-                                            'kredit' => $request->nominal_ppn,
-                                            'saldo' => $bbppnpen->saldo - $request->nominal_ppn,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => $request->nominal + $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbkas->saldo + ($request->nominal + $request->nominal_ppn),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal,
+                                                    'saldo' => $bbesar->saldo - $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_ppn,
+                                                    'saldo' => $bbppn->saldo - $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
+
                 }
 
                 // Tidak Ada Pajak
@@ -7525,36 +5980,30 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-
+                        
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                        array(
-                                            'id_akun' => 1,
-                                            'debit' => $request->nominal,
-                                            'kredit' => NULL,
-                                            'saldo' => $bbkaspen->saldo + $request->nominal,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => $request->id_akun,
-                                            'debit' => NULL,
-                                            'kredit' => $request->nominal,
-                                            'saldo' => $bbesarpen->saldo - $request->nominal,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => 1,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbkas->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal,
+                                                    'saldo' => $bbesar->saldo - $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
-                        } 
+                        }
                 }    
             }
 
@@ -7566,7 +6015,7 @@ class TransaksiController extends Controller
                     $data = array(
                                 $utang_usaha =  array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 4,
+                                'id_akun' => 16,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal + $request->nominal_ppn,
                                 'tgl' => $request->tgl,
@@ -7586,7 +6035,7 @@ class TransaksiController extends Controller
                                 ),
                                 $ppn_masukan = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 9,
+                                'id_akun' => 13,
                                 'kredit' => $request->nominal_ppn,
                                 'debit' => NULL,
                                 'tgl' => $request->tgl,
@@ -7599,13 +6048,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutangusaha = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutangusaha = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => $request->nominal + $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbutangusaha->saldo + ($request->nominal + $request->nominal_ppn),
@@ -7621,9 +6070,9 @@ class TransaksiController extends Controller
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
-                               ),
+                                ),
                                 array(
-                                    'id_akun' => 9,
+                                    'id_akun' => 13,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_ppn,
                                     'saldo' => $bbppn->saldo - $request->nominal_ppn,
@@ -7635,43 +6084,35 @@ class TransaksiController extends Controller
                         );
 
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',9)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                        array(
-                                        'id_akun' => 4,
-                                        'debit' => $request->nominal + $request->nominal_ppn,
-                                        'kredit' => NULL,
-                                        'saldo' => $bbutangusahapen->saldo + ($request->nominal + $request->nominal_ppn),
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                                    array(
-                                        'id_akun' => $request->id_akun,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                   ),
-                                    array(
-                                        'id_akun' => 9,
-                                        'debit' => NULL,
-                                        'kredit' => $request->nominal_ppn,
-                                        'saldo' => $bbppnpen->saldo - $request->nominal_ppn,
-                                        'created_at' => Carbon::now(),
-                                        'updated_at' => Carbon::now(),
-                                        'keterangan' => $request->status,
-                                    ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => $request->nominal + $request->nominal_ppn,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbutangusaha->saldo + ($request->nominal + $request->nominal_ppn),
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal,
+                                                    'saldo' => $bbesar->saldo - $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => 13,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal_ppn,
+                                                    'saldo' => $bbppn->saldo - $request->nominal_ppn,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
@@ -7681,7 +6122,7 @@ class TransaksiController extends Controller
                     $data = array(
                                 $utang_usaha =  array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 4,
+                                'id_akun' => 16,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal,
                                 'tgl' => $request->tgl,
@@ -7704,11 +6145,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutangusaha = Bukubesar::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutangusaha = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 4,
+                                    'id_akun' => 16,
                                     'debit' => $request->nominal,
                                     'kredit' => NULL,
                                     'saldo' => $bbutangusaha->saldo + $request->nominal,
@@ -7724,36 +6165,30 @@ class TransaksiController extends Controller
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
-                                ),
+                                ),                                
                         );
-
+                        
                         if (Bukubesar::insert($bb)) {
-
-                            $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',4)->orderBy('id','DESC')->limit(1)->firstOrFail();
-
-                            $bbpen = array(
-                                        array(
-                                            'id_akun' => 4,
-                                            'debit' => $request->nominal,
-                                            'kredit' => NULL,
-                                            'saldo' => $bbutangusahapen->saldo + $request->nominal,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                                        array(
-                                            'id_akun' => $request->id_akun,
-                                            'debit' => NULL,
-                                            'kredit' => $request->nominal,
-                                            'saldo' => $bbesarpen->saldo - $request->nominal,
-                                            'created_at' => Carbon::now(),
-                                            'updated_at' => Carbon::now(),
-                                            'keterangan' => $request->status,
-                                        ),
-                            );
-
+                                    $bbpen = array(
+                                                array(
+                                                    'id_akun' => 16,
+                                                    'debit' => $request->nominal,
+                                                    'kredit' => NULL,
+                                                    'saldo' => $bbutangusaha->saldo + $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                                array(
+                                                    'id_akun' => $request->id_akun,
+                                                    'debit' => NULL,
+                                                    'kredit' => $request->nominal,
+                                                    'saldo' => $bbesar->saldo - $request->nominal,
+                                                    'created_at' => Carbon::now(),
+                                                    'updated_at' => Carbon::now(),
+                                                    'keterangan' => $request->status,
+                                                ),
+                                    );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }    
