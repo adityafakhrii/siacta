@@ -96,16 +96,16 @@
 	                    </div>
 	                    <div class="col-lg-8">
 	                      <div class="form-group">
-		                    <select class="js-example-basic-single w-100" name="id_akun" required>
-		                      <option value="" selected disabled>Pilih Akun</option>
-		                      @foreach($akuns as $akun)
+			                    <select class="js-example-basic-single w-100" name="id_akun" required>
+			                      <option value="" selected disabled>Pilih Akun</option>
+			                      @foreach($akuns as $akun)
 
-		                      <option value="{{$akun->id}}">{{$akun->no_akun}} - {{$akun->nama_akun}}</option>
+			                      <option value="{{$akun->id}}">{{$akun->no_akun}} - {{$akun->nama_akun}}</option>
 
-		                      @endforeach
-		                    </select>
-		                    <input type="hidden" name="saldo_normal" value="{{$akun->saldo_normal}}">
-		                  </div>
+			                      @endforeach
+			                    </select>
+			                    <input type="hidden" name="saldo_normal" value="{{$akun->saldo_normal}}">
+			                  </div>
 	                    </div>
 	                  </div>
 	                  <div class="form-group row">
@@ -191,7 +191,7 @@
 	                    </div>
 	                    <div class="col-lg-8">
 	                    	<div id="datepicker-popup" class="input-group date datepicker">
-		                        <input class="form-control" maxlength="3" name="umur_ekonomis" id="defaultconfig-2" type="number" placeholder="Tulis Umur Ekonomis.." min="0" max="360" value="0">
+		                        <input class="form-control" maxlength="5" name="umur_ekonomis" id="defaultconfig-2" type="number" placeholder="Tulis Umur Ekonomis.." min="0" max="999999999" value="0">
 		                        <span class="input-group-addon input-group-append border-left">
 		                          <span class="input-group-text">Hari</span>
 		                        </span>

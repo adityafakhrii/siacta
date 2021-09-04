@@ -38,7 +38,13 @@
                         </tr>
                       </thead>
                       <tbody>
-                      	<?php $no = 1; ?>
+                      	<?php
+
+                          $no = 1;
+                          $total_debit = 0;
+                          $total_kredit = 0;
+
+                        ?>
                       	@foreach($neracasaldo as $neraca)
                         <tr>
                           <td>{{$no++}}</td>
@@ -47,10 +53,15 @@
                           @if($neraca->saldo_normal == 'debit')
                             <td>Rp{{ number_format($neraca->saldo,2,",",".") }}</td>
                             <td>-</td>
+                            <?php 
+                              $total_debit += $neraca->saldo;
+                            ?>
                           @elseif($neraca->saldo_normal == 'kredit')
                             <td>-</td>
                             <td>Rp{{ number_format($neraca->saldo,2,",",".") }}</td>
-
+                            <?php 
+                              $total_kredit += $neraca->saldo;
+                            ?>
                           @endif
                         </tr>
                         @endforeach

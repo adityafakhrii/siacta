@@ -31,6 +31,50 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Transbaru','id_user');
     }
 
+    public function jurnalpenutup(){ 
+        return $this->hasMany('App\Models\Jurnalpenutup','id_user');
+    }
+
+    public function aset(){ 
+        return $this->hasMany('App\Models\Aset','id_user');
+    }
+
+    public function akumulasi(){ 
+        return $this->hasMany('App\Models\Akumulasi','id_user');
+    }
+
+    public function piutangusaha(){ 
+        return $this->hasMany('App\Models\Piutangusaha','id_user');
+    }
+
+    public function kasbank(){ 
+        return $this->hasMany('App\Models\Kasbank','id_user');
+    }
+
+    public function investasipendek(){ 
+        return $this->hasMany('App\Models\Investasipendek','id_user');
+    }
+
+    public function piutangnon(){ 
+        return $this->hasMany('App\Models\Piutangnon','id_user');
+    }
+
+    public function perlengkapan(){ 
+        return $this->hasMany('App\Models\Perlengkapan','id_user');
+    }
+
+    public function pembayaranmuka(){ 
+        return $this->hasMany('App\Models\Pembayaranmuka','id_user');
+    }
+
+    public function asetlain(){ 
+        return $this->hasMany('App\Models\Asetlain','id_user');
+    }
+
+    public function investasipanjang(){ 
+        return $this->hasMany('App\Models\Investasipanjang','id_user');
+    }
+
     protected $hidden = [
         'password',
         'remember_token',

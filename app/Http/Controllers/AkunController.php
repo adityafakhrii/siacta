@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Akun;
 use App\Models\Neracasaldoawal;
 use App\Models\Bukubesar;
+use App\Models\Bukubesarpenyesuaian;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -50,10 +51,26 @@ class AkunController extends Controller
             $bbesar->saldo = 0;
             $bbesar->keterangan = 'Saldo Awal';
 
-            $bbesar->save();
+            if ($bbesar->save()) {
+                $bbesarpen = new Bukubesarpenyesuaian;
+                $bbesarpen->id_akun = $akuns->id;
+                if ($akuns->saldo_normal == 'debit') {
+                    $bbesarpen->debit = NULL;
+                    $bbesarpen->kredit = NULL;
+                }
+                else if ($akuns->saldo_normal == 'kredit') {
+                    $bbesarpen->debit = NULL;
+                    $bbesarpen->kredit = NULL;
+                }
+                $bbesarpen->saldo = NULL;
+                $bbesarpen->keterangan = 'Saldo Awal';
+
+                $bbesarpen->save();
+            }
+            
         }
 
-        return redirect('/data-akun/tambah')->with('create','Akun berhasil ditambahkan');
+        return redirect('/data-akun')->with('create','Akun berhasil ditambahkan');
     }
 
     public function show($id)

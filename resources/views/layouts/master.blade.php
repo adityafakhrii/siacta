@@ -122,12 +122,12 @@
           c = parseFloat(nilai_sisa.value) || 0;
           d = parseFloat(umur_ekonomis.value) || 0;
 
-      var result = ((q-c)/d);
+      var result = Math.round(((q-c)/d));
 
       if (result == Number.POSITIVE_INFINITY || result == Number.NEGATIVE_INFINITY) {
         output.value = 0;
       }else{
-        output.value = result;
+        output.value =  result;
       }
   };
 

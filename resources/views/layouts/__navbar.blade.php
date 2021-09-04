@@ -34,7 +34,7 @@
               </div>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown user-profile-action" aria-labelledby="profileDropdown">
               <div class="p-3 text-center bg-success">
-                <img class="img-avatar img-avatar48 img-avatar-thumb" src="https://via.placeholder.com/36x36" alt="">
+                <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{asset('img/user.jpg')}}" alt="">
               </div>
               <div class="p-2">
                 <a class="dropdown-item py-1 px-2 d-flex align-items-center justify-content-between" href="#">

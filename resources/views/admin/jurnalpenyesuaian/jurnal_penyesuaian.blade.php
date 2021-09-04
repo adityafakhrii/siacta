@@ -10,46 +10,19 @@
               <div class="card">
 
                 <div class="card-body">
-                  @if(Session::has('success'))
-                    <div class="alert alert-fill-success" role="alert">
-                      <i class="mdi mdi-alert-circle"></i>
-                      {{Session::get('success')}}
+                  <div class="row">
+                    <div class="col-lg-12 grid-margin grid-margin-lg-0">
+                        <h4 class="card-title text-center">Jurnal Penyesuaian</h4>
                     </div>
-                  @elseif(Session::has('update'))
-                    <div class="alert alert-fill-warning" role="alert">
-                      <i class="mdi mdi-alert-circle"></i>
-                      {{Session::get('update')}}
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <a href="/jasa/jurnal-penyesuaian/transaksi" class="btn btn-sm btn-primary btn-icon-text">
+                        <i class="mdi mdi-database-plus btn-icon-prepend"></i>
+                              Tambah Transaksi
+                      </a>
                     </div>
-                  @elseif(Session::has('delete'))
-                    <div class="alert alert-fill-danger" role="alert">
-                      <i class="mdi mdi-alert-circle"></i>
-                      {{Session::get('delete')}}
-                    </div>
-                  @endif
-
-                    <div class="row">
-                      <div class="col-lg-12 grid-margin grid-margin-lg-0">
-                          <h4 class="card-title text-center">Jurnal Penyesuaian</h4>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-lg-8">
-                        <a href="/jasa/jurnal-penyesuaian/transaksi" class="btn btn-sm btn-primary btn-icon-text">
-                          <i class="mdi mdi-database-plus btn-icon-prepend"></i>
-                                Tambah Transaksi
-                        </a>
-                      </div>
-                      <div class="col-lg-4 grid-margin grid-margin-lg-0">
-                          <form action="/jurnal-penyesuaian" method="GET">
-                            <div id="datepicker-popup" class="input-group date datepicker">
-                              <input placeholder="Pilih tanggal transaksi" type="text" class="form-control" name="tgl" required autocomplete="off">
-                              <span class="input-group-addon input-group-append border-left">
-                                <button class="btn btn-primary" type="submit">Tanggal Transaksi</button>
-                              </span>
-                            </div>
-                          </form>
-                      </div>
-                    </div>
+                  </div>
 
                   @if($jurnalpenyesuaian->count() != 0)
                   <div class="table-responsive">

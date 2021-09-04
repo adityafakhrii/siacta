@@ -14,4 +14,8 @@ class Bukubesarpenyesuaian extends Model
     public function akun(){    
         return $this->belongsTo('App\Models\Akun','id_akun');
     }
+
+    public function jurnalpenutup(){    
+        return $this->hasMany('App\Models\Jurnalpenutup','id_bubespen');
+    }
 }

@@ -6,7 +6,7 @@
             <a href="#">
               <div>
                 <div class="profile-thumb">
-                    <img src="https://via.placeholder.com/36x36" alt="profile">
+                    <img src="{{asset('img/user.jpg')}}" alt="profile">
                 </div>
                 <div class="mt-2">
                   <h3 class="mb-1 profile-name">{{auth()->user()->nama}}</h3>
@@ -35,15 +35,15 @@
             </a>
             <div class="collapse" id="ui-jasa">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo-awal"><p>Neraca Saldo</p> <p>Awal</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/transaksi"><p>Transaksi</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jurnal-umum"><p>Jurnal Umum</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/buku-besar"><p>Buku Besar</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jasa/neraca-saldo"><p>Neraca Saldo</p> <p>Sebelum</p> <p>Penyesuaian</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jasa/jurnal-penyesuaian"><p>Jurnal</p> <p>Penyesuaian</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jasa/neraca-saldo/setelah-disesuaikan"><p>Neraca Saldo</p> <p>Setelah</p> <p>Disesuaikan</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jurnal-penutup"><p>Jurnal Penutup</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo/setelah-penutup"><p>Neraca Saldo</p> <p>Setelah Penutup</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/jasa/neraca-saldo-awal"><p>Neraca Saldo</p> <p>Awal</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="/jasa/transaksi"><p>Transaksi</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="/jasa/jurnal-umum"><p>Jurnal Umum</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="/jasa/buku-besar"><p>Buku Besar</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="/jasa/neraca-saldo"><p>Neraca Saldo</p> <p>Sebelum</p> <p>Penyesuaian</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="/jasa/jurnal-penyesuaian"><p>Jurnal</p> <p>Penyesuaian</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="/jasa/neraca-saldo/setelah-disesuaikan"><p>Neraca Saldo</p> <p>Setelah</p> <p>Disesuaikan</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="/jasa/jurnal-penutup"><p>Jurnal Penutup</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="/jasa/neraca-penutup"><p>Neraca Penutup</p></a></li>
 
               </ul>
             </div>
@@ -56,15 +56,15 @@
             </a>
             <div class="collapse" id="ui-dagang">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo-awal"><p>Neraca Saldo</p> <p>Awal</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/transaksi"><p>Transaksi</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jurnal-umum"><p>Jurnal Umum</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/buku-besar"><p>Buku Besar</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo"><p>Neraca Saldo</p> <p>Sebelum</p> <p>Penyesuaian</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jurnal-penyesuaian"><p>Jurnal</p> <p>Penyesuaian</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo/setelah-disesuaikan"><p>Neraca Saldo</p> <p>Setelah</p> <p>Disesuaikan</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jurnal-penutup"><p>Jurnal Penutup</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo/setelah-penutup"><p>Neraca Saldo</p> <p>Setelah Penutup</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/dagang/neraca-saldo-awal"><p>Neraca Saldo</p> <p>Awal</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/dagang/transaksi"><p>Transaksi</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/dagang/jurnal-umum"><p>Jurnal Umum</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/dagang/buku-besar"><p>Buku Besar</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/dagang/neraca-saldo"><p>Neraca Saldo</p> <p>Sebelum</p> <p>Penyesuaian</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/dagang/jurnal-penyesuaian"><p>Jurnal</p> <p>Penyesuaian</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/dagang/neraca-saldo/setelah-disesuaikan"><p>Neraca Saldo</p> <p>Setelah</p> <p>Disesuaikan</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/dagang/jurnal-penutup"><p>Jurnal Penutup</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/dagang/neraca-saldo/setelah-penutup"><p>Neraca Saldo</p> <p>Setelah Penutup</p></a></li>
 
               </ul>
             </div>
@@ -77,15 +77,15 @@
             </a>
             <div class="collapse" id="ui-manufaktur">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo-awal"><p>Neraca Saldo</p> <p>Awal</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/transaksi"><p>Transaksi</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jurnal-umum"><p>Jurnal Umum</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/buku-besar"><p>Buku Besar</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo"><p>Neraca Saldo</p> <p>Sebelum</p> <p>Penyesuaian</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jurnal-penyesuaian"><p>Jurnal</p> <p>Penyesuaian</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo/setelah-disesuaikan"><p>Neraca Saldo</p> <p>Setelah</p> <p>Disesuaikan</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/jurnal-penutup"><p>Jurnal Penutup</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="/neraca-saldo/setelah-penutup"><p>Neraca Saldo</p> <p>Setelah Penutup</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/manufaktur/neraca-saldo-awal"><p>Neraca Saldo</p> <p>Awal</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/manufaktur/transaksi"><p>Transaksi</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/manufaktur/jurnal-umum"><p>Jurnal Umum</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/manufaktur/buku-besar"><p>Buku Besar</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/manufaktur/neraca-saldo"><p>Neraca Saldo</p> <p>Sebelum</p> <p>Penyesuaian</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/manufaktur/jurnal-penyesuaian"><p>Jurnal</p> <p>Penyesuaian</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/manufaktur/neraca-saldo/setelah-disesuaikan"><p>Neraca Saldo</p> <p>Setelah</p> <p>Disesuaikan</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/manufaktur/jurnal-penutup"><p>Jurnal Penutup</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/manufaktur/neraca-saldo/setelah-penutup"><p>Neraca Saldo</p> <p>Setelah Penutup</p></a></li>
 
               </ul>
             </div>
@@ -98,9 +98,9 @@
             </a>
             <div class="collapse" id="ui-emkm">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dragula.html">Laporan Laba Rugi</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/clipboard.html"><p>Laporan Posisi</p><p>Keuangan</p></a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/clipboard.html"><p>Catatan Atas</p><p>Laporan Keuangan</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/emkm/laba-rugi">Laporan Laba Rugi</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/emkm/posisi-keuangan"><p>Laporan Posisi</p><p>Keuangan</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/emkm/calk"><p>Catatan Atas</p><p>Laporan Keuangan</p></a></li>
               </ul>
             </div>
           </li>

@@ -32,7 +32,43 @@ class Akun extends Model
     }
 
     public function jurnalpenyesuaian(){   
-        return $this->hasMany('App\Models\jurnalpenyesuaian','id_akun');
+        return $this->hasMany('App\Models\Jurnalpenyesuaian','id_akun');
+    }
+
+    public function jurnalpenutup(){   
+        return $this->hasMany('App\Models\Jurnalpenutup','id_akun');
+    }
+
+    public function piutangusaha(){   
+        return $this->hasMany('App\Models\Piutangusaha','id_akun');
+    }
+
+    public function kasbank(){   
+        return $this->hasMany('App\Models\Kasbank','id_akun');
+    }
+
+    public function investasipendek(){   
+        return $this->hasMany('App\Models\Investasipendek','id_akun');
+    }
+
+    public function piutangnon(){   
+        return $this->hasMany('App\Models\Piutangnon','id_akun');
+    }
+
+    public function perlengkapan(){   
+        return $this->hasMany('App\Models\Perlengkapan','id_akun');
+    }
+
+    public function pembayaranmuka(){   
+        return $this->hasMany('App\Models\Pembayaranmuka','id_akun');
+    }
+
+    public function asetlain(){   
+        return $this->hasMany('App\Models\Asetlain','id_akun');
+    }
+
+    public function investasipanjang(){   
+        return $this->hasMany('App\Models\Investasipanjang','id_akun');
     }
 
 }

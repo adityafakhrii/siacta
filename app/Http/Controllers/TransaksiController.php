@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Transaksi;
+use App\Models\Transbaru;
+use App\Models\Jurnalpenyesuaian;
 use App\Models\Akun;
 use App\Models\Jurnalumum;
 use App\Models\Neracasaldoawal;
@@ -11,6 +13,7 @@ use App\Models\Bukubesarpenyesuaian;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
+use DB;
 
 class TransaksiController extends Controller
 {
@@ -26,11 +29,13 @@ class TransaksiController extends Controller
     	$akuns = Akun::where('id_user','=',Auth::user()->id)
         ->orderBy('no_akun','asc')->get();
 
-        $deb = '91';
-        $kre = '31';
+        $akundebit = DB::table('akuns')
+                    ->where('no_akun', 'like', '91%')
+                    ->get(); 
 
-        $akundebit = Akun::where('no_akun','LIKE',$deb.'%'); 
-        $akunkredit = Akun::where('no_akun','LIKE',$kre.'%'); 
+        $akunkredit = DB::table('akuns')
+                    ->where('no_akun', 'like', '31%')
+                    ->get();
 
     	return view('admin.transaksi.tambah-transaksi',compact('akuns','akundebit','akunkredit'));
     }
@@ -6847,6 +6852,14 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
+                        if ($bbesar->akun->saldo_normal == 'debit') {
+                            $penerimaan = $bbesar->saldo - $request->nominal;
+                        }
+
+                        else if ($bbesar->akun->saldo_normal == 'kredit') {
+                            $penerimaan = $bbesar->saldo + $request->nominal;
+                        }
+
                         $bb = array(
                                 array(
                                     'id_akun' => 1,
@@ -6861,7 +6874,7 @@ class TransaksiController extends Controller
                                     'id_akun' => $request->id_akun,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal,
-                                    'saldo' => $bbesar->saldo - $request->nominal,
+                                    'saldo' => $penerimaan,
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
@@ -6874,7 +6887,15 @@ class TransaksiController extends Controller
 
                             $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bb = array(
+                            if ($bbesarpen->akun->saldo_normal == 'debit') {
+                            $penerimaanpen = $bbesarpen->saldo - $request->nominal;
+                            }
+                            
+                            else if ($bbesarpen->akun->saldo_normal == 'kredit') {
+                                $penerimaanpen = $bbesarpen->saldo + $request->nominal;
+                            }
+
+                            $bbpen = array(
                                     array(
                                         'id_akun' => 1,
                                         'debit' => $request->nominal,
@@ -6888,7 +6909,7 @@ class TransaksiController extends Controller
                                         'id_akun' => $request->id_akun,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal,
-                                        'saldo' => $bbesarpen->saldo - $request->nominal,
+                                        'saldo' => $penerimaanpen,
                                         'created_at' => Carbon::now(),
                                         'updated_at' => Carbon::now(),
                                         'keterangan' => $request->status,
@@ -6929,12 +6950,20 @@ class TransaksiController extends Controller
 
                         $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
+                        if ($bbesar->akun->saldo_normal == 'debit') {
+                            $pengeluaran = $bbesar->saldo + $request->nominal;
+                        }
+
+                        else if ($bbesar->akun->saldo_normal == 'kredit') {
+                            $pengeluaran = $bbesar->saldo - $request->nominal;
+                        }
+
                         $bb = array(
                                 array(
                                     'id_akun' => $request->id_akun,
                                     'debit' => $request->nominal,
                                     'kredit' => NULL,
-                                    'saldo' => $bbesar->saldo + $request->nominal,
+                                    'saldo' => $pengeluaran,
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
@@ -6955,12 +6984,20 @@ class TransaksiController extends Controller
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
                             $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
+                            if ($bbesarpen->akun->saldo_normal == 'debit') {
+                            $pengeluaranpen = $bbesarpen->saldo + $request->nominal;
+                            }
+                            
+                            else if ($bbesarpen->akun->saldo_normal == 'kredit') {
+                                $pengeluaranpen = $bbesarpen->saldo - $request->nominal;
+                            }
+
                             $bbpen = array(
                                     array(
                                         'id_akun' => $request->id_akun,
                                         'debit' => $request->nominal,
                                         'kredit' => NULL,
-                                        'saldo' => $bbesarpen->saldo + $request->nominal,
+                                        'saldo' => $pengeluaranpen,
                                         'created_at' => Carbon::now(),
                                         'updated_at' => Carbon::now(),
                                         'keterangan' => $request->status,
@@ -7779,10 +7816,94 @@ class TransaksiController extends Controller
         }
 
         if (Jurnalumum::insert($data)) {
-            
+            if ($request->umur_ekonomis != 0) {
+                $transpenyusutan = new Transbaru;
+                $transpenyusutan->id_akun = $request->id_akun;
+                $transpenyusutan->id_user = $request->id_user;
+                $transpenyusutan->tgl = date('j/m/Y', strtotime('last day of this month', time()));
+                $transpenyusutan->keterangan = $request->keterangan;
+                $transpenyusutan->nominal = $request->beban_penyusutan;
+
+                if ($transpenyusutan->save()) {
+
+                    $datapenyusutan = array(
+                                array(
+                                    'id_transbaru' => $transpenyusutan->id,
+                                    'id_akun' => $request->id_akun_debit,
+                                    'tgl' => date('j/m/Y', strtotime('last day of this month', time())),
+                                    'keterangan' => $request->keterangan,
+                                    'debit' => $request->beban_penyusutan,
+                                    'kredit' => NULL,
+                                    'created_at' => Carbon::now(),
+                                    'updated_at' => Carbon::now()
+                                ),
+                                array(
+                                    'id_transbaru' => $transpenyusutan->id,
+                                    'id_akun' => $request->id_akun_kredit,
+                                    'tgl' => date('j/m/Y', strtotime('last day of this month', time())),
+                                    'keterangan' => $request->keterangan,
+                                    'debit' => NULL,
+                                    'kredit' => $request->beban_penyusutan,
+                                    'created_at' => Carbon::now(),
+                                    'updated_at' => Carbon::now()
+                                )
+                    );
+                    
+                    if (Jurnalpenyesuaian::insert($datapenyusutan)) {
+                        $bbesar1 = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun_debit)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                    
+                        $bbesar2 = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun_kredit)->orderBy('id','DESC')->limit(1)->firstOrFail();
+
+                            if ($bbesar2->akun->saldo_normal == 'debit') {
+                                    $bbpenyusutan = array(
+                                            $bb1 = array(
+                                                'id_akun' => $request->id_akun_debit,
+                                                'debit' => $request->beban_penyusutan,
+                                                'kredit' => NULL,
+                                                'saldo' => $bbesar1->saldo + $request->beban_penyusutan,
+                                                'created_at' => Carbon::now(),
+                                                'updated_at' => Carbon::now(),
+                                            ),
+                                            $bb2 = array(
+                                                'id_akun' => $request->id_akun_kredit,
+                                                'debit' => $request->beban_penyusutan,
+                                                'kredit' => NULL,
+                                                'saldo' => $bbesar2->saldo - $request->beban_penyusutan,
+                                                'created_at' => Carbon::now(),
+                                                'updated_at' => Carbon::now(),
+                                            ),
+                                    );
+                            }
+                            
+                            else if($bbesar2->akun->saldo_normal == 'kredit')
+                            {
+                                    $bbpenyusutan = array(
+                                            $bb1 = array(
+                                                'id_akun' => $request->id_akun_debit,
+                                                'debit' => $request->beban_penyusutan,
+                                                'kredit' => NULL,
+                                                'saldo' => $bbesar1->saldo + $request->beban_penyusutan,
+                                                'created_at' => Carbon::now(),
+                                                'updated_at' => Carbon::now(),
+                                            ),
+                                            $bb2 = array(
+                                                'id_akun' => $request->id_akun_kredit,
+                                                'debit' => NULL,
+                                                'kredit' => $request->beban_penyusutan,
+                                                'saldo' => $bbesar2->saldo + $request->beban_penyusutan,
+                                                'created_at' => Carbon::now(),
+                                                'updated_at' => Carbon::now(),
+                                            ),
+                                    );
+                            }
+
+                        Bukubesarpenyesuaian::insert($bbpenyusutan);
+                    }
+                }
+            }
         }
 
-       	return redirect('/jurnal-umum')->with('success','Transaksi berhasil ditambahkan');
+       	return redirect('/jasa/jurnal-umum')->with('success','Transaksi berhasil ditambahkan');
         
     }
 }
