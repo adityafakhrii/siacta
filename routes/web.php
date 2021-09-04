@@ -103,6 +103,11 @@ Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
 		Route::get('/emkm/calk/tambah-investasi-panjang','InvestasipanjangController@create');
 		Route::post('/emkm/calk/tambah-investasi-panjang/store','InvestasipanjangController@store');
 
+		Route::get('/emkm/calk/tambah-aset-tetap','AsettetapController@create');
+		Route::post('/emkm/calk/tambah-aset-tetap/store','AsettetapController@store');
+
+		Route::get('/emkm/calk/tambah-aset-leasing','AsetleasingController@create');
+		Route::post('/emkm/calk/tambah-aset-leasing/store','AsetleasingController@store');
 
 	//Dagang
 

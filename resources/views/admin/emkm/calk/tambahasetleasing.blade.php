@@ -1,16 +1,18 @@
 @extends('layouts.master')
 
-<title>Tambah Piutang Non Usaha | SIACTA</title>
+<title>Tambah Aset Tetap Leasing | SIACTA</title>
 
 @section('content')
+
+
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="row grid-margin">
             <div class="col-12">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Tambah Piutang Non Usaha</h4>
-                  <form class="forms-sample" action="/emkm/calk/tambah-piutang-non/store" method="post">
+                  <h4 class="card-title">Tambah Aset Tetap Leasing</h4>
+                  <form class="forms-sample" action="/emkm/calk/tambah-aset-leasing/store" method="post">
                     @csrf
                     <div class="form-group">
                       <label for="nama">Pilih Akun</label>
@@ -24,7 +26,7 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="nilai">Saldo</label>
+                      <label for="nilai">Keterangan</label>
                       <textarea name="keterangan" class="form-control" id="exampleTextarea1" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>

@@ -11,6 +11,8 @@ use App\Models\Perlengkapan;
 use App\Models\Pembayaranmuka;
 use App\Models\Asetlain;
 use App\Models\Investasipanjang;
+use App\Models\Asettetap;
+use App\Models\Asetleasing;
 use Illuminate\Http\Request;
 
 class CalkController extends Controller
@@ -27,7 +29,9 @@ class CalkController extends Controller
         $pembayaran = Pembayaranmuka::where('id_user','=',auth()->user()->id)->get();
         $asetlain = Asetlain::where('id_user','=',auth()->user()->id)->get();
         $investasipanjang = Investasipanjang::where('id_user','=',auth()->user()->id)->get();
+        $asettetap = Asettetap::where('id_user','=',auth()->user()->id)->get();
+        $asetleasing = Asetleasing::where('id_user','=',auth()->user()->id)->get();
 
-        return view('admin.emkm.calk.calk',compact('asets','akumulasis','piutangs','kasbanks','investasipendek','nonusaha','perlengkapan','pembayaran','asetlain','investasipanjang'));
+        return view('admin.emkm.calk.calk',compact('asets','akumulasis','piutangs','kasbanks','investasipendek','nonusaha','perlengkapan','pembayaran','asetlain','investasipanjang','asettetap','asetleasing'));
     }
 }

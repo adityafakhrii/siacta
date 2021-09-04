@@ -18,7 +18,8 @@
                     </div>
                   @endif
                   <h4 class="card-title text-center">Catatan Atas Laporan Keuangan</h4>
-                  <form class="forms-sample">
+                  <form class="forms-sample" action="/calk-store" method="post">
+                    @csrf
                     <div class="form-group">
                       <label for="exampleTextarea1"><strong>1. UMUM</strong></label>
                       <textarea name="umum" class="form-control" id="exampleTextarea1" rows="4"></textarea>
@@ -45,66 +46,7 @@
                     </div>
                     <div class="form-group">
                       <p class="card-description">
-		                    <strong>d. Aset Tetap</strong>
-		                  </p>
-                      <textarea name="aset_tetap" class="form-control" id="exampleTextarea1" rows="4"></textarea>
-                    </div>
-                    <div class="form-group">
-                    	<div class="row">
-                    		<div class="col col-lg-10">
-		                      <p class="card-description">
-				                    <strong>Harga Perolehan</strong>
-				                  </p>
-                    			
-                    		</div>
-                    		<div class="col col-lg-2">
-                    			{{-- <button onclick="return confirm('Konfirmasi saldo awal? data ini tidak bisa diubah!')" type="submit" href="/neraca-saldo-awal/konfirmasi" class="float-right btn btn-sm btn-success btn-icon-text">
-				                    <i class="mdi mdi-download btn-icon-prepend"></i>
-				                          Konfirmasi
-				                  </button> --}}
-				                  <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-aset">Tambah Data</a>
-                    		</div>
-                    	</div>
-                      <div class="table-responsive">
-                        <table class="table table-hover">
-                          <thead>
-                            <tr>
-                            	<th>No.</th>
-                              <th>Nama Aset Tetap</th>
-                              <th>Nilai Aset Tetap</th>
-                              <th>Jumlah Unit</th>
-                              <th>Total Harga</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          	<?php
-                          		$no = 1;
-                          		$total = 0;
-                          	?>
-                          	@foreach($asets as $aset)
-                            <tr>
-                            	<td>{{$no++}}</td>
-                            	<td>{{$aset->nama_aset}}</td>
-                            	<td>Rp{{ number_format($aset->nilai_aset,2,",",".") }}</td>
-                            	<td>{{$aset->jumlah_unit}}</td>
-                            	<td>Rp{{ number_format($aset->total_harga,2,",",".") }}</td>
-
-                            	<?php $total += $aset->total_harga; ?>
-                            </tr>
-                            @endforeach
-                          </tbody>
-                          <tfoot>
-                          	<tr>
-                          		<td align="center" colspan="4"><strong>Total</strong></td>
-                          		<td><strong>Rp{{ number_format($total,2,",",".") }}</strong></td>
-                          	</tr>
-                          </tfoot>
-                        </table>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <p class="card-description">
-                        <strong>e. Akumulasi Penyusutan</strong>
+                        <strong>d. Akumulasi Penyusutan</strong>
                       </p>
                       <textarea name="akumulasi_penyusutan" class="form-control" id="exampleTextarea1" rows="4"></textarea>
                     </div>
@@ -159,7 +101,7 @@
                     </div>
                     <div class="form-group">
                       <p class="card-description">
-                        <strong>f. Pengakuan Pendapatan dan Beban</strong>
+                        <strong>e. Pengakuan Pendapatan dan Beban</strong>
                       </p>
                       <textarea name="pendapatan_beban" class="form-control" id="exampleTextarea1" rows="4"></textarea>
                     </div>
@@ -407,7 +349,106 @@
                       <textarea disabled value="" class="form-control" id="exampleTextarea1" rows="4">{{$panjang->keterangan}}</textarea>
                     </div>
                     @endforeach
-                    
+
+                    <hr>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col col-lg-10">
+                          <label for="exampleTextarea1"><strong>12. ASET TETAP</strong></label>
+                        </div>
+                        <div class="col col-lg-2">
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-aset-tetap">Tambah Data</a>
+                        </div>
+                      </div>
+                    </div>
+                    <?php 
+                      $letter = 'a';
+                      $letterAscii = ord($letter);
+                    ?>
+                    @foreach($asettetap as $tetap)
+                    <div class="form-group">
+                      <p class="card-description">
+                        <strong>{{chr($letterAscii++)}}. {{$tetap->akun->nama_akun}}</strong>
+                      </p>
+                      <textarea disabled value="" class="form-control" id="exampleTextarea1" rows="4">{{$tetap->keterangan}}</textarea>
+                    </div>
+                    @endforeach
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col col-lg-10">
+                          <p class="card-description">
+                            <strong>Harga Perolehan</strong>
+                          </p>
+                          
+                        </div>
+                        <div class="col col-lg-2">
+                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-aset">Tambah Data</a>
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Nama Aset Tetap</th>
+                              <th>Nilai Aset Tetap</th>
+                              <th>Jumlah Unit</th>
+                              <th>Total Harga</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php
+                              $no = 1;
+                              $total = 0;
+                            ?>
+                            @foreach($asets as $aset)
+                            <tr>
+                              <td>{{$no++}}</td>
+                              <td>{{$aset->nama_aset}}</td>
+                              <td>Rp{{ number_format($aset->nilai_aset,2,",",".") }}</td>
+                              <td>{{$aset->jumlah_unit}}</td>
+                              <td>Rp{{ number_format($aset->total_harga,2,",",".") }}</td>
+
+                              <?php $total += $aset->total_harga; ?>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td align="center" colspan="4"><strong>Total</strong></td>
+                              <td><strong>Rp{{ number_format($total,2,",",".") }}</strong></td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col col-lg-10">
+                          <label for="exampleTextarea1"><strong>13. ASET TETAP LEASING</strong></label>
+                        </div>
+                        <div class="col col-lg-2">
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-aset-leasing">Tambah Data</a>
+                        </div>
+                      </div>
+                    </div>
+                    <?php 
+                      $letter = 'a';
+                      $letterAscii = ord($letter);
+                    ?>
+                    @foreach($asetleasing as $leasing)
+                    <div class="form-group">
+                      <p class="card-description">
+                        <strong>{{chr($letterAscii++)}}. {{$leasing->akun->nama_akun}}</strong>
+                      </p>
+                      <textarea disabled value="" class="form-control" id="exampleTextarea1" rows="4">{{$leasing->keterangan}}</textarea>
+                    </div>
+                    @endforeach
+
 
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>

@@ -71,4 +71,12 @@ class Akun extends Model
         return $this->hasMany('App\Models\Investasipanjang','id_akun');
     }
 
+    public function asettetap(){   
+        return $this->hasMany('App\Models\Asettetap','id_akun');
+    }
+
+    public function asetleasing(){   
+        return $this->hasMany('App\Models\Asetleasing','id_akun');
+    }
+
 }

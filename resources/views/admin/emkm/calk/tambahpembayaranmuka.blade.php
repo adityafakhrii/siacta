@@ -13,7 +13,7 @@
                   <form class="forms-sample" action="/emkm/calk/tambah-pembayaranmuka/store" method="post">
                     @csrf
                     <div class="form-group">
-                      <label for="nama">Pilih Akun Pembayaran Dimuka</label>
+                      <label for="nama">Pilih Akun</label>
                       <select class="js-example-basic-single w-100" name="id_akun" required>
                         <option value="" selected disabled>Pilih Akun</option>
                         @foreach($akuns as $akun)

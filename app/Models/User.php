@@ -75,6 +75,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Investasipanjang','id_user');
     }
 
+    public function asettetap(){ 
+        return $this->hasMany('App\Models\Asettetap','id_user');
+    }
+
+    public function asetleasing(){ 
+        return $this->hasMany('App\Models\Asetleasing','id_user');
+    }
+
     protected $hidden = [
         'password',
         'remember_token',
