@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
 
 		//CALK
 		Route::get('/emkm/calk','CalkController@index');
+		Route::get('/emkm/calk/pdf','CalkController@calkPDF');
 
 		Route::get('/emkm/calk/tambah-aset','AsetController@create');
 		Route::post('/emkm/calk/tambah-aset/store','AsetController@store');
@@ -109,7 +110,27 @@ Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
 		Route::get('/emkm/calk/tambah-aset-leasing','AsetleasingController@create');
 		Route::post('/emkm/calk/tambah-aset-leasing/store','AsetleasingController@store');
 
-	//Dagang
+		Route::get('/emkm/calk/tambah-properti','PropertiController@create');
+		Route::post('/emkm/calk/tambah-properti/store','PropertiController@store');
+
+		Route::get('/emkm/calk/tambah-aset-tidakberwujud','AsettidakberwujudController@create');
+		Route::post('/emkm/calk/tambah-aset-tidakberwujud/store','AsettidakberwujudController@store');
+
+		Route::get('/emkm/calk/tambah-kewajiban-pendek','KewajibanpendekController@create');
+		Route::post('/emkm/calk/tambah-kewajiban-pendek/store','KewajibanpendekController@store');
+
+		Route::get('/emkm/calk/tambah-kewajiban-panjang','KewajibanpanjangController@create');
+		Route::post('/emkm/calk/tambah-kewajiban-panjang/store','KewajibanpanjangController@store');
+
+		Route::get('/emkm/calk/tambah-kewajiban-lain','KewajibanlainController@create');
+		Route::post('/emkm/calk/tambah-kewajiban-lain/store','KewajibanlainController@store');
+
+		Route::get('/emkm/calk/tambah-ekuitas','EkuitasController@create');
+		Route::post('/emkm/calk/tambah-ekuitas/store','EkuitasController@store');
+
+		Route::post('/emkm/calk/store','CalkController@store');
+
+	//Dagang	
 
 
 	//Manufaktur

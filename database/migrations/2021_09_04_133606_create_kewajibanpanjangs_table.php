@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCalksTable extends Migration
+class CreateKewajibanpanjangsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,24 +13,22 @@ class CreateCalksTable extends Migration
      */
     public function up()
     {
-        Schema::create('calks', function (Blueprint $table) {
+        Schema::create('kewajibanpanjangs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('id_user')->unsigned();
-            $table->text('umum');
-            $table->text('pernyataan_kepatuhan');
-            $table->text('dasar_penyusunan');
-            $table->text('akum_penyusutan');
-            $table->text('pendapatan_beban');
-            $table->text('piutang_usaha');
-            $table->text('piutang_desa');
-            $table->text('piutang_lainnya');
-            $table->text('rk_pusat');
-            $table->text('aset_tetap_penyelesaian');
+            $table->bigInteger('id_akun')->unsigned();
+            $table->text('keterangan');
             $table->timestamps();
 
             $table->foreign('id_user')
                 ->references('id')
                 ->on('users')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
+
+            $table->foreign('id_akun')
+                ->references('id')
+                ->on('akuns')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
         });
@@ -43,6 +41,6 @@ class CreateCalksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calks');
+        Schema::dropIfExists('kewajibanpanjangs');
     }
 }

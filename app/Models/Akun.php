@@ -79,4 +79,27 @@ class Akun extends Model
         return $this->hasMany('App\Models\Asetleasing','id_akun');
     }
 
+    public function properti(){   
+        return $this->hasMany('App\Models\Properti','id_akun');
+    }
+
+    public function asettidakberwujud(){   
+        return $this->hasMany('App\Models\Asettidakberwujud','id_akun');
+    }
+
+    public function kewajibanpendeks(){ 
+        return $this->hasMany('App\Models\Kewajibanpendeks','id_akun');
+    }
+
+    public function kewajibanpanjang(){ 
+        return $this->hasMany('App\Models\Kewajibanpanjang','id_akun');
+    }
+
+    public function kewajibanlain(){ 
+        return $this->hasMany('App\Models\Kewajibanlain','id_akun');
+    }
+
+    public function ekuitas(){ 
+        return $this->hasMany('App\Models\Ekuitas','id_akun');
+    }
 }

@@ -16,7 +16,9 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'id_unitusaha'
+        'id_unitusaha',
+        'status_neracaawal',
+        'status_calk'
     ];
 
     public function unitusaha(){ 
@@ -81,6 +83,34 @@ class User extends Authenticatable
 
     public function asetleasing(){ 
         return $this->hasMany('App\Models\Asetleasing','id_user');
+    }
+
+    public function properti(){ 
+        return $this->hasMany('App\Models\Properti','id_user');
+    }
+
+    public function asettidakberwujud(){ 
+        return $this->hasMany('App\Models\Asettidakberwujud','id_user');
+    }
+
+    public function kewajibanpendeks(){ 
+        return $this->hasMany('App\Models\Kewajibanpendeks','id_user');
+    }
+
+    public function kewajibanpanjang(){ 
+        return $this->hasMany('App\Models\Kewajibanpanjang','id_user');
+    }
+
+    public function kewajibanlain(){ 
+        return $this->hasMany('App\Models\Kewajibanlain','id_user');
+    }
+
+    public function ekuitas(){ 
+        return $this->hasMany('App\Models\Ekuitas','id_user');
+    }
+
+    public function calk(){ 
+        return $this->hasMany('App\Models\Calk','id_user');
     }
 
     protected $hidden = [
