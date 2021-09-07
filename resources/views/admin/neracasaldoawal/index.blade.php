@@ -25,16 +25,27 @@
                       {{Session::get('delete')}}
                     </div>
                   @endif
-                  <h4 class="card-title">
-                    Neraca Saldo Awal
-                  </h4>
+                  <div class="text-center">
+                    <h4 class="card-title">
+                      <strong>BUMDes Sauyunan</strong>
+                    </h4>
+                    <h4 class="card-title">
+                      <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                    </h4>
+                    <h4 class="card-title">
+                      Neraca Saldo Awal
+                    </h4>
+                    <h5 class="card-title h6">
+                      Periode tanggal {{ date('d F Y', strtotime('first day of this month', time())) }}
+                    </h5>
+                  </div>
                   
                   @if(auth()->user()->status_neracaawal == 'belum_final')
                                
                   <form action="/neraca-saldo-awal/konfirmasi" method="post">
                     @csrf
-                  <button onclick="return confirm('Konfirmasi saldo awal? data ini tidak bisa diubah!')" type="submit" href="/neraca-saldo-awal/konfirmasi" class="float-right btn btn-sm btn-success btn-icon-text">
-                    <i class="mdi mdi-download btn-icon-prepend"></i>
+                  <button onclick="return confirm('Konfirmasi saldo awal? data ini tidak bisa diubah!')" type="submit" href="/neraca-saldo-awal/konfirmasi" class="float-right btn btn-sm btn-primary btn-icon-text">
+                    <i class="mdi mdi-content-save btn-icon-prepend"></i>
                           Konfirmasi
                   </button>
                   @endif

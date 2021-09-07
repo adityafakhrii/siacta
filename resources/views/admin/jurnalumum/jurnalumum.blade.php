@@ -28,10 +28,29 @@
                   @endif
 
                     <div class="row">
-                      <div class="col-lg-7 grid-margin grid-margin-lg-0">
-                          <h4 class="card-title">Jurnal Umum</h4>
+                      <div class="col-lg-12 grid-margin grid-margin-lg-0">
+                          <div class="text-center">
+                            <h4 class="card-title">
+                              <strong>BUMDes Sauyunan</strong>
+                            </h4>
+                            <h4 class="card-title">
+                              <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                            </h4>
+                            <h4 class="card-title">
+                              Jurnal Umum
+                            </h4>
+                            <h5 class="card-title h6">
+                              Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
+                            </h5>
+                          </div>
                       </div>
-                      <div class="col-lg-5 grid-margin grid-margin-lg-0">
+                    </div>
+                    <div class="row">
+                      
+                      <div class="col-lg-8 grid-margin grid-margin-lg-0">
+
+                      </div>  
+                      <div class="col-lg-4 grid-margin grid-margin-lg-0">
                           <form action="/jasa/jurnal-umum" method="GET">
                             <div id="datepicker-popup" class="input-group date datepicker">
                               <input placeholder="Pilih tanggal transaksi" type="text" class="form-control" name="tgl" required autocomplete="off">
@@ -41,7 +60,7 @@
                             </div>
                           </form>
                       </div>
-                  </div>
+                    </div>
 
                   @if($jurnalumum->count() != 0)
                   <div class="table-responsive">

@@ -9,23 +9,21 @@
               <div class="card">
 
                 <div class="card-body">
-                  @if(Session::has('create'))
-                    <div class="alert alert-fill-success" role="alert">
-                      <i class="mdi mdi-alert-circle"></i>
-                      {{Session::get('create')}}
-                    </div>
-                  @elseif(Session::has('update'))
-                    <div class="alert alert-fill-warning" role="alert">
-                      <i class="mdi mdi-alert-circle"></i>
-                      {{Session::get('update')}}
-                    </div>
-                  @elseif(Session::has('delete'))
-                    <div class="alert alert-fill-danger" role="alert">
-                      <i class="mdi mdi-alert-circle"></i>
-                      {{Session::get('delete')}}
-                    </div>
-                  @endif
-                  <h4 class="card-title">Neraca Saldo</h4>
+                  
+                  <div class="text-center">
+                    <h4 class="card-title">
+                      <strong>BUMDes Sauyunan</strong>
+                    </h4>
+                    <h4 class="card-title">
+                      <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                    </h4>
+                    <h4 class="card-title">
+                      Neraca Saldo Sebelum Penyesuaian
+                    </h4>
+                    <h5 class="card-title h6">
+                      Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
+                    </h5>
+                  </div>
                   <div class="table-responsive">
                     <table class="table table-hover">
                       <thead>

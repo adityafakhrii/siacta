@@ -1,5 +1,5 @@
 @extends('layouts.master')
-<title>EMKM - Laba Rugi | SIACTA</title>
+<title>Laporan Laba Rugi | SIACTA</title>
 @section('content')
 
       <div class="main-panel">
@@ -9,7 +9,20 @@
               <div class="card">
 
                 <div class="card-body">
-                  <h4 class="card-title">EMKM - Laporan Laba Rugi</h4>
+                  <div class="text-center">
+                    <h4 class="card-title">
+                      <strong>BUMDes Sauyunan</strong>
+                    </h4>
+                    <h4 class="card-title">
+                      <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                    </h4>
+                    <h4 class="card-title">
+                      Laporan Laba Rugi
+                    </h4>
+                    <h5 class="card-title h6">
+                      Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
+                    </h5>
+                  </div>
                   <div class="table-responsive">
                     <table class="table table-hover">
 

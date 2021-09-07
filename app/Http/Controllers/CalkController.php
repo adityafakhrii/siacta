@@ -105,7 +105,7 @@ class CalkController extends Controller
         $calks = Calk::where('id_user','=',auth()->user()->id)->get();
 
 
-        $calkPDF = PDF::loadView('admin.emkm.calk.calk',
+        $calkPDF = PDF::loadView('admin.emkm.calk.calkPDF',
             compact(
                 'asets',
                 'akumulasis',
@@ -128,6 +128,7 @@ class CalkController extends Controller
                 'calks'
             ));
 
-        return $calkPDF->download('Catatan Atas Laporan Keuangan.pdf');
+        return $calkPDF->stream('Catatan Atas Laporan Keuangan - SIACTA.pdf');
     }
+
 }

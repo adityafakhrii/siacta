@@ -16,7 +16,20 @@
                       {{Session::get('success')}}
                     </div>
                   @endif
-                  <h4 class="card-title text-center">Catatan Atas Laporan Keuangan</h4>
+                  <div class="text-center">
+                    <h4 class="card-title">
+                      <strong>BUMDes Sauyunan</strong>
+                    </h4>
+                    <h4 class="card-title">
+                      <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                    </h4>
+                    <h4 class="card-title">
+                      Catatan Atas Laporan Keuangan
+                    </h4>
+                    <h5 class="card-title h6">
+                      Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
+                    </h5>
+                  </div>
                   <form class="forms-sample" action="/emkm/calk/store" method="post">
                     @csrf
                     <div class="form-group">
@@ -630,7 +643,20 @@
                     </div>
                   @endif
                   <div class="col">
-                    <h4 class="card-title text-center">Catatan Atas Laporan Keuangan</h4>
+                    <div class="text-center">
+                      <h4 class="card-title">
+                        <strong>BUMDes Sauyunan</strong>
+                      </h4>
+                      <h4 class="card-title">
+                        <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                      </h4>
+                      <h4 class="card-title">
+                        Catatan Atas Laporan Keuangan
+                      </h4>
+                      <h5 class="card-title h6">
+                        Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
+                      </h5>
+                    </div>
                   </div>
                   <div class="col mb-5">
                     <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/pdf"><i class="mdi mdi-download btn-icon-prepend"></i> Cetak Laporan</a>  
@@ -806,6 +832,7 @@
                           </table>
                         </div>
                       </div>
+                      
                       <div class="form-group">
                         <p class="card-description">
                           <strong>b. Piutang Desa</strong>

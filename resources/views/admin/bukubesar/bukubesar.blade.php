@@ -10,26 +10,23 @@
               <div class="card">
 
                 <div class="card-body">
-                  @if(Session::has('success'))
-                    <div class="alert alert-fill-success" role="alert">
-                      <i class="mdi mdi-alert-circle"></i>
-                      {{Session::get('success')}}
-                    </div>
-                  @elseif(Session::has('update'))
-                    <div class="alert alert-fill-warning" role="alert">
-                      <i class="mdi mdi-alert-circle"></i>
-                      {{Session::get('update')}}
-                    </div>
-                  @elseif(Session::has('delete'))
-                    <div class="alert alert-fill-danger" role="alert">
-                      <i class="mdi mdi-alert-circle"></i>
-                      {{Session::get('delete')}}
-                    </div>
-                  @endif
 
                     <div class="row">
                       <div class="col-lg-12 grid-margin grid-margin-lg-0">
-                          <h4 class="card-title text-center">Buku Besar</h4>
+                          <div class="text-center">
+                            <h4 class="card-title">
+                              <strong>BUMDes Sauyunan</strong>
+                            </h4>
+                            <h4 class="card-title">
+                              <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                            </h4>
+                            <h4 class="card-title">
+                              Buku Besar
+                            </h4>
+                            <h5 class="card-title h6">
+                              Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
+                            </h5>
+                          </div>
                       </div>
                     </div>
                     <br>

@@ -11,12 +11,28 @@
 
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-lg-12 grid-margin grid-margin-lg-0">
-                        <h4 class="card-title text-center">Jurnal Penyesuaian</h4>
+                    <div class="col-lg-12">
+                      <div class="text-center">
+                        <h4 class="card-title">
+                          <strong>BUMDes Sauyunan</strong>
+                        </h4>
+                        <h4 class="card-title">
+                          <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                        </h4>
+                        <h4 class="card-title">
+                          Jurnal Penyesuaian
+                        </h4>
+                        <h5 class="card-title h6">
+                          Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
+                        </h5>
+                      </div>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-10 grid-margin grid-margin-lg-0">
+
+                    </div>
+                    <div class="col-lg-2 grid-margin grid-margin-lg-0">
                       <a href="/jasa/jurnal-penyesuaian/transaksi" class="btn btn-sm btn-primary btn-icon-text">
                         <i class="mdi mdi-database-plus btn-icon-prepend"></i>
                               Tambah Transaksi
