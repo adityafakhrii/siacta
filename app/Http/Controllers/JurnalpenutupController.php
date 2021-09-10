@@ -16,7 +16,7 @@ class JurnalpenutupController extends Controller
                     ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
                     ->where('saldo', '!=', 0)
                     ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
-                    ->where('no_akun', 'like', '91%')
+                    ->where('no_akun', 'like', '9%')
                     ->where('saldo_normal','!=','kredit')
                     ->where('id_user','=',auth()->user()->id)
                     ->orWhere('no_akun','=','81.03.00')

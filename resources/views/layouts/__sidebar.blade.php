@@ -128,7 +128,7 @@
             </a>
             <div class="collapse" id="ui-pajak">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/accordions.html">PPH 21</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/pph21">PPH 21</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">PPH 22</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/badges.html">PPH 23</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/badges.html">PPH 25</a></li>

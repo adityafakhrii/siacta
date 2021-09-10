@@ -192,6 +192,11 @@
                             <td colspan="2"> <strong>Total Ekuitas</strong> </td>
                             <td><strong>Rp{{ number_format($total_ekuitas = $total_ekui+$total_labarugi,2,",",".") }}</strong></td>
                           </tr>
+                        @else
+                          <tr>
+                            <td colspan="2"> <strong>Total Ekuitas</strong> </td>
+                            <td><strong>Rp{{ number_format($total_ekuitas = $total_ekui+0,2,",",".") }}</strong></td>
+                          </tr>
                         @endif
 
                       </tbody>

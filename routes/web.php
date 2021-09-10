@@ -130,6 +130,14 @@ Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
 
 		Route::post('/emkm/calk/store','CalkController@store');
 
+
+		//PAJAK
+
+		//PPH 21
+		Route::get('/pph21','Pph21Controller@index');
+		Route::get('/pph21/tambah','Pph21Controller@create');
+		Route::post('/store-pph21','Pph21Controller@store');
+
 	//Dagang	
 
 

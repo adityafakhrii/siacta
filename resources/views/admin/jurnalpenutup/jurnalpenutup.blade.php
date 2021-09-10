@@ -53,7 +53,7 @@
 
                         @foreach($ikhtisar as $ikhti)
                         <tr>
-                          <td>30/09/2021</td>
+                          <td>{{date('j/m/Y', strtotime('last day of this month', time()))}}</td>
                           <td align="center">{{$ikhti->no_akun}}</td>
                           <td>{{$ikhti->nama_akun}}</td>
                           <td align="right"><strong>Rp{{ number_format($total_ikhtisar,2,",",".") }}</strong></td>
