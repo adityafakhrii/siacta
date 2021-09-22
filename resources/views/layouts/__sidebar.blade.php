@@ -128,9 +128,12 @@
             </a>
             <div class="collapse" id="ui-pajak">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/pph21">PPH 21</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">PPH 22</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/badges.html">PPH 23</a></li>
+                <li class="nav-item"><a class="nav-link" href="/pph21/bukti-potong-tetap"><p>PPH 21 - </p> <p>Bukti Potong</p> <p> Tetap</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="/pph21/bukti-potong-tidaktetap"><p>PPH 21 - </p> <p>Bukti Potong</p> <p>Tidak Tetap</p></a></li>
+                <li class="nav-item"> <a class="nav-link" href="/pph21">PPH 21 - SPT</a></li>
+                <li class="nav-item"><a class="nav-link" href="/pph22/bukti-potong"><p>PPH 22 - </p> <p>Bukti Potong</p> </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/pph22">PPH 22 - SPT</a></li>
+                <li class="nav-item"><a class="nav-link" href="/pph23/bukti-potong"><p>PPH 23 - </p> <p>Bukti Potong</p> </a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/badges.html">PPH 25</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/badges.html">Pasal 4 Ayat 2</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/badges.html">PPN</a></li>
@@ -140,3 +143,4 @@
         </ul>
       </nav>
       <!-- partial -->
+

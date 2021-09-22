@@ -6,13 +6,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/coba',function(){
 	return view('admin.coba');
 });
-Route::get('/','UserController@login');
+
+Route::get('/', function() {
+    if (Auth::check()){
+        return redirect('/dashboard');
+    }
+    else{
+        return view('admin.login');
+    }
+});
 
 Route::get('/registrasi-pengguna','UserController@register');
 Route::post('/do_registrasi', 'UserController@do_registrasi');
 
 
-Route::get('login', function() {
+Route::get('/login', function() {
     if (Auth::check()){
         return redirect('/dashboard');
     }
@@ -137,6 +145,33 @@ Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
 		Route::get('/pph21','Pph21Controller@index');
 		Route::get('/pph21/tambah','Pph21Controller@create');
 		Route::post('/store-pph21','Pph21Controller@store');
+
+		//Bukti Potong PPH 21 Tidak Tetap
+		Route::get('/pph21/bukti-potong-tidaktetap','Pph21Controller@bupot_tidak');
+		Route::get('/pph21/bukti-potong-tidaktetap/tambah','Pph21Controller@create_bupot_tidak');
+		Route::post('/store-bukti-potong-tidaktetap','Pph21Controller@store_bupot_tidak');
+
+		//Bukti Potong PPH 21 Tetap
+		Route::get('/pph21/bukti-potong-tetap','Pph21Controller@bupot_tetap');
+		Route::get('/pph21/bukti-potong-tetap/tambah','Pph21Controller@create_bupot_tetap');
+		Route::post('/store-bukti-potong-tetap','Pph21Controller@store_bupot_tetap');
+
+		//PPH 22
+		Route::get('/pph22','Pph22Controller@index');
+		Route::get('/pph22/tambah','Pph22Controller@create');
+		Route::post('/store-pph22','Pph22Controller@store');
+
+		//Bukti Potong PPH 22
+		Route::get('/pph22/bukti-potong','Pph22Controller@bupot');
+		Route::get('/pph22/bukti-potong/tambah','Pph22Controller@create_bupot');
+		Route::post('/store-bukti-potongpph22','Pph22Controller@store_bupot');
+
+
+		//Bukti Potong PPH 23
+		Route::get('/pph23/bukti-potong','Pph23Controller@bupot');
+		Route::get('/pph23/bukti-potong/tambah','Pph23Controller@create_bupot');
+		Route::post('/store-bukti-potongpph23','Pph23Controller@store_bupot');
+
 
 	//Dagang	
 

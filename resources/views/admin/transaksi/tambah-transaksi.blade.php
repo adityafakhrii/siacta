@@ -18,7 +18,7 @@
                     </div>
                     @endif
                   <h4 class="card-title">Transaksi | SIACTA</h4>
-                  	<form action="/store-transaksi" method="post" enctype="multipart/form-data" name="myform" onkeyup="calculate()">
+                  	<form action="/store-transaksi" method="post" enctype="multipart/form-data" name="formtrans" onkeyup="calculatetrans()">
                   	@csrf
 
 	                  <div class="form-group row">

@@ -102,4 +102,8 @@ class Akun extends Model
     public function ekuitas(){ 
         return $this->hasMany('App\Models\Ekuitas','id_akun');
     }
+
+    public function pph21(){ 
+        return $this->hasMany('App\Models\Pph21','id_akun');
+    }
 }

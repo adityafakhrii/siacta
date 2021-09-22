@@ -1,5 +1,5 @@
 @extends('layouts.master')
-<title>PPh 21 | SIACTA</title>
+<title>PPh 22 | SIACTA</title>
 @section('content')
 
       <div class="main-panel">
@@ -25,8 +25,8 @@
                       {{Session::get('delete')}}
                     </div>
                   @endif
-                  <h4 class="card-title">PPH 21</h4>
-                  <a href="/pph21/tambah" class="btn btn-sm btn-primary btn-icon-text">
+                  <h4 class="card-title">PPH 22</h4>
+                  <a href="/pph22/tambah" class="btn btn-sm btn-primary btn-icon-text">
                     <i class="mdi mdi-database-plus btn-icon-prepend"></i>
                           Tambah SPT
                   </a>
@@ -42,10 +42,10 @@
                       </thead>
                       <tbody>
                       	<?php $no = 1; ?>
-                        @foreach($pph21 as $pp)
+                        @foreach($pph22 as $pp)
                         <tr>
                           <td>{{$no++}}</td>
-                          <td>{{$pp->nama_wajib}}</td>
+                          <td>{{$pp->nama}}</td>
                           <td>{{$pp->npwp}}</td>
                           <td>
                             <a class="btn btn-sm btn-inverse-danger" href="/data-akun/lihat/"><i class="mdi mdi-delete-forever btn-icon-prepend"></i>

@@ -29,7 +29,9 @@ class Pph21 extends Model
         'zakat_sumbang',
         'total_peng_neto',
         'peng_tidak_pajak',
-        'status_kawin',
+        'tk',
+        'k',
+        'ki',
         'peng_pajak',
         'pph_terutang',
         'pengem_pph24',
@@ -46,7 +48,6 @@ class Pph21 extends Model
         'permohonan',
         'angsuran_pph25',
         'status_ang_pph25',
-        'lampiran',
         'pengisi_spt',
         'tgl_pernyataan',
         'nama_pem_kerja',
@@ -59,5 +60,9 @@ class Pph21 extends Model
 
     public function akun(){ 
         return $this->belongsTo('App\Models\Akun','id_akun');
+    }
+
+    public function lampiran(){ 
+        return $this->hasMany('App\Models\Lampiran','id_pph21');
     }
 }

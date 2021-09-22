@@ -113,6 +113,34 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Calk','id_user');
     }
 
+    public function pph21(){ 
+        return $this->hasMany('App\Models\Pph21','id_user');
+    }
+
+    public function lampiran(){ 
+        return $this->hasMany('App\Models\Lampiran','id_user');
+    }
+
+    public function buktipph21tidaktetap(){ 
+        return $this->hasMany('App\Models\Buktipph21tidaktetap','id_user');
+    }
+
+    public function buktipph21tetap(){ 
+        return $this->hasMany('App\Models\Buktipph21tetap','id_user');
+    }
+
+    public function buktipph22(){ 
+        return $this->hasMany('App\Models\Buktipph22','id_user');
+    }
+
+    public function pph22(){ 
+        return $this->hasMany('App\Models\Pph22','id_user');
+    }
+
+    public function lampiranpph22(){ 
+        return $this->hasMany('App\Models\Lampiranpph22','id_user');
+    }
+
     protected $hidden = [
         'password',
         'remember_token',
