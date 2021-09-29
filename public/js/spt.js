@@ -1,19 +1,34 @@
-var myform = document.forms.myform,
-      phneto_dn = myform.phneto_dn,
-      phneto_dn_lain = myform.phneto_dn_lain,
-      phneto_ln = myform.phneto_ln,
-      output = myform.jml_peng_neto;
+// $(function() {
 
-  window.calculate = function () {
-      var a = parseFloat(phneto_dn.value, 10) || 0,
-          b = parseFloat(phneto_dn_lain.value) || 0;
-          c = parseFloat(phneto_ln.value) || 0;
+//       function autoCalcSetup() {
+//         $('form#pph23').jAutoCalc('destroy');
+//         $('form#pph23 div.spt').jAutoCalc({keyEventsFire: true, decimalPlaces: 5, emptyAsZero: true});
+//         $('form#pph23').jAutoCalc({decimalPlaces: 5});
+//       }
+//       autoCalcSetup();
 
-      var result = Math.round(a+b+c);
 
-      if (result == Number.POSITIVE_INFINITY || result == Number.NEGATIVE_INFINITY) {
-        output.value = 0;
-      }else{
-        output.value =  result;
-      }
-  };
+//       $('button.row-remove').on("click", function(e) {
+//         e.preventDefault();
+
+//         var form = $(this).parents('form')
+//         $(this).parents('tr').remove();
+//         autoCalcSetup();
+
+//       });
+
+//       $('button.row-add').on("click", function(e) {
+//         e.preventDefault();
+
+//         var $table = $(this).parents('div.parent');
+//         var $top = $table.find('div.spt').first();
+//         var $new = $top.clone(true);
+
+//         $new.jAutoCalc('destroy');
+//         $new.insertBefore($top);
+//         $new.find('input[type=text]').val('');
+//         autoCalcSetup();
+
+//       });
+
+//     });

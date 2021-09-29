@@ -15,8 +15,8 @@ class JurnalumumController extends Controller
     	if ($request->has('tgl')) {
 	    		$tgl = $request->get('tgl');
 	    		$jurnalumum = Jurnalumum::whereHas('transaksi',function ($query){
-	            $query->where('id_user','=',Auth::user()->id);
-	        })->where('tgl','like','%'.$tgl.'%')->orderBy('created_at','DESC')->get();
+		            $query->where('id_user','=',Auth::user()->id);
+		        })->where('tgl','like','%'.$tgl.'%')->orderBy('created_at','DESC')->get();
     	}else{
 	    	$jurnalumum = Jurnalumum::whereHas('transaksi',function ($query){
 	            $query->where('id_user','=',Auth::user()->id);

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-<title>PPh 21 | SIACTA</title>
+<title>Data Pengguna BUMDes | SIACTA</title>
 @section('content')
 
       <div class="main-panel">
@@ -10,9 +10,8 @@
 
                 <div class="card-body">
                   @if(Session::has('create'))
-                    <div class="alert alert-fill-success" role="alert">
-                      <i class="mdi mdi-alert-circle"></i>
-                      {{Session::get('create')}}
+                    <div class="alert alert-success" role="alert">
+                          Registrasi berhasil dengan nama pengguna <strong>{{Session::get('nama')}}</strong>
                     </div>
                   @elseif(Session::has('update'))
                     <div class="alert alert-fill-warning" role="alert">
@@ -25,33 +24,37 @@
                       {{Session::get('delete')}}
                     </div>
                   @endif
-                  <h4 class="card-title">PPh 21</h4>
-                  <a href="/pph21/tambah" class="btn btn-sm btn-primary btn-icon-text">
+                  <h4 class="card-title">Data Pengguna BUMDes</h4>
+                  <a href="/data-bumdes/tambah" class="btn btn-sm btn-primary btn-icon-text">
                     <i class="mdi mdi-database-plus btn-icon-prepend"></i>
-                          Tambah SPT
+                          Tambah Pengguna
                   </a>
                   <div class="table-responsive">
                     <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th>No.</th>
-                          <th>Nama Wajib Pajak</th>
+                          <th>No. </th>
+                          <th>Nama Pengguna</th>
+                          <th>Nama BUMDes</th>
                           <th>NPWP</th>
+                          <th>Email</th>
+                          <th>No. Telfon</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
                       <tbody>
                       	<?php $no = 1; ?>
-                        @foreach($pph21 as $pp)
+                      	@foreach($bumdes as $akun)
                         <tr>
                           <td>{{$no++}}</td>
-                          <td>{{$pp->nama_wajib}}</td>
-                          <td>{{$pp->npwp}}</td>
+                          <td>{{$akun->nama}}</td>
+                          <td>{{$akun->nama_unit}}</td>
+                          <td>{{$akun->npwp}}</td>
+                          <td>{{$akun->user->email}}</td>
+                          <td>{{$akun->no_telfon}}</td>
                           <td>
-                            <a class="btn btn-sm btn-inverse-danger" href="/data-akun/lihat/"><i class="mdi mdi-delete-forever btn-icon-prepend"></i>
-                            Lihat</a>
-                            <a class="btn btn-sm btn-inverse-success" href="/data-akun/unduh/"><i class="mdi mdi-delete-forever btn-icon-prepend"></i>
-                            Unduh</a>
+                            <a class="btn btn-sm btn-inverse-danger" href="/data-bumdes/hapus/{{$akun->id}}" onclick="return confirm('Apakah anda yakin?')"><i class="mdi mdi-delete-forever btn-icon-prepend"></i>
+                            Hapus</a>
                           </td>
                         </tr>
                         @endforeach

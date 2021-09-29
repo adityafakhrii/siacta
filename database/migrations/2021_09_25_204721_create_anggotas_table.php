@@ -4,32 +4,36 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLampiranpph22sTable extends Migration
+class CreateAnggotasTable extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('lampiranpph22s', function (Blueprint $table) {
+        Schema::create('anggotas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('id_user')->unsigned();
-            $table->bigInteger('id_pph22')->unsigned();
-            $table->text('nama_lampiran')->nullable();
-            $table->integer('lembar_importir')->nullable();
-            $table->integer('lembar_pemungut')->nullable();
+            $table->bigInteger('id_unitusaha')->unsigned()->nullable();
+            $table->string('nama');
+            $table->text('npwp')->nullable();
+            $table->text('nama_unit');
+            $table->text('no_telfon');
             $table->timestamps();
-
-            $table->foreign('id_pph22')
-                ->references('id')
-                ->on('pph22s')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
 
             $table->foreign('id_user')
                 ->references('id')
                 ->on('users')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-            
+
+            $table->foreign('id_unitusaha')
+                ->references('id')
+                ->on('unitusahas')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
         });
     }
 
@@ -40,6 +44,6 @@ class CreateLampiranpph22sTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lampiranpph22s');
+        Schema::dropIfExists('anggotas');
     }
 }

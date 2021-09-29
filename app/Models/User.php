@@ -25,6 +25,10 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Unitusaha','id_unitusaha');
     }
 
+    public function anggota(){ 
+        return $this->hasMany('App\Models\Anggota','id_user');
+    }
+
     public function neracasaldoawal(){ 
         return $this->hasMany('App\Models\Neracasaldoawal','id_user');
     }
@@ -139,6 +143,10 @@ class User extends Authenticatable
 
     public function lampiranpph22(){ 
         return $this->hasMany('App\Models\Lampiranpph22','id_user');
+    }
+
+    public function pph4ayat2(){ 
+        return $this->hasMany('App\Models\Pph4ayat2','id_user');
     }
 
     protected $hidden = [

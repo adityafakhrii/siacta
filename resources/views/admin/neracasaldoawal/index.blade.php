@@ -29,9 +29,11 @@
                     <h4 class="card-title">
                       <strong>BUMDes Sauyunan</strong>
                     </h4>
+                    @if(auth()->user()->role == 'unitusaha')
                     <h4 class="card-title">
                       <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
                     </h4>
+                    @endif
                     <h4 class="card-title">
                       Neraca Saldo Awal
                     </h4>

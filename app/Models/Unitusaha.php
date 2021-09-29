@@ -11,7 +11,11 @@ class Unitusaha extends Model
     protected $unitusahas = 'unitusahas';
     protected $fillable = ['id','jenis'];
 
-    public function user(){	
-    	return $this->hasMany('App\Models\User','id_unitusaha');
+    public function anggota(){	
+    	return $this->hasMany('App\Models\Anggota','id_unitusaha');
+    }
+
+    public function user(){  
+        return $this->hasMany('App\Models\User','id_unitusaha');
     }
 }

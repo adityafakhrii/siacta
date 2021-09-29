@@ -24,6 +24,11 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="../../images/favicon.png" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    {{-- Logika JS SPT PPH 23 --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jautocalc@1.3.1/dist/jautocalc.js"></script>
+    
   </head>
   <body class="sidebar-mini">
     <div class="container-scroller">
@@ -943,6 +948,7 @@
       document.getElementById("jenis_jasa").disabled = true;
     }
   </script>
+
 
   </body>
 

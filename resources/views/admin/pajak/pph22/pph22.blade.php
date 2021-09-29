@@ -25,7 +25,7 @@
                       {{Session::get('delete')}}
                     </div>
                   @endif
-                  <h4 class="card-title">PPH 22</h4>
+                  <h4 class="card-title">PPh 22</h4>
                   <a href="/pph22/tambah" class="btn btn-sm btn-primary btn-icon-text">
                     <i class="mdi mdi-database-plus btn-icon-prepend"></i>
                           Tambah SPT

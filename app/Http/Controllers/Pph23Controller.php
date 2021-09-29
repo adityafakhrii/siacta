@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Pph23;
-// use App\Models\Lampiranpph23;
+use App\Models\Lampiranpph23;
+use App\Models\Uraianpph23;
 use App\Models\Buktipph23;
 use Auth;
 use Illuminate\Http\Request;
@@ -53,6 +54,7 @@ class Pph23Controller extends Controller
     }
 
 
+    
     //Bupot
     public function bupot()
     {
