@@ -12,7 +12,8 @@ class AkunController extends Controller
 {
     public function index()
     {
-        $akuns = Akun::where('id_user','=',auth()->user()->id)->orderBy('no_akun')->get();
+        // $akuns = Akun::orderBy('no_akun')->get();
+        $akuns = Akun::orderBy('no_akun')->get();
         return view('admin.akun.data-akun',compact('akuns'));
     }
 

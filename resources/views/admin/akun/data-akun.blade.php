@@ -26,10 +26,12 @@
                     </div>
                   @endif
                   <h4 class="card-title">Data Akun</h4>
-                  <a href="/data-akun/tambah" class="btn btn-sm btn-primary btn-icon-text">
+                  @if(auth()->user()->role == 'bumdes')
+                  <a href="/bumdes/data-akun/tambah" class="btn btn-sm btn-primary btn-icon-text">
                     <i class="mdi mdi-database-plus btn-icon-prepend"></i>
                           Tambah Akun
                   </a>
+                  @endif
                   <div class="table-responsive">
                     <table class="table table-hover">
                       <thead>
@@ -39,7 +41,9 @@
                           <th>Nama Akun</th>
                           <th>Saldo Normal</th>
                           <th>Tanggal dibuat</th>
+                          @if(auth()->user()->role == 'bumdes')
                           <th>Aksi</th>
+                          @endif
                         </tr>
                       </thead>
                       <tbody>
@@ -51,10 +55,12 @@
                           <td>{{$akun->nama_akun}}</td>
                           <td>{{$akun->saldo_normal}}</td>
                           <td>{{$akun->created_at}}</td>
+                          @if(auth()->user()->role == 'bumdes')
                           <td>
                             <a class="btn btn-sm btn-inverse-danger" href="/data-akun/hapus/{{$akun->id}}" onclick="return confirm('Apakah anda yakin?')"><i class="mdi mdi-delete-forever btn-icon-prepend"></i>
                             Hapus</a>
                           </td>
+                          @endif
                         </tr>
                         @endforeach
                       </tbody>
