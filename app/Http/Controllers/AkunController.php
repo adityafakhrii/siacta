@@ -71,7 +71,7 @@ class AkunController extends Controller
             
         }
 
-        return redirect('/data-akun')->with('create','Akun berhasil ditambahkan');
+        return redirect('/data-akun/tambah')->with('create','Akun berhasil ditambahkan');
     }
 
     public function show($id)
