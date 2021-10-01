@@ -53,8 +53,6 @@ Route::group(['middleware' => ['auth','checkRole:bumdes']], function() {
 	Route::post('/update-unit/{id}','UserController@updateUnit');
 	Route::get('/data-unit/hapus/{id}','UserController@destroyUnit');
 
-	Route::get('/data-akun/tambah','AkunController@create');
-	Route::post('/store-akun','AkunController@store');
 	Route::get('/data-akun/edit/{id}','AkunController@edit');
 	Route::post('/update-akun/{id}','AkunController@update');
 	Route::get('/data-akun/hapus/{id}','AkunController@destroy');
@@ -168,6 +166,8 @@ Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
 
 Route::group(['middleware' => ['auth','checkRole:bumdes,unitusaha']], function() {
 	Route::get('/data-akun','AkunController@index');
+	Route::get('/data-akun/tambah','AkunController@create');
+	Route::post('/store-akun','AkunController@store');
 	// Route::get('/data-akun/tambah','AkunController@create');
 	// Route::post('/store-akun','AkunController@store');
 	// Route::get('/data-akun/edit/{id}','AkunController@edit');

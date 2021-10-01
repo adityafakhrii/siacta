@@ -26,12 +26,10 @@
                     </div>
                   @endif
                   <h4 class="card-title">Data Akun</h4>
-                  @if(auth()->user()->role == 'bumdes')
-                  <a href="/bumdes/data-akun/tambah" class="btn btn-sm btn-primary btn-icon-text">
+                  <a href="/data-akun/tambah" class="btn btn-sm btn-primary btn-icon-text">
                     <i class="mdi mdi-database-plus btn-icon-prepend"></i>
                           Tambah Akun
                   </a>
-                  @endif
                   <div class="table-responsive">
                     <table class="table table-hover">
                       <thead>
