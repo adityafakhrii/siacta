@@ -53,12 +53,10 @@
                           <td>{{$akun->nama_akun}}</td>
                           <td>{{$akun->saldo_normal}}</td>
                           <td>{{$akun->created_at}}</td>
-                          @if(auth()->user()->role == 'bumdes')
                           <td>
                             <a class="btn btn-sm btn-inverse-danger" href="/data-akun/hapus/{{$akun->id}}" onclick="return confirm('Apakah anda yakin?')"><i class="mdi mdi-delete-forever btn-icon-prepend"></i>
                             Hapus</a>
                           </td>
-                          @endif
                         </tr>
                         @endforeach
                       </tbody>

@@ -12,8 +12,7 @@ class AkunController extends Controller
 {
     public function index()
     {
-        // $akuns = Akun::orderBy('no_akun')->get();
-        $akuns = Akun::orderBy('no_akun')->get();
+        $akuns = Akun::where('id_user','=',auth()->user()->id)->orderBy('no_akun')->get();
         return view('admin.akun.data-akun',compact('akuns'));
     }
 
@@ -71,7 +70,7 @@ class AkunController extends Controller
             
         }
 
-        return redirect('/data-akun/tambah')->with('create','Akun berhasil ditambahkan');
+        return redirect('/data-akun')->with('create','Akun berhasil ditambahkan');
     }
 
     public function show($id)

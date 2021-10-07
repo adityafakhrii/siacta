@@ -10,6 +10,7 @@ class NeracasaldosetelahpenController extends Controller
     {
         $neracasaldo = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->orderBy('no_akun','asc')

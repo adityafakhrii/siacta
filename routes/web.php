@@ -36,6 +36,9 @@ Route::group(['middleware' => ['auth','checkRole:unitusaha,bumdes,superadmin']],
 	Route::get('/dashboard','UserController@dashboard');
 });
 
+
+
+
 Route::group(['middleware' => ['auth','checkRole:superadmin']], function() {
 	Route::get('/data-bumdes','UserController@bumdes');
 	Route::get('/data-bumdes/tambah','UserController@addBumdes');
@@ -45,48 +48,31 @@ Route::group(['middleware' => ['auth','checkRole:superadmin']], function() {
 	Route::get('/data-bumdes/hapus/{id}','UserController@destroyBumdes');
 });
 
-Route::group(['middleware' => ['auth','checkRole:bumdes']], function() {
-	Route::get('/data-unit','UserController@unit');
-	Route::get('/data-unit/tambah','UserController@addUnit');
-	Route::post('/store-unit','UserController@storeUnit');
-	Route::get('/data-unit/edit/{id}','UserController@editUnit');
-	Route::post('/update-unit/{id}','UserController@updateUnit');
-	Route::get('/data-unit/hapus/{id}','UserController@destroyUnit');
 
-	Route::get('/data-akun/edit/{id}','AkunController@edit');
-	Route::post('/update-akun/{id}','AkunController@update');
-	Route::get('/data-akun/hapus/{id}','AkunController@destroy');
+
+
+Route::group(['middleware' => ['auth','checkRole:bumdes']], function() {
+	// Route::get('/data-unit','UserController@unit');
+	// Route::get('/data-unit/tambah','UserController@addUnit');
+	// Route::post('/store-unit','UserController@storeUnit');
+	// Route::get('/data-unit/edit/{id}','UserController@editUnit');
+	// Route::post('/update-unit/{id}','UserController@updateUnit');
+	// Route::get('/data-unit/hapus/{id}','UserController@destroyUnit');
+
+	Route::post('/bumdes/store-transaksi','TransaksiController@store');
+
+	// Route::get('/data-akun/edit/{id}','AkunController@edit');
+	// Route::post('/update-akun/{id}','AkunController@update');
+	// Route::get('/data-akun/hapus/{id}','AkunController@destroy');
 });
+
+
+
 
 Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
 
-	//Jasa
-	Route::get('/jasa/neraca-saldo-awal','NeracasaldoawalController@index');
-	Route::get('/neraca-saldo-awal/edit/{id}','NeracasaldoawalController@edit');
-	Route::get('/neraca-saldo-awal/hapus/{id}','NeracasaldoawalController@destroy');
-	Route::post('/neraca-saldo-awal/konfirmasi','NeracasaldoawalController@confirm');
-	Route::post('/update-neracaawal/{id}','NeracasaldoawalController@update');
-
-	Route::get('/jasa/transaksi','TransaksiController@create');
-	Route::post('/store-transaksi','TransaksiController@store');
-
-	Route::get('/jasa/jurnal-umum','JurnalumumController@index');
-
-	Route::get('/jasa/buku-besar','BukubesarController@index');
-	Route::get('/buku-besar/akun','BukubesarController@akun');
-
-	Route::get('/jasa/neraca-saldo','NeracasaldoController@index');
-
-	Route::get('/jasa/jurnal-penyesuaian','JurnalpenyesuaianController@index');
-
-	Route::get('/jasa/jurnal-penyesuaian/transaksi','TransbaruController@create');
-	Route::post('/jurnal-penyesuaian/store-transaksi','TransbaruController@store');
-
-	Route::get('/jasa/neraca-saldo/setelah-disesuaikan','NeracasaldosetelahpenController@index');
-
-	Route::get('/jasa/jurnal-penutup','JurnalpenutupController@index');
-
-	Route::get('/jasa/neraca-penutup','NeracapenutupController@index');
+	
+	Route::post('/jasa/store-transaksi','TransaksiJasaController@store');
 
 	//LAPORAN EMKM
 	//laba rugi
@@ -154,55 +140,42 @@ Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
 	Route::post('/emkm/calk/tambah-ekuitas/store','EkuitasController@store');
 
 	Route::post('/emkm/calk/store','CalkController@store');
-
-
-	
-
-	//Dagang	
-
-
-	//Manufaktur
 });
 
 Route::group(['middleware' => ['auth','checkRole:bumdes,unitusaha']], function() {
 	Route::get('/data-akun','AkunController@index');
 	Route::get('/data-akun/tambah','AkunController@create');
 	Route::post('/store-akun','AkunController@store');
-	// Route::get('/data-akun/tambah','AkunController@create');
-	// Route::post('/store-akun','AkunController@store');
+	Route::get('/data-akun/hapus/{id}','AkunController@destroy');
 	// Route::get('/data-akun/edit/{id}','AkunController@edit');
 	// Route::post('/update-akun/{id}','AkunController@update');
-	// Route::get('/data-akun/hapus/{id}','AkunController@destroy');
 
-	//Jasa
-	Route::get('/bumdes/neraca-saldo-awal','BumdesController@index');
-	Route::get('/neraca-saldo-awal/edit/{id}','BumdesController@edit');
-	Route::get('/neraca-saldo-awal/hapus/{id}','BumdesController@destroy');
-	Route::post('/neraca-saldo-awal/konfirmasi','BumdesController@confirm');
-	Route::post('/update-neracaawal/{id}','BumdesController@update');
+	// Jasa
+	Route::get('/neraca-saldo-awal','NeracasaldoawalController@index');
+	Route::get('/neraca-saldo-awal/edit/{id}','NeracasaldoawalController@edit');
+	Route::get('/neraca-saldo-awal/hapus/{id}','NeracasaldoawalController@destroy');
+	Route::post('/neraca-saldo-awal/konfirmasi','NeracasaldoawalController@confirm');
+	Route::post('/update-neracaawal/{id}','NeracasaldoawalController@update');
 
-	Route::get('/bumdes/transaksi','TransaksiController@create');
-	Route::post('/store-transaksi','TransaksiController@store');
+	Route::get('/transaksi','TransaksiController@create');
 
-	Route::get('/jasa/jurnal-umum','JurnalumumController@index');
+	Route::get('/jurnal-umum','JurnalumumController@index');
 
-	Route::get('/jasa/buku-besar','BukubesarController@index');
+	Route::get('/buku-besar','BukubesarController@index');
 	Route::get('/buku-besar/akun','BukubesarController@akun');
 
-	Route::get('/jasa/neraca-saldo','NeracasaldoController@index');
+	Route::get('/neraca-saldo','NeracasaldoController@index');
 
-	Route::get('/jasa/jurnal-penyesuaian','JurnalpenyesuaianController@index');
+	Route::get('/jurnal-penyesuaian','JurnalpenyesuaianController@index');
 
-	Route::get('/jasa/jurnal-penyesuaian/transaksi','TransbaruController@create');
+	Route::get('/jurnal-penyesuaian/transaksi','TransbaruController@create');
 	Route::post('/jurnal-penyesuaian/store-transaksi','TransbaruController@store');
 
-	Route::get('/jasa/neraca-saldo/setelah-disesuaikan','NeracasaldosetelahpenController@index');
+	Route::get('/neraca-saldo/setelah-disesuaikan','NeracasaldosetelahpenController@index');
 
-	Route::get('/jasa/jurnal-penutup','JurnalpenutupController@index');
+	Route::get('/jurnal-penutup','JurnalpenutupController@index');
 
-	Route::get('/jasa/neraca-penutup','NeracapenutupController@index');
-
-
+	Route::get('/neraca-penutup','NeracapenutupController@index');
 
 	//PAJAK
 

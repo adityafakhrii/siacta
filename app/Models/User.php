@@ -16,13 +16,16 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'id_unitusaha',
         'status_neracaawal',
         'status_calk'
     ];
 
     public function unitusaha(){ 
         return $this->belongsTo('App\Models\Unitusaha','id_unitusaha');
+    }
+
+    public function akun(){ 
+        return $this->hasMany('App\Models\Akun','id_user');
     }
 
     public function anggota(){ 

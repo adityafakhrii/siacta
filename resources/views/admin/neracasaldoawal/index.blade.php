@@ -29,9 +29,9 @@
                     <h4 class="card-title">
                       <strong>BUMDes Sauyunan</strong>
                     </h4>
-                    @if(auth()->user()->role == 'unitusaha')
+                    @if(Auth::user()->role == "unitusaha")
                     <h4 class="card-title">
-                      <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                      <strong>Unit Usaha Air PAMDes</strong>
                     </h4>
                     @endif
                     <h4 class="card-title">
@@ -50,9 +50,9 @@
                     <i class="mdi mdi-content-save btn-icon-prepend"></i>
                           Konfirmasi
                   </button>
-                  @endif
-                    
                   </form>
+                  
+                  @endif
 
                   <div class="table-responsive">
                     <table class="table table-hover">
@@ -98,8 +98,8 @@
                               @endif
                             @endif
 
-                            <a class="btn btn-sm btn-inverse-danger" href="/neraca-saldo-awal/hapus/{{$awal->id}}" onclick="return confirm('Apakah anda yakin?')"><i class="mdi mdi-delete-forever btn-icon-prepend"></i>
-                            Hapus</a>
+                            {{-- <a class="btn btn-sm btn-inverse-danger" href="/neraca-saldo-awal/hapus/{{$awal->id}}" onclick="return confirm('Apakah anda yakin?')"><i class="mdi mdi-delete-forever btn-icon-prepend"></i>
+                            Hapus</a> --}}
                           </td>
                         </tr>
                         @endforeach

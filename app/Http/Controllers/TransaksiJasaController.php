@@ -15,35 +15,13 @@ use Carbon\Carbon;
 use Auth;
 use DB;
 
-class TransaksiController extends Controller
+class TransaksiJasaController extends Controller
 {
-    public function index(){
-
-    	$transaksi = Transaksi::all();
-
-    	return view('admin.transaksi.transaksi');
-    }
-
-    public function create(){
-
-    	$akuns = Akun::where('id_user','=',auth()->user()->id)->orderBy('no_akun','asc')->get();
-
-        $akundebit = DB::table('akuns')
-                    ->where('no_akun', 'like', '91%')
-                    ->get(); 
-
-        $akunkredit = DB::table('akuns')
-                    ->where('no_akun', 'like', '31%')
-                    ->get();
-
-    	return view('admin.transaksi.tambah-transaksi',compact('akuns','akundebit','akunkredit'));
-    }
-
     public function store(Request $request){
         
         $akun = Akun::all();
 
-    	$trans = new Transaksi;
+        $trans = new Transaksi;
         $trans->id_akun = $request->id_akun;
         $trans->id_user = $request->id_user;
 
@@ -89,7 +67,7 @@ class TransaksiController extends Controller
                     $data = array(
                                 $kas = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 5,
+                                'id_akun' => 482,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal - $request->diskon,
                                 'tgl' => $request->tgl,
@@ -112,11 +90,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 $bb1 = array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => $request->nominal,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + $request->nominal,
@@ -139,11 +117,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     $bb1 = array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => $request->nominal,
                                         'kredit' => NULL,
                                         'saldo' => $bbkaspen->saldo + $request->nominal,
@@ -171,7 +149,7 @@ class TransaksiController extends Controller
                         $data = array(
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal - $request->diskon,
                                     'tgl' => $request->tgl,
@@ -181,7 +159,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_penjualan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'kredit' => NULL,
                                     'debit' => $request->diskon,
                                     'tgl' => $request->tgl,
@@ -204,13 +182,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => $request->nominal - $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + ($request->nominal - $request->diskon),
@@ -219,7 +197,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'debit' => $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -242,13 +220,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => $request->nominal - $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbkaspen->saldo + ($request->nominal - $request->diskon),
@@ -257,7 +235,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 377,
+                                        'id_akun' => 843,
                                         'debit' => $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -285,7 +263,7 @@ class TransaksiController extends Controller
                         $data = array(
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal + $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -305,7 +283,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_keluaran = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'kredit' => $request->nominal_ppn,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -318,13 +296,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => $request->nominal + $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + ($request->nominal + $request->nominal_ppn),
@@ -342,7 +320,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_ppn,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -355,13 +333,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => $request->nominal + $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbkaspen->saldo + ($request->nominal + $request->nominal_ppn),
@@ -379,7 +357,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 332,
+                                        'id_akun' => 790,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_ppn,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -398,7 +376,7 @@ class TransaksiController extends Controller
                         $data = array(
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => NULL,
                                     'debit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                     'tgl' => $request->tgl,
@@ -408,7 +386,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_penjualan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'kredit' => NULL,
                                     'debit' => $request->diskon,
                                     'tgl' => $request->tgl,
@@ -428,7 +406,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_keluaran = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'kredit' => $request->nominal_ppn,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -441,15 +419,15 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
@@ -458,7 +436,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'debit' => $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -476,7 +454,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_ppn,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -490,15 +468,15 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbkaspen->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
@@ -507,7 +485,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 377,
+                                        'id_akun' => 843,
                                         'debit' => $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -525,7 +503,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 332,
+                                        'id_akun' => 790,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_ppn,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -548,7 +526,7 @@ class TransaksiController extends Controller
                     $data = array(
                                 $piutang_usaha = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal - $request->diskon,
                                     'tgl' => $request->tgl,
@@ -571,11 +549,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpiutangusaha = Bukubesar::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpiutangusaha = Bukubesar::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'debit' => $request->nominal,
                                     'kredit' => NULL,
                                     'saldo' => $bbpiutangusaha->saldo + $request->nominal,
@@ -597,11 +575,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                         array(
-                                            'id_akun' => 19,
+                                            'id_akun' => 494,
                                             'debit' => $request->nominal,
                                             'kredit' => NULL,
                                             'saldo' => $bbpiutangusahapen->saldo + $request->nominal,
@@ -629,7 +607,7 @@ class TransaksiController extends Controller
                         $data = array(
                                     $piutang_usaha = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal - $request->diskon,
                                     'tgl' => $request->tgl,
@@ -639,7 +617,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_penjualan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'kredit' => NULL,
                                     'debit' => $request->diskon,
                                     'tgl' => $request->tgl,
@@ -662,13 +640,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpiutangusaha = Bukubesar::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpiutangusaha = Bukubesar::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'debit' => $request->nominal - $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbpiutangusaha->saldo + ($request->nominal - $request->diskon),
@@ -677,7 +655,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'debit' => $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -699,13 +677,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 19,
+                                        'id_akun' => 494,
                                         'debit' => $request->nominal - $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbpiutangusahapen->saldo + ($request->nominal - $request->diskon),
@@ -714,7 +692,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 377,
+                                        'id_akun' => 843,
                                         'debit' => $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -742,7 +720,7 @@ class TransaksiController extends Controller
                         $data = array(
                                     $piutang_usaha = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal + $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -762,7 +740,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_keluaran = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'kredit' => $request->nominal_ppn,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -775,13 +753,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpiutangusaha = Bukubesar::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpiutangusaha = Bukubesar::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'debit' => $request->nominal + $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbpiutangusaha->saldo + ($request->nominal + $request->nominal_ppn),
@@ -799,7 +777,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_ppn,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -812,13 +790,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 19,
+                                        'id_akun' => 494,
                                         'debit' => $request->nominal + $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbpiutangusahapen->saldo + ($request->nominal + $request->nominal_ppn),
@@ -836,7 +814,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 332,
+                                        'id_akun' => 790,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_ppn,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -855,7 +833,7 @@ class TransaksiController extends Controller
                         $data = array(
                                     $piutang_usaha = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'kredit' => NULL,
                                     'debit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                     'tgl' => $request->tgl,
@@ -865,7 +843,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_penjualan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'kredit' => NULL,
                                     'debit' => $request->diskon,
                                     'tgl' => $request->tgl,
@@ -885,7 +863,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_keluaran = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'kredit' => $request->nominal_ppn,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -898,15 +876,15 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpiutangusaha = Bukubesar::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpiutangusaha = Bukubesar::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'debit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbpiutangusaha->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
@@ -915,7 +893,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'debit' => $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -933,7 +911,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_ppn,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -946,15 +924,15 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 19,
+                                        'id_akun' => 494,
                                         'debit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbpiutangusahapen->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
@@ -963,7 +941,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 377,
+                                        'id_akun' => 843,
                                         'debit' => $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -981,7 +959,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 332,
+                                        'id_akun' => 790,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_ppn,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -1004,7 +982,7 @@ class TransaksiController extends Controller
                     $data = array(
                                 $kas = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 5,
+                                'id_akun' => 482,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal_dp,
                                 'tgl' => $request->tgl,
@@ -1014,7 +992,7 @@ class TransaksiController extends Controller
                                 ),
                                 $piutang_usaha = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 19,
+                                'id_akun' => 494,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal - $request->nominal_dp,
                                 'tgl' => $request->tgl,
@@ -1037,13 +1015,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpiutangusaha = Bukubesar::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpiutangusaha = Bukubesar::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => $request->nominal_dp,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + $request->nominal_dp,
@@ -1052,7 +1030,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'debit' => $request->nominal,
                                     'kredit' => NULL,
                                     'saldo' => $bbpiutangusaha->saldo + ($request->nominal - $request->nominal_dp),
@@ -1074,13 +1052,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => $request->nominal_dp,
                                         'kredit' => NULL,
                                         'saldo' => $bbkaspen->saldo + $request->nominal_dp,
@@ -1089,7 +1067,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 19,
+                                        'id_akun' => 494,
                                         'debit' => $request->nominal,
                                         'kredit' => NULL,
                                         'saldo' => $bbpiutangusahapen->saldo + ($request->nominal - $request->nominal_dp),
@@ -1117,7 +1095,7 @@ class TransaksiController extends Controller
                         $data = array(
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_dp,
                                     'tgl' => $request->tgl,
@@ -1127,7 +1105,7 @@ class TransaksiController extends Controller
                                     ),
                                     $piutang_usaha = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal - $request->nominal_dp - $request->diskon,
                                     'tgl' => $request->tgl,
@@ -1137,7 +1115,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_penjualan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'kredit' => NULL,
                                     'debit' => $request->diskon,
                                     'tgl' => $request->tgl,
@@ -1160,15 +1138,15 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpiutangusaha = Bukubesar::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpiutangusaha = Bukubesar::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => $request->nominal_dp,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + $request->nominal_dp,
@@ -1177,7 +1155,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'debit' => $request->nominal_dp - $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbpiutangusaha->saldo + ($request->nominal_dp - $request->diskon),
@@ -1186,7 +1164,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'debit' => $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -1208,15 +1186,15 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => $request->nominal_dp,
                                         'kredit' => NULL,
                                         'saldo' => $bbkaspen->saldo + $request->nominal_dp,
@@ -1225,7 +1203,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 19,
+                                        'id_akun' => 494,
                                         'debit' => $request->nominal_dp - $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbpiutangusahapen->saldo + ($request->nominal_dp - $request->diskon),
@@ -1234,7 +1212,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 377,
+                                        'id_akun' => 843,
                                         'debit' => $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -1262,7 +1240,7 @@ class TransaksiController extends Controller
                         $data = array(
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_dp,
                                     'tgl' => $request->tgl,
@@ -1272,7 +1250,7 @@ class TransaksiController extends Controller
                                     ),
                                     $piutang_usaha = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'kredit' => NULL,
                                     'debit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_dp,
                                     'tgl' => $request->tgl,
@@ -1292,7 +1270,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_keluaran = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'kredit' => $request->nominal_ppn,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1305,15 +1283,15 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpiutangusaha = Bukubesar::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpiutangusaha = Bukubesar::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => $request->nominal_dp,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + $request->nominal_dp,
@@ -1322,7 +1300,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'debit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_dp,
                                     'kredit' => NULL,
                                     'saldo' => $bbpiutangusaha->saldo + (($request->nominal + $request->nominal_ppn) - $request->nominal_dp),
@@ -1340,7 +1318,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_ppn,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -1353,15 +1331,15 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => $request->nominal_dp,
                                         'kredit' => NULL,
                                         'saldo' => $bbkaspen->saldo + $request->nominal_dp,
@@ -1370,7 +1348,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 19,
+                                        'id_akun' => 494,
                                         'debit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_dp,
                                         'kredit' => NULL,
                                         'saldo' => $bbpiutangusahapen->saldo + (($request->nominal + $request->nominal_ppn) - $request->nominal_dp),
@@ -1388,7 +1366,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 332,
+                                        'id_akun' => 790,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_ppn,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -1407,7 +1385,7 @@ class TransaksiController extends Controller
                         $data = array(
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_dp,
                                     'tgl' => $request->tgl,
@@ -1417,7 +1395,7 @@ class TransaksiController extends Controller
                                     ),
                                     $piutang_usaha = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'kredit' => NULL,
                                     'debit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp+$request->diskon),
                                     'tgl' => $request->tgl,
@@ -1427,7 +1405,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_penjualan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'kredit' => NULL,
                                     'debit' => $request->diskon,
                                     'tgl' => $request->tgl,
@@ -1447,7 +1425,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_keluaran = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'kredit' => $request->nominal_ppn,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1460,17 +1438,17 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpiutangusaha = Bukubesar::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpiutangusaha = Bukubesar::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => $request->nominal_dp,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + $request->nominal_dp,
@@ -1479,7 +1457,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'debit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp+$request->diskon),
                                     'kredit' => NULL,
                                     'saldo' => $bbpiutangusaha->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp+$request->diskon)),
@@ -1488,7 +1466,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 377,
+                                    'id_akun' => 843,
                                     'debit' => $request->diskon,
                                     'kredit' => NULL,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -1506,7 +1484,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 332,
+                                    'id_akun' => 790,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_ppn,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -1519,17 +1497,17 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',377)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',843)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',332)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',790)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => $request->nominal_dp,
                                         'kredit' => NULL,
                                         'saldo' => $bbkaspen->saldo + $request->nominal_dp,
@@ -1538,7 +1516,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 19,
+                                        'id_akun' => 494,
                                         'debit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp+$request->diskon),
                                         'kredit' => NULL,
                                         'saldo' => $bbpiutangusahapen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp+$request->diskon)),
@@ -1547,7 +1525,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 377,
+                                        'id_akun' => 843,
                                         'debit' => $request->diskon,
                                         'kredit' => NULL,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -1565,7 +1543,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 332,
+                                        'id_akun' => 790,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_ppn,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -1598,7 +1576,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal - $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1608,7 +1586,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1621,9 +1599,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                         $bb = array(
@@ -1637,7 +1615,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->nominal_pph23,
                                     'saldo' => $bbkas->saldo - ($request->nominal - $request->nominal_pph23),
@@ -1646,7 +1624,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -1659,9 +1637,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                             $bbpen = array(
@@ -1675,7 +1653,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal - $request->nominal_pph23,
                                         'saldo' => $bbkaspen->saldo - ($request->nominal - $request->nominal_pph23),
@@ -1684,7 +1662,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 336,
+                                        'id_akun' => 794,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph23,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -1713,7 +1691,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1723,7 +1701,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1733,7 +1711,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1746,11 +1724,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                         $bb = array(
@@ -1764,7 +1742,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph23,
                                     'saldo' => $bbkas->saldo - ($request->nominal - $request->diskon - $request->nominal_pph23),
@@ -1773,7 +1751,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -1782,7 +1760,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -1795,11 +1773,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                             
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                             $bbpen = array(
@@ -1813,7 +1791,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal - $request->diskon - $request->nominal_pph23,
                                         'saldo' => $bbkaspen->saldo - ($request->nominal - $request->diskon - $request->nominal_pph23),
@@ -1822,7 +1800,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -1831,7 +1809,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 336,
+                                        'id_akun' => 794,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph23,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -1860,7 +1838,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal - $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1870,7 +1848,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1883,9 +1861,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -1898,7 +1876,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->nominal_pph22,
                                     'saldo' => $bbkas->saldo - ($request->nominal - $request->nominal_pph22),
@@ -1907,7 +1885,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -1920,9 +1898,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -1935,7 +1913,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal - $request->nominal_pph22,
                                         'saldo' => $bbkaspen->saldo - ($request->nominal - $request->nominal_pph22),
@@ -1944,7 +1922,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -1973,7 +1951,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1983,7 +1961,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -1993,7 +1971,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2006,11 +1984,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                         $bb = array(
@@ -2024,7 +2002,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph22,
                                     'saldo' => $bbkas->saldo - ($request->nominal - $request->diskon - $request->nominal_pph22),
@@ -2033,7 +2011,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -2042,7 +2020,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->st7s,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -2055,11 +2033,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                             
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                             $bbpen = array(
@@ -2073,7 +2051,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal - $request->diskon - $request->nominal_pph22,
                                         'saldo' => $bbkaspen->saldo - ($request->nominal - $request->diskon - $request->nominal_pph22),
@@ -2082,7 +2060,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -2091,7 +2069,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->st7s,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -2120,7 +2098,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => ($request->nominal - $request->diskon),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2130,7 +2108,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2143,9 +2121,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
                         $bb = array(
                                 array(
@@ -2158,7 +2136,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->diskon,
                                     'saldo' => $bbkas->saldo - ($request->nominal - $request->diskon),
@@ -2167,7 +2145,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -2180,9 +2158,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                             
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
                             $bbpen = array(
                                     array(
@@ -2195,7 +2173,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal - $request->diskon,
                                         'saldo' => $bbkaspen->saldo - ($request->nominal - $request->diskon),
@@ -2204,7 +2182,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -2233,7 +2211,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2246,7 +2224,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                         $bb = array(
@@ -2260,7 +2238,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal,
                                     'saldo' => $bbkas->saldo - $request->nominal,
@@ -2273,7 +2251,7 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                             $bbpen = array(
@@ -2287,7 +2265,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal,
                                         'saldo' => $bbkas->saldo - $request->nominal,
@@ -2316,7 +2294,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -2326,7 +2304,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2336,7 +2314,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2349,11 +2327,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -2366,7 +2344,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -2375,7 +2353,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                     'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - $request->diskon),
@@ -2384,7 +2362,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -2397,11 +2375,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                             
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -2414,7 +2392,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -2423,7 +2401,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                         'saldo' => $bbkaspen->saldo - (($request->nominal + $request->nominal_ppn) - $request->diskon),
@@ -2432,7 +2410,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -2461,7 +2439,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -2471,7 +2449,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal + $request->nominal_ppn,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2484,9 +2462,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -2499,7 +2477,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal + $request->nominal_ppn,
                                     'saldo' => $bbkas->saldo - ($request->nominal + $request->nominal_ppn),
@@ -2508,7 +2486,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->s9tus,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -2521,9 +2499,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -2536,7 +2514,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal + $request->nominal_ppn,
                                         'saldo' => $bbkaspen->saldo - ($request->nominal + $request->nominal_ppn),
@@ -2545,7 +2523,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->s9tus,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -2574,7 +2552,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -2584,7 +2562,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2594,7 +2572,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2604,7 +2582,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2617,13 +2595,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -2636,7 +2614,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -2645,7 +2623,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
                                     'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22)),
@@ -2654,7 +2632,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->st7s,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -2663,7 +2641,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -2677,13 +2655,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                             
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bb = array(
                                     array(
@@ -2696,7 +2674,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -2705,7 +2683,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
                                         'saldo' => $bbkaspen->saldo - (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22)),
@@ -2714,7 +2692,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->st7s,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -2723,7 +2701,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -2752,7 +2730,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -2762,7 +2740,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2772,7 +2750,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2785,11 +2763,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -2802,7 +2780,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
                                     'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - $request->nominal9ph22),
@@ -2811,7 +2789,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -2820,7 +2798,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -2833,11 +2811,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -2850,7 +2828,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
                                         'saldo' => $bbkaspen->saldo - (($request->nominal + $request->nominal_ppn) - $request->nominal9ph22),
@@ -2859,7 +2837,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -2868,7 +2846,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -2898,7 +2876,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -2908,7 +2886,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2918,7 +2896,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2928,7 +2906,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -2941,13 +2919,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                         
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -2960,7 +2938,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -2969,7 +2947,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
                                     'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23)),
@@ -2978,7 +2956,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->st7s,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -2987,7 +2965,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -3000,13 +2978,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
                             
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -3019,7 +2997,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -3028,7 +3006,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
                                         'saldo' => $bbkaspen->saldo - (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23)),
@@ -3037,7 +3015,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->st7s,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -3046,7 +3024,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 336,
+                                        'id_akun' => 794,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph23,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -3075,7 +3053,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -3085,7 +3063,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3095,7 +3073,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3108,11 +3086,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3125,7 +3103,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
                                     'saldo' => $bbkas->saldo - (($request->nominal + $request->nominal_ppn) - $request->nominal9ph23),
@@ -3134,7 +3112,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -3143,7 +3121,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -3156,11 +3134,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -3173,7 +3151,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
                                         'saldo' => $bbkaspen->saldo - (($request->nominal + $request->nominal_ppn) - $request->nominal9ph23),
@@ -3182,7 +3160,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -3191,7 +3169,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 336,
+                                        'id_akun' => 794,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph23,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -3224,7 +3202,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => $request->nominal - $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3234,7 +3212,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3247,9 +3225,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3262,7 +3240,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->nominal_pph23,
                                     'saldo' => $bbutang->saldo + ($request->nominal - $request->nominal_pph23),
@@ -3271,7 +3249,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -3284,9 +3262,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -3299,7 +3277,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal - $request->nominal_pph23,
                                         'saldo' => $bbutangpen->saldo + ($request->nominal - $request->nominal_pph23),
@@ -3308,7 +3286,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 336,
+                                        'id_akun' => 794,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph23,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -3337,7 +3315,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3347,7 +3325,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3357,7 +3335,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3370,11 +3348,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3387,7 +3365,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph23,
                                     'saldo' => $bbutang->saldo + ($request->nominal - $request->diskon - $request->nominal_pph23),
@@ -3396,7 +3374,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -3405,7 +3383,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -3418,11 +3396,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -3435,7 +3413,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal - $request->diskon - $request->nominal_pph23,
                                         'saldo' => $bbutangpen->saldo + ($request->nominal - $request->diskon - $request->nominal_pph23),
@@ -3444,7 +3422,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -3453,7 +3431,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 336,
+                                        'id_akun' => 794,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph23,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -3482,7 +3460,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => $request->nominal - $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3492,7 +3470,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3505,9 +3483,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3520,7 +3498,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->nominal_pph22,
                                     'saldo' => $bbutang->saldo + ($request->nominal - $request->nominal_pph22),
@@ -3529,7 +3507,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -3542,9 +3520,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -3557,7 +3535,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal - $request->nominal_pph22,
                                         'saldo' => $bbutangpen->saldo + ($request->nominal - $request->nominal_pph22),
@@ -3566,7 +3544,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -3595,7 +3573,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3605,7 +3583,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3615,7 +3593,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3628,11 +3606,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3645,7 +3623,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->diskon - $request->nominal_pph22,
                                     'saldo' => $bbutang->saldo + ($request->nominal - $request->diskon - $request->nominal_pph22),
@@ -3654,7 +3632,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -3663,7 +3641,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -3676,11 +3654,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -3693,7 +3671,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal - $request->diskon - $request->nominal_pph22,
                                         'saldo' => $bbutangpen->saldo + ($request->nominal - $request->diskon - $request->nominal_pph22),
@@ -3702,7 +3680,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -3711,7 +3689,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -3740,7 +3718,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal - $request->diskon),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3750,7 +3728,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3763,9 +3741,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3778,7 +3756,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal - $request->diskon,
                                     'saldo' => $bbutang->saldo + ($request->nominal - $request->diskon),
@@ -3787,7 +3765,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -3800,9 +3778,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -3815,7 +3793,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal - $request->diskon,
                                         'saldo' => $bbutangpen->saldo + ($request->nominal - $request->diskon),
@@ -3824,7 +3802,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -3853,7 +3831,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => $request->nominal,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3865,7 +3843,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3878,7 +3856,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal,
                                     'saldo' => $bbutang->saldo + $request->nominal,
@@ -3891,7 +3869,7 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -3904,7 +3882,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal,
                                         'saldo' => $bbutangpen->saldo + $request->nominal,
@@ -3933,7 +3911,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -3943,7 +3921,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3953,7 +3931,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -3966,11 +3944,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -3983,7 +3961,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -3992,7 +3970,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
@@ -4001,7 +3979,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -4014,11 +3992,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -4031,7 +4009,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -4040,7 +4018,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - $request->diskon,
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - $request->diskon),
@@ -4049,7 +4027,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -4078,7 +4056,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4088,7 +4066,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => $request->nominal + $request->nominal_ppn,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4101,9 +4079,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4116,7 +4094,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal + $request->nominal_ppn,
                                     'saldo' => $bbutang->saldo + ($request->nominal + $request->nominal_ppn),
@@ -4125,7 +4103,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->s9tus,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4138,9 +4116,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -4153,7 +4131,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal + $request->nominal_ppn,
                                         'saldo' => $bbutangpen->saldo + ($request->nominal + $request->nominal_ppn),
@@ -4162,7 +4140,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->s9tus,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -4191,7 +4169,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4201,7 +4179,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4211,7 +4189,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4221,7 +4199,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4234,13 +4212,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4253,7 +4231,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4262,7 +4240,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22)),
@@ -4271,7 +4249,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->st7s,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -4280,7 +4258,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -4293,13 +4271,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -4312,7 +4290,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -4321,7 +4299,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph22)),
@@ -4330,7 +4308,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->st7s,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -4339,7 +4317,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -4368,7 +4346,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4378,7 +4356,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4388,7 +4366,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4401,11 +4379,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4418,7 +4396,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->nomin9_pph22),
@@ -4427,7 +4405,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4436,7 +4414,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -4449,11 +4427,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -4466,7 +4444,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph22,
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - $request->nomin9_pph22),
@@ -4475,7 +4453,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -4484,7 +4462,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -4513,7 +4491,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4523,7 +4501,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4533,7 +4511,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4543,7 +4521,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4556,13 +4534,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4575,7 +4553,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4584,7 +4562,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23)),
@@ -4593,7 +4571,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->st7s,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -4602,7 +4580,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -4615,13 +4593,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -4634,7 +4612,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -4643,7 +4621,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->diskon + $request->nominal_pph23)),
@@ -4652,7 +4630,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->st7s,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -4661,7 +4639,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 336,
+                                        'id_akun' => 794,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph23,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -4690,7 +4668,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4700,7 +4678,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4710,7 +4688,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4723,11 +4701,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4740,7 +4718,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - $request->nomin9_pph23),
@@ -4749,7 +4727,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4758,7 +4736,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -4771,11 +4749,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -4788,7 +4766,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - $request->nominal_pph23,
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - $request->nomin9_pph23),
@@ -4797,7 +4775,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -4806,7 +4784,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -4839,7 +4817,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -4849,7 +4827,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4859,7 +4837,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4869,7 +4847,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -4882,13 +4860,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -4901,7 +4879,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22)),
@@ -4910,7 +4888,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -4919,7 +4897,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -4928,7 +4906,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -4941,13 +4919,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -4960,7 +4938,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph22)),
@@ -4969,7 +4947,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_dp,
                                         'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -4978,7 +4956,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -4987,7 +4965,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -5016,7 +4994,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5026,7 +5004,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5036,7 +5014,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5049,11 +5027,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -5066,7 +5044,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph22),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph22)),
@@ -5075,7 +5053,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -5084,7 +5062,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -5097,11 +5075,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -5114,7 +5092,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph22),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph22)),
@@ -5123,7 +5101,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_dp,
                                         'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -5132,7 +5110,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -5161,7 +5139,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -5171,7 +5149,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5181,7 +5159,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5191,7 +5169,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5201,7 +5179,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5214,15 +5192,15 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbpen = array(
                                 array(
@@ -5235,7 +5213,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -5244,7 +5222,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22)),
@@ -5253,7 +5231,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->st7s,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -5262,7 +5240,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -5271,7 +5249,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -5284,15 +5262,15 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                             
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -5305,7 +5283,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -5314,7 +5292,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22)),
@@ -5323,7 +5301,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->st7s,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_dp,
                                         'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -5332,7 +5310,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -5341,7 +5319,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -5370,7 +5348,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5380,7 +5358,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5390,7 +5368,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5400,7 +5378,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph22 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'kredit' => $request->nominal_pph22,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5413,13 +5391,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
-                        $bbpph22 = Bukubesar::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph22 = Bukubesar::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -5432,7 +5410,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22)),
@@ -5441,7 +5419,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -5450,7 +5428,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->st7s,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -5459,7 +5437,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 335,
+                                    'id_akun' => 793,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph22,
                                     'saldo' => $bbpph22->saldo + $request->nominal_pph22,
@@ -5472,13 +5450,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                             
-                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',335)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph22pen = Bukubesarpenyesuaian::where('id_akun','=',793)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -5491,7 +5469,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph22)),
@@ -5500,7 +5478,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_dp,
                                         'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -5509,7 +5487,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->st7s,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -5518,7 +5496,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 335,
+                                        'id_akun' => 793,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph22,
                                         'saldo' => $bbpph22pen->saldo + $request->nominal_pph22,
@@ -5547,7 +5525,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -5557,7 +5535,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5567,7 +5545,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5577,7 +5555,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5590,13 +5568,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -5609,7 +5587,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -5618,7 +5596,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23)),
@@ -5627,7 +5605,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -5636,7 +5614,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -5649,13 +5627,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -5668,7 +5646,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -5677,7 +5655,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->nominal_pph23)),
@@ -5686,7 +5664,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_dp,
                                         'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -5695,7 +5673,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 336,
+                                        'id_akun' => 794,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph23,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -5724,7 +5702,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5734,7 +5712,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5744,7 +5722,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5757,11 +5735,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -5774,7 +5752,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -5783,7 +5761,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph23),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph23)),
@@ -5792,7 +5770,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -5805,11 +5783,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                         array(
@@ -5822,7 +5800,7 @@ class TransaksiController extends Controller
                                             'keterangan' => $request->status,
                                         ),
                                         array(
-                                            'id_akun' => 5,
+                                            'id_akun' => 482,
                                             'debit' => NULL,
                                             'kredit' => $request->nominal_dp,
                                             'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -5831,7 +5809,7 @@ class TransaksiController extends Controller
                                             'keterangan' => $request->status,
                                         ),
                                         array(
-                                            'id_akun' => 305,
+                                            'id_akun' => 775,
                                             'debit' => NULL,
                                             'kredit' => ($request->nominal) - ($request->nominal_dp + $request->nominal_pph23),
                                             'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp + $request->nominal_pph23)),
@@ -5840,7 +5818,7 @@ class TransaksiController extends Controller
                                             'keterangan' => $request->status,
                                         ),
                                         array(
-                                            'id_akun' => 336,
+                                            'id_akun' => 794,
                                             'debit' => NULL,
                                             'kredit' => $request->nominal_pph23,
                                             'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -5869,7 +5847,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -5879,7 +5857,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5889,7 +5867,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5899,7 +5877,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5909,7 +5887,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -5922,15 +5900,15 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -5943,7 +5921,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -5952,7 +5930,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23)),
@@ -5961,7 +5939,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->st7s,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -5970,7 +5948,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -5979,7 +5957,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -5992,15 +5970,15 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                             
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -6013,7 +5991,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -6022,7 +6000,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23)),
@@ -6031,7 +6009,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->st7s,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_dp,
                                         'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -6040,7 +6018,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -6049,7 +6027,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 336,
+                                        'id_akun' => 794,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph23,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -6078,7 +6056,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6088,7 +6066,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6098,7 +6076,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6108,7 +6086,7 @@ class TransaksiController extends Controller
                                     ),
                                     $pph23 = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'kredit' => $request->nominal_pph23,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6121,13 +6099,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
-                        $bbpph23 = Bukubesar::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpph23 = Bukubesar::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -6140,7 +6118,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -6149,7 +6127,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23)),
@@ -6158,7 +6136,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->st7s,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -6167,7 +6145,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 336,
+                                    'id_akun' => 794,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_pph23,
                                     'saldo' => $bbpph23->saldo + $request->nominal_pph23,
@@ -6180,13 +6158,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                             
-                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',336)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpph23pen = Bukubesarpenyesuaian::where('id_akun','=',794)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -6199,7 +6177,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_dp,
                                         'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -6208,7 +6186,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon + $request->nominal_pph23)),
@@ -6217,7 +6195,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->st7s,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -6226,7 +6204,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 336,
+                                        'id_akun' => 794,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_pph23,
                                         'saldo' => $bbpph23pen->saldo + $request->nominal_pph23,
@@ -6255,7 +6233,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6265,7 +6243,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6275,7 +6253,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6288,11 +6266,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
                         $bb = array(
                                 array(
@@ -6305,7 +6283,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -6314,7 +6292,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon)),
@@ -6323,7 +6301,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -6336,11 +6314,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                             
                             $bb = array(
                                     array(
@@ -6353,7 +6331,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_dp,
                                         'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -6362,7 +6340,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal) - ($request->nominal_dp + $request->diskon),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp + $request->diskon)),
@@ -6371,7 +6349,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -6400,7 +6378,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6410,7 +6388,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6423,9 +6401,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -6438,7 +6416,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal) - ($request->nominal_dp),
                                     'saldo' => $bbutang->saldo + (($request->nominal) - ($request->nominal_dp)),
@@ -6447,7 +6425,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -6460,9 +6438,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                         array(
@@ -6475,7 +6453,7 @@ class TransaksiController extends Controller
                                             'keterangan' => $request->status,
                                         ),
                                         array(
-                                            'id_akun' => 305,
+                                            'id_akun' => 775,
                                             'debit' => NULL,
                                             'kredit' => ($request->nominal) - ($request->nominal_dp),
                                             'saldo' => $bbutangpen->saldo + (($request->nominal) - ($request->nominal_dp)),
@@ -6484,7 +6462,7 @@ class TransaksiController extends Controller
                                             'keterangan' => $request->status,
                                         ),
                                         array(
-                                            'id_akun' => 5,
+                                            'id_akun' => 482,
                                             'debit' => NULL,
                                             'kredit' => $request->nominal_dp,
                                             'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -6513,7 +6491,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -6523,7 +6501,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6533,7 +6511,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6543,7 +6521,7 @@ class TransaksiController extends Controller
                                     ),
                                     $potongan_pembelian = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'kredit' => $request->diskon,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6556,13 +6534,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbdiskon = Bukubesar::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbdiskon = Bukubesar::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                         
                         $bb = array(
                                 array(
@@ -6575,7 +6553,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -6584,7 +6562,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon)),
@@ -6593,7 +6571,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -6602,7 +6580,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 393,
+                                    'id_akun' => 858,
                                     'debit' => NULL,
                                     'kredit' => $request->diskon,
                                     'saldo' => $bbdiskon->saldo + $request->diskon,
@@ -6615,13 +6593,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',393)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbdiskonpen = Bukubesarpenyesuaian::where('id_akun','=',858)->orderBy('id','DESC')->limit(1)->firstOrFail();
                             
                             $bbpen = array(
                                     array(
@@ -6634,7 +6612,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -6643,7 +6621,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp + $request->diskon)),
@@ -6652,7 +6630,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_dp,
                                         'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -6661,7 +6639,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 393,
+                                        'id_akun' => 858,
                                         'debit' => NULL,
                                         'kredit' => $request->diskon,
                                         'saldo' => $bbdiskonpen->saldo + $request->diskon,
@@ -6690,7 +6668,7 @@ class TransaksiController extends Controller
                                     ),
                                     $ppn_masukan = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'kredit' => NULL,
                                     'debit' => $request->nominal_ppn,
                                     'tgl' => $request->tgl,
@@ -6700,7 +6678,7 @@ class TransaksiController extends Controller
                                     ),
                                     $kas = array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'kredit' => $request->nominal_dp,
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6710,7 +6688,7 @@ class TransaksiController extends Controller
                                     ),
                                     $utang_usaha =  array(
                                     'id_transaksi' => $trans->id,
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp),
                                     'debit' => NULL,
                                     'tgl' => $request->tgl,
@@ -6723,11 +6701,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutang = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -6740,7 +6718,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo + $request->nominal_ppn,
@@ -6749,7 +6727,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->s9tus,
                                 ),
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => NULL,
                                     'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp),
                                     'saldo' => $bbutang->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp)),
@@ -6758,7 +6736,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_dp,
                                     'saldo' => $bbkas->saldo - $request->nominal_dp,
@@ -6771,11 +6749,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangpen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -6788,7 +6766,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo + $request->nominal_ppn,
@@ -6797,7 +6775,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->s9tus,
                                     ),
                                     array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => NULL,
                                         'kredit' => ($request->nominal + $request->nominal_ppn) - ($request->nominal_dp),
                                         'saldo' => $bbutangpen->saldo + (($request->nominal + $request->nominal_ppn) - ($request->nominal_dp)),
@@ -6806,7 +6784,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_dp,
                                         'saldo' => $bbkaspen->saldo - $request->nominal_dp,
@@ -6826,7 +6804,7 @@ class TransaksiController extends Controller
                     $data = array(
                                 $kas = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 5,
+                                'id_akun' => 482,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal,
                                 'tgl' => $request->tgl,
@@ -6849,7 +6827,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         if ($bbesar->akun->saldo_normal == 'debit') {
                             $penerimaan = $bbesar->saldo - $request->nominal;
@@ -6861,7 +6839,7 @@ class TransaksiController extends Controller
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => $request->nominal,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + $request->nominal,
@@ -6884,7 +6862,7 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             if ($bbesarpen->akun->saldo_normal == 'debit') {
                             $penerimaanpen = $bbesarpen->saldo - $request->nominal;
@@ -6896,7 +6874,7 @@ class TransaksiController extends Controller
 
                             $bbpen = array(
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => $request->nominal,
                                         'kredit' => NULL,
                                         'saldo' => $bbkaspen->saldo + $request->nominal,
@@ -6934,7 +6912,7 @@ class TransaksiController extends Controller
                                 ),
                                 $kas = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 5,
+                                'id_akun' => 482,
                                 'kredit' => $request->nominal,
                                 'debit' => NULL,
                                 'tgl' => $request->tgl,
@@ -6947,7 +6925,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         if ($bbesar->akun->saldo_normal == 'debit') {
                             $pengeluaran = $bbesar->saldo + $request->nominal;
@@ -6968,7 +6946,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal,
                                     'saldo' => $bbkas->saldo - $request->nominal,
@@ -6981,7 +6959,7 @@ class TransaksiController extends Controller
                         if (Bukubesar::insert($bb)) {
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             if ($bbesarpen->akun->saldo_normal == 'debit') {
                             $pengeluaranpen = $bbesarpen->saldo + $request->nominal;
@@ -7002,7 +6980,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal,
                                         'saldo' => $bbkaspen->saldo - $request->nominal,
@@ -7034,7 +7012,7 @@ class TransaksiController extends Controller
                                 ),
                                 $ppn_keluaran = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 252,
+                                'id_akun' => 720,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal_ppn,
                                 'tgl' => $request->tgl,
@@ -7044,7 +7022,7 @@ class TransaksiController extends Controller
                                 ),
                                 $kas = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 5,
+                                'id_akun' => 482,
                                 'kredit' => $request->nominal + $request->nominal_ppn,
                                 'debit' => NULL,
                                 'tgl' => $request->tgl,
@@ -7057,9 +7035,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -7072,7 +7050,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo - $request->nominal_ppn,
@@ -7081,7 +7059,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal + $request->nominal_ppn,
                                     'saldo' => $bbkas->saldo - ($request->nominal + $request->nominal_ppn),
@@ -7094,9 +7072,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -7109,7 +7087,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbppnpen->saldo - $request->nominal_ppn,
@@ -7118,7 +7096,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal + $request->nominal_ppn,
                                         'saldo' => $bbkaspen->saldo - ($request->nominal + $request->nominal_ppn),
@@ -7147,7 +7125,7 @@ class TransaksiController extends Controller
                                 ),
                                 $kas = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 5,
+                                'id_akun' => 482,
                                 'kredit' => $request->nominal,
                                 'debit' => NULL,
                                 'tgl' => $request->tgl,
@@ -7160,7 +7138,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -7173,7 +7151,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal,
                                     'saldo' => $bbkas->saldo - $request->nominal,
@@ -7186,7 +7164,7 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                     array(
@@ -7199,7 +7177,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                     ),
                                     array(
-                                        'id_akun' => 5,
+                                        'id_akun' => 482,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal,
                                         'saldo' => $bbkaspen->saldo - $request->nominal,
@@ -7232,7 +7210,7 @@ class TransaksiController extends Controller
                                 ),
                                 $ppn_keluaran = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 252,
+                                'id_akun' => 720,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal_ppn,
                                 'tgl' => $request->tgl,
@@ -7242,7 +7220,7 @@ class TransaksiController extends Controller
                                 ),
                                 $piutang_usaha = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 19,
+                                'id_akun' => 494,
                                 'kredit' => $request->nominal + $request->nominal_ppn,
                                 'debit' => NULL,
                                 'tgl' => $request->tgl,
@@ -7255,9 +7233,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpiutangusaha = Bukubesar::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpiutangusaha = Bukubesar::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -7270,7 +7248,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbppn->saldo - $request->nominal_ppn,
@@ -7279,7 +7257,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal + $request->nominal_ppn,
                                     'saldo' => $bbpiutangusaha->saldo - ($request->nominal + $request->nominal_ppn),
@@ -7292,9 +7270,9 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                         array(
@@ -7307,7 +7285,7 @@ class TransaksiController extends Controller
                                             'keterangan' => $request->status,
                                         ),
                                         array(
-                                            'id_akun' => 252,
+                                            'id_akun' => 720,
                                             'debit' => $request->nominal_ppn,
                                             'kredit' => NULL,
                                             'saldo' => $bbppnpen->saldo - $request->nominal_ppn,
@@ -7316,7 +7294,7 @@ class TransaksiController extends Controller
                                             'keterangan' => $request->status,
                                         ),
                                         array(
-                                            'id_akun' => 19,
+                                            'id_akun' => 494,
                                             'debit' => NULL,
                                             'kredit' => $request->nominal + $request->nominal_ppn,
                                             'saldo' => $bbpiutangusahapen->saldo - ($request->nominal + $request->nominal_ppn),
@@ -7345,7 +7323,7 @@ class TransaksiController extends Controller
                                 ),
                                 $piutang_usaha = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 19,
+                                'id_akun' => 494,
                                 'kredit' => $request->nominal,
                                 'debit' => NULL,
                                 'tgl' => $request->tgl,
@@ -7358,7 +7336,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbpiutangusaha = Bukubesar::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbpiutangusaha = Bukubesar::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -7371,7 +7349,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 19,
+                                    'id_akun' => 494,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal,
                                     'saldo' => $bbpiutangusaha->saldo - $request->nominal,
@@ -7384,7 +7362,7 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',19)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbpiutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',494)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                         array(
@@ -7397,7 +7375,7 @@ class TransaksiController extends Controller
                                             'keterangan' => $request->status,
                                         ),
                                         array(
-                                            'id_akun' => 19,
+                                            'id_akun' => 494,
                                             'debit' => NULL,
                                             'kredit' => $request->nominal,
                                             'saldo' => $bbpiutangusahapen->saldo - $request->nominal,
@@ -7420,7 +7398,7 @@ class TransaksiController extends Controller
                     $data = array(
                                 $kas = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 5,
+                                'id_akun' => 482,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal + $request->nominal_ppn,
                                 'tgl' => $request->tgl,
@@ -7440,7 +7418,7 @@ class TransaksiController extends Controller
                                 ),
                                 $ppn_masukan = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 252,
+                                'id_akun' => 720,
                                 'kredit' => $request->nominal_ppn,
                                 'debit' => NULL,
                                 'tgl' => $request->tgl,
@@ -7453,13 +7431,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => $request->nominal + $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + ($request->nominal + $request->nominal_ppn),
@@ -7477,7 +7455,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_ppn,
                                     'saldo' => $bbppn->saldo - $request->nominal_ppn,
@@ -7490,14 +7468,14 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
 
                             $bbpen = array(
                                         array(
-                                            'id_akun' => 5,
+                                            'id_akun' => 482,
                                             'debit' => $request->nominal + $request->nominal_ppn,
                                             'kredit' => NULL,
                                             'saldo' => $bbkaspen->saldo + ($request->nominal + $request->nominal_ppn),
@@ -7515,7 +7493,7 @@ class TransaksiController extends Controller
                                             'keterangan' => $request->status,
                                         ),
                                         array(
-                                            'id_akun' => 252,
+                                            'id_akun' => 720,
                                             'debit' => NULL,
                                             'kredit' => $request->nominal_ppn,
                                             'saldo' => $bbppnpen->saldo - $request->nominal_ppn,
@@ -7534,7 +7512,7 @@ class TransaksiController extends Controller
                     $data = array(
                                 $kas = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 5,
+                                'id_akun' => 482,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal,
                                 'tgl' => $request->tgl,
@@ -7557,11 +7535,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbkas = Bukubesar::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 5,
+                                    'id_akun' => 482,
                                     'debit' => $request->nominal,
                                     'kredit' => NULL,
                                     'saldo' => $bbkas->saldo + $request->nominal,
@@ -7584,11 +7562,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',5)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbkaspen = Bukubesarpenyesuaian::where('id_akun','=',482)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                         array(
-                                            'id_akun' => 5,
+                                            'id_akun' => 482,
                                             'debit' => $request->nominal,
                                             'kredit' => NULL,
                                             'saldo' => $bbkaspen->saldo + $request->nominal,
@@ -7620,7 +7598,7 @@ class TransaksiController extends Controller
                     $data = array(
                                 $utang_usaha =  array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 305,
+                                'id_akun' => 775,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal + $request->nominal_ppn,
                                 'tgl' => $request->tgl,
@@ -7640,7 +7618,7 @@ class TransaksiController extends Controller
                                 ),
                                 $ppn_masukan = array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 252,
+                                'id_akun' => 720,
                                 'kredit' => $request->nominal_ppn,
                                 'debit' => NULL,
                                 'tgl' => $request->tgl,
@@ -7653,13 +7631,13 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutangusaha = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutangusaha = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbppn = Bukubesar::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbppn = Bukubesar::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => $request->nominal + $request->nominal_ppn,
                                     'kredit' => NULL,
                                     'saldo' => $bbutangusaha->saldo + ($request->nominal + $request->nominal_ppn),
@@ -7677,7 +7655,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                ),
                                 array(
-                                    'id_akun' => 252,
+                                    'id_akun' => 720,
                                     'debit' => NULL,
                                     'kredit' => $request->nominal_ppn,
                                     'saldo' => $bbppn->saldo - $request->nominal_ppn,
@@ -7692,13 +7670,13 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',252)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbppnpen = Bukubesarpenyesuaian::where('id_akun','=',720)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                         array(
-                                        'id_akun' => 305,
+                                        'id_akun' => 775,
                                         'debit' => $request->nominal + $request->nominal_ppn,
                                         'kredit' => NULL,
                                         'saldo' => $bbutangusahapen->saldo + ($request->nominal + $request->nominal_ppn),
@@ -7716,7 +7694,7 @@ class TransaksiController extends Controller
                                         'keterangan' => $request->status,
                                    ),
                                     array(
-                                        'id_akun' => 252,
+                                        'id_akun' => 720,
                                         'debit' => NULL,
                                         'kredit' => $request->nominal_ppn,
                                         'saldo' => $bbppnpen->saldo - $request->nominal_ppn,
@@ -7735,7 +7713,7 @@ class TransaksiController extends Controller
                     $data = array(
                                 $utang_usaha =  array(
                                 'id_transaksi' => $trans->id,
-                                'id_akun' => 305,
+                                'id_akun' => 775,
                                 'kredit' => NULL,
                                 'debit' => $request->nominal,
                                 'tgl' => $request->tgl,
@@ -7758,11 +7736,11 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutangusaha = Bukubesar::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                        $bbutangusaha = Bukubesar::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
-                                    'id_akun' => 305,
+                                    'id_akun' => 775,
                                     'debit' => $request->nominal,
                                     'kredit' => NULL,
                                     'saldo' => $bbutangusaha->saldo + $request->nominal,
@@ -7785,11 +7763,11 @@ class TransaksiController extends Controller
 
                             $bbesarpen = Bukubesarpenyesuaian::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                            $bbutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',305)->orderBy('id','DESC')->limit(1)->firstOrFail();
+                            $bbutangusahapen = Bukubesarpenyesuaian::where('id_akun','=',775)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                             $bbpen = array(
                                         array(
-                                            'id_akun' => 305,
+                                            'id_akun' => 775,
                                             'debit' => $request->nominal,
                                             'kredit' => NULL,
                                             'saldo' => $bbutangusahapen->saldo + $request->nominal,
@@ -7902,7 +7880,7 @@ class TransaksiController extends Controller
             }
         }
 
-       	return redirect('/jurnal-umum')->with('success','Transaksi berhasil ditambahkan');
+        return redirect('/jurnal-umum')->with('success','Transaksi berhasil ditambahkan');
         
     }
 }

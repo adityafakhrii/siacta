@@ -16,9 +16,11 @@
                         <h4 class="card-title">
                           <strong>BUMDes Sauyunan</strong>
                         </h4>
+                        @if(Auth::user()->role == "unitusaha")
                         <h4 class="card-title">
-                          <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                          <strong>Unit Usaha Air PAMDes</strong>
                         </h4>
+                        @endif
                         <h4 class="card-title">
                           Jurnal Penyesuaian
                         </h4>
@@ -33,7 +35,7 @@
 
                     </div>
                     <div class="col-lg-2 grid-margin grid-margin-lg-0">
-                      <a href="/jasa/jurnal-penyesuaian/transaksi" class="btn btn-sm btn-primary btn-icon-text">
+                      <a href="/jurnal-penyesuaian/transaksi" class="btn btn-sm btn-primary btn-icon-text">
                         <i class="mdi mdi-database-plus btn-icon-prepend"></i>
                               Tambah Transaksi
                       </a>

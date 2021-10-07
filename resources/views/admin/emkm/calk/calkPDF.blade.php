@@ -57,7 +57,7 @@
       					    color: #3b3b3b;
                     margin-bottom: 30px;
       					    ">
-                    <b>Unit Usaha {{Auth::user()->unitusaha->jenis}}</b>
+                    <b>Unit Usaha Air PAMDes</b>
       						</p>
                   <p style="
                     font-size: 1.25rem;

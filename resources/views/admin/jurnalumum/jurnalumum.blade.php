@@ -33,9 +33,9 @@
                             <h4 class="card-title">
                               <strong>BUMDes Sauyunan</strong>
                             </h4>
-                            @if(auth()->user()->role == 'unitusaha')
+                            @if(Auth::user()->role == "unitusaha")
                             <h4 class="card-title">
-                              <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                              <strong>Unit Usaha Air PAMDes</strong>
                             </h4>
                             @endif
                             <h4 class="card-title">

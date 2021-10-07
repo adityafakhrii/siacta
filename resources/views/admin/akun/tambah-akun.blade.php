@@ -53,7 +53,6 @@
 		                              Kredit
 		                        </label>
 		                    </div>
-		                    <input type="hidden" name="id_user" value="{{auth()->user()->id}}">
 	                    </div>
 	                  </div>
 	                  <div class="form-group row">

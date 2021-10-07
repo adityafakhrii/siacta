@@ -17,12 +17,7 @@
                     </div>
                     @endif
                   <h4 class="card-title">Transaksi | SIACTA</h4>
-                  	@if(Auth::user()->role == 'bumdes')
-                  	<form action="/bumdes/store-transaksi" method="post" enctype="multipart/form-data" name="formtrans" onkeyup="calculatetrans()">
-                  	@else
                   	<form action="/jasa/store-transaksi" method="post" enctype="multipart/form-data" name="formtrans" onkeyup="calculatetrans()">
-                  	@endif
-
                   	@csrf
 
 	                  <div class="form-group row">
@@ -32,13 +27,13 @@
 	                    <div class="col-lg-8">
 	                        <div class="form-check">
 		                        <label class="form-check-label">
-		                              <input onclick="removeDisabledRadio();removeDisabledDP();" type="radio" class="form-check-input" name="status" id="optionsRadios3" value="pembelian" required>
+		                              <input onclick="removeDisabled();removeDisabledRadio();removeDisabledDP();" type="radio" class="form-check-input" name="status" id="optionsRadios3" value="pembelian" required>
 		                              Pembelian
 		                        </label>
 		                    </div>
 		                    <div class="form-check">
 		                        <label class="form-check-label">
-		                              <input onclick="removeDisabledRadio();removeDisabledDP();" type="radio" class="form-check-input penjualan" name="status" id="optionsRadios3" value="penjualan">
+		                              <input onclick="addDisabled();removeDisabledRadio();removeDisabledDP();" type="radio" class="form-check-input penjualan" name="status" id="optionsRadios3" value="penjualan">
 		                              Penjualan
 		                        </label>
 		                    </div>

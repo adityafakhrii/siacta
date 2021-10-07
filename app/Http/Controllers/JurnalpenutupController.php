@@ -34,10 +34,11 @@ class JurnalpenutupController extends Controller
                     ->where('keterangan','!=','Saldo Awal')
                     ->get();           
 
-        $ikhtisar = Akun::where('no_akun','=','70.08.00')->get();
+        $ikhtisar = Akun::where('id_user','=',auth()->user()->id)->where('no_akun','=','70.08.00')->get();
 
         $labarugi_pendapatan = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','81%')
@@ -47,18 +48,21 @@ class JurnalpenutupController extends Controller
 
         $potongan_penjualan = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','=','81.03.00')
                         ->get();
 
         $potongan_pembelian = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','=','91.13.00')
                         ->get();
 
         $labarugi_beban = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','91%')
@@ -98,9 +102,9 @@ class JurnalpenutupController extends Controller
         $pajak = $total_pendapatan * (0.5/100);
         $total_labarugi = $total_semua - $pajak;
 
-        $modals = Akun::where('no_akun','=','70.06.00')->get();
-        $saldolaba = Akun::where('no_akun','=','70.07.01')->get();
-        $saldorugi = Akun::where('no_akun','=','70.07.02')->get();
+        $modals = Akun::where('id_user','=',auth()->user()->id)->where('no_akun','=','70.06.00')->get();
+        $saldolaba = Akun::where('id_user','=',auth()->user()->id)->where('no_akun','=','70.07.01')->get();
+        $saldorugi = Akun::where('id_user','=',auth()->user()->id)->where('no_akun','=','70.07.02')->get();
 
 
         return view('admin.jurnalpenutup.jurnalpenutup',compact('jurnalpenutup91','jurnalpenutup81','ikhtisar','total_labarugi','modals','saldolaba','saldorugi'));

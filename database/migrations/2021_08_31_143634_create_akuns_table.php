@@ -12,7 +12,7 @@ class CreateAkunsTable extends Migration
         Schema::create('akuns', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('id_user')->unsigned();
-            $table->string('no_akun',9)->unique();
+            $table->string('no_akun',9);
             $table->string('nama_akun');
             $table->enum('saldo_normal',['debit','kredit']);
             $table->enum('status',['penyesuaian','tidak_pen']);

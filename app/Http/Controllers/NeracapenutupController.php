@@ -11,6 +11,7 @@ class NeracapenutupController extends Controller
     {
         $neracapenutup = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','not like','81%')
@@ -19,9 +20,9 @@ class NeracapenutupController extends Controller
                         ->get();
 
 
-
         $labarugi_pendapatan = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','81%')
@@ -31,18 +32,21 @@ class NeracapenutupController extends Controller
 
         $potongan_penjualan = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','=','81.03.00')
                         ->get();
 
         $potongan_pembelian = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','=','91.13.00')
                         ->get();
 
         $labarugi_beban = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','91%')
@@ -82,7 +86,7 @@ class NeracapenutupController extends Controller
         // $pajak = $total_pendapatan * (0.5/100);
         $total_labarugi = $total_semua - $pajak;
 
-        $modals = Akun::where('no_akun','=','70.06.00')->get();
+        $modals = Akun::where('id_user','=',auth()->user()->id)->where('no_akun','=','70.06.00')->get();
           
 
         return view('admin.neracapenutup.neracapenutup',compact('neracapenutup','total_labarugi','modals'));

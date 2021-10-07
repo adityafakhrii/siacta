@@ -74,7 +74,7 @@ class NeracasaldoawalController extends Controller
             
         }
         
-        return redirect('/jasa/neraca-saldo-awal')->with('create','Saldo berhasil ditambahkan');
+        return redirect('/neraca-saldo-awal')->with('create','Saldo berhasil ditambahkan');
     }
 
     public function confirm(){
@@ -86,12 +86,12 @@ class NeracasaldoawalController extends Controller
         ->update(['status_neracaawal'=>'final']);
 
 
-        return redirect('/jasa/neraca-saldo-awal');
+        return redirect('/neraca-saldo-awal');
     }
 
     public function destroy($id){
         $saldoawal = Neracasaldoawal::find($id);
         $saldoawal->delete();
-        return redirect('/jasa/neraca-saldo-awal')->with('delete','Akun berhasil dihapus');
+        return redirect('/neraca-saldo-awal')->with('delete','Akun berhasil dihapus');
     }
 }
