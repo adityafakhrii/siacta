@@ -32,7 +32,7 @@
                       Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
                     </h5>
                   </div>
-                  <form class="forms-sample" action="/emkm/calk/store" method="post">
+                  <form class="forms-sample" action="/calk/store" method="post">
                     @csrf
                     <div class="form-group">
                       <label for="umum"><strong>1. UMUM</strong></label>
@@ -67,7 +67,7 @@
                           
                         </div>
                         <div class="col col-lg-2">
-                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-akumulasi">Tambah Data</a>
+                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-akumulasi">Tambah Data</a>
                         </div>
                       </div>
                       <div class="table-responsive">
@@ -120,7 +120,7 @@
                           <label for="exampleTextarea1"><strong>3. KAS</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-kas-bank">Tambah Data</a>
+                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-kas-bank">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -145,7 +145,7 @@
                           <label for="exampleTextarea1"><strong>4. INVESTASI JANGKA PENDEK</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-investasi-pendek">Tambah Data</a>
+                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-investasi-pendek">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -177,7 +177,7 @@
                           
                         </div>
                         <div class="col col-lg-2">
-                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-piutang">Tambah Data</a>
+                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-piutang">Tambah Data</a>
                         </div>
                       </div>
                       <div class="table-responsive">
@@ -234,7 +234,7 @@
                           <label for="exampleTextarea1"><strong>6. PIUTANG NON USAHA</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-piutang-non">Tambah Data</a>
+                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-piutang-non">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -259,7 +259,7 @@
                           <label for="exampleTextarea1"><strong>7. PERLENGKAPAN</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-perlengkapan">Tambah Data</a>
+                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-perlengkapan">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -284,7 +284,7 @@
                           <label for="exampleTextarea1"><strong>8. PEMBAYARAN DIMUKA</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-pembayaranmuka">Tambah Data</a>
+                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-pembayaranmuka">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -316,7 +316,7 @@
                           <label for="exampleTextarea1"><strong>10. ASET LANCAR LAINNYA</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-aset-lain">Tambah Data</a>
+                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-aset-lain">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -341,7 +341,7 @@
                           <label for="exampleTextarea1"><strong>11. INVESTASI JANGKA PANJANG</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-investasi-panjang">Tambah Data</a>
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-investasi-panjang">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -366,7 +366,7 @@
                           <label for="exampleTextarea1"><strong>12. ASET TETAP</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-aset-tetap">Tambah Data</a>
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-aset-tetap">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -391,7 +391,7 @@
                           
                         </div>
                         <div class="col col-lg-2">
-                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-aset">Tambah Data</a>
+                          <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-aset">Tambah Data</a>
                         </div>
                       </div>
                       <div class="table-responsive">
@@ -440,7 +440,7 @@
                           <label for="exampleTextarea1"><strong>13. ASET TETAP LEASING</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-aset-leasing">Tambah Data</a>
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-aset-leasing">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -465,7 +465,7 @@
                           <label for="exampleTextarea1"><strong>14. PROPERTI INVESTASI</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-properti">Tambah Data</a>
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-properti">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -497,7 +497,7 @@
                           <label for="exampleTextarea1"><strong>16. ASET TIDAK BERWUJUD</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-aset-tidakberwujud">Tambah Data</a>
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-aset-tidakberwujud">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -522,7 +522,7 @@
                           <label for="exampleTextarea1"><strong>17. KEWAJIBAN JANGKA PENDEK</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-kewajiban-pendek">Tambah Data</a>
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-kewajiban-pendek">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -547,7 +547,7 @@
                           <label for="exampleTextarea1"><strong>18. KEWAJIBAN JANGKA PANJANG</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-kewajiban-panjang">Tambah Data</a>
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-kewajiban-panjang">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -572,7 +572,7 @@
                           <label for="exampleTextarea1"><strong>19. KEWAJIBAN LAIN-LAIN</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-kewajiban-lain">Tambah Data</a>
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-kewajiban-lain">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -597,7 +597,7 @@
                           <label for="exampleTextarea1"><strong>20. EKUITAS</strong></label>
                         </div>
                         <div class="col col-lg-2">
-                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/tambah-ekuitas">Tambah Data</a>
+                        <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/tambah-ekuitas">Tambah Data</a>
                         </div>
                       </div>
                     </div>
@@ -661,10 +661,10 @@
                     </div>
                   </div>
                   <div class="col mb-5">
-                    <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/emkm/calk/pdf"><i class="mdi mdi-download btn-icon-prepend"></i> Cetak Laporan</a>  
+                    <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/pdf"><i class="mdi mdi-download btn-icon-prepend"></i> Cetak Laporan</a>  
                   </div>
                   @foreach($calks as $calk)
-                    <form class="forms-sample" action="/emkm/calk/store" method="post">
+                    <form class="forms-sample" action="/calk/store" method="post">
                       <div class="form-group">
                         <label for="umum"><strong>1. UMUM</strong></label>
                         <textarea disabled value="" class="form-control" id="exampleTextarea1" rows="4">{{$calk->umum}}</textarea>

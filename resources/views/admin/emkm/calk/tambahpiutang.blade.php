@@ -12,7 +12,7 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Tambah Piutang Usaha</h4>
-                  <form class="forms-sample" action="/emkm/calk/tambah-piutang/store" method="post">
+                  <form class="forms-sample" action="/calk/tambah-piutang/store" method="post">
                     @csrf
                     <div class="form-group">
                       <label for="nama">Pilih Akun</label>
@@ -30,6 +30,7 @@
                       <input name="saldo" type="number" class="form-control" id="nilai" placeholder="Masukkan nominal...">
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a href="{{ url()->previous() }}" class="btn btn-light">Batal</a>
                   </form>
                 </div>
               </div>

@@ -80,11 +80,11 @@
               </a>
               <div class="collapse" id="ui-etap">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dragula.html">Laporan Laba Rugi</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/ui-features/clipboard.html"><p>Laporan Posisi</p><p>Keuangan</p></a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/ui-features/clipboard.html"><p>Laporan Perubahan</p><p>Ekuitas</p></a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/ui-features/clipboard.html"><p>Laporan Arus Kas</p></a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/ui-features/clipboard.html"><p>Catatan Atas</p><p>Laporan Keuangan</p></a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/laba-rugi">Laporan Laba Rugi</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/laporan-neraca"><p>Laporan Neraca</p></a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/perubahan-ekuitas"><p>Laporan Perubahan</p><p>Ekuitas</p></a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/arus-kas"><p>Laporan Arus Kas</p></a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/calk"><p>Catatan Atas</p><p>Laporan Keuangan</p></a></li>
                 </ul>
               </div>
             </li>
@@ -102,9 +102,9 @@
               </a>
               <div class="collapse" id="ui-emkm">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="/emkm/laba-rugi">Laporan Laba Rugi</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="/emkm/posisi-keuangan"><p>Laporan Posisi</p><p>Keuangan</p></a></li>
-                  <li class="nav-item"> <a class="nav-link" href="/emkm/calk"><p>Catatan Atas</p><p>Laporan Keuangan</p></a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/laba-rugi">Laporan Laba Rugi</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/posisi-keuangan"><p>Laporan Posisi</p><p>Keuangan</p></a></li>
+                  <li class="nav-item"> <a class="nav-link" href="/calk"><p>Catatan Atas</p><p>Laporan Keuangan</p></a></li>
                 </ul>
               </div>
             </li>
@@ -129,7 +129,6 @@
                   <li class="nav-item"><a class="nav-link" href="/pph23/bukti-potong"><p>PPh 23 - </p> <p>Bukti Potong</p> </a></li>
                   <li class="nav-item"> <a class="nav-link" href="/pph23">PPh 23 - SPT</a></li>
                   <li class="nav-item"><a class="nav-link" href="/pph4ayat2"><p>PPh Pasal 4 - </p> <p>Ayat 2 - SPT</p> </a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/ui-features/badges.html">PPN</a></li>
                 </ul>
               </div>
             </li>

@@ -12,6 +12,7 @@ class EMKMposisikeuanganController extends Controller
 
         $dua = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','2%')
@@ -19,6 +20,7 @@ class EMKMposisikeuanganController extends Controller
 
         $enam = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','6%')
@@ -27,6 +29,7 @@ class EMKMposisikeuanganController extends Controller
 
         $asetlancar = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','1%')
@@ -36,6 +39,7 @@ class EMKMposisikeuanganController extends Controller
 
         $asettetapdebit = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','3%')
@@ -45,6 +49,7 @@ class EMKMposisikeuanganController extends Controller
 
         $asettetapkredit = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','3%')
@@ -54,6 +59,7 @@ class EMKMposisikeuanganController extends Controller
 
         $asettidakberwujud = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','4%')
@@ -62,6 +68,7 @@ class EMKMposisikeuanganController extends Controller
 
         $kewajiban = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','5%')
@@ -71,6 +78,7 @@ class EMKMposisikeuanganController extends Controller
 
         $ekuitas = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','like','7%')
@@ -82,30 +90,34 @@ class EMKMposisikeuanganController extends Controller
 
         $labarugi_pendapatan = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
-                        ->where('no_akun','like','81%')
+                        ->where('no_akun','like','8%')
                         ->where('no_akun','!=','81.03.00')
                         ->orderBy('no_akun','asc')
                         ->get();
 
         $potongan_penjualan = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','=','81.03.00')
                         ->get();
 
         $potongan_pembelian = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','=','91.13.00')
                         ->get();
 
         $labarugi_beban = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
-                        ->where('no_akun','like','91%')
+                        ->where('no_akun','like','9%')
                         ->where('no_akun','!=','91.13.00')
                         ->orderBy('no_akun','asc')
                         ->get();

@@ -26,6 +26,6 @@ class AsetleasingController extends Controller
 
         $a->save();
 
-        return redirect('/emkm/calk')->with('success','Tambah aset tetap leasing berhasil!');
+        return redirect('/calk')->with('success','Tambah aset tetap leasing berhasil!');
     }
 }

@@ -27,6 +27,6 @@ class PiutangController extends Controller
 
         $a->save();
 
-        return redirect('/emkm/calk')->with('success','Tambah piutang usaha berhasil!');
+        return redirect('/calk')->with('success','Tambah piutang usaha berhasil!');
     }
 }

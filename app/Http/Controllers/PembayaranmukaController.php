@@ -26,6 +26,6 @@ class PembayaranmukaController extends Controller
 
         $a->save();
 
-        return redirect('/emkm/calk')->with('success','Tambah pembayaran dimuka berhasil!');
+        return redirect('/calk')->with('success','Tambah pembayaran dimuka berhasil!');
     }
 }

@@ -26,6 +26,6 @@ class AsettidakberwujudController extends Controller
 
         $a->save();
 
-        return redirect('/emkm/calk')->with('success','Tambah aset tidak berwujud berhasil!');
+        return redirect('/calk')->with('success','Tambah aset tidak berwujud berhasil!');
     }
 }

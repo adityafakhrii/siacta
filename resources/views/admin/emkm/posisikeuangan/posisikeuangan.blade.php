@@ -16,10 +16,14 @@
                     <h4 class="card-title">
                       <strong>Unit Usaha Air PAMDes</strong>
                     </h4>
-                    @endif
                     <h4 class="card-title">
                       Laporan Posisi Keuangan
                     </h4>
+                    @else
+                    <h4 class="card-title">
+                      Laporan Neraca
+                    </h4>
+                    @endif
                     <h5 class="card-title h6">
                       Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
                     </h5>

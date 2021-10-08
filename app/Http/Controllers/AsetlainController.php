@@ -26,6 +26,6 @@ class AsetlainController extends Controller
 
         $a->save();
 
-        return redirect('/emkm/calk')->with('success','Tambah aset lainnya berhasil!');
+        return redirect('/calk')->with('success','Tambah aset lainnya berhasil!');
     }
 }

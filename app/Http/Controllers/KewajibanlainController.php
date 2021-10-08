@@ -26,6 +26,6 @@ class KewajibanlainController extends Controller
 
         $a->save();
 
-        return redirect('/emkm/calk')->with('success','Tambah kewajiban lain-lain berhasil!');
+        return redirect('/calk')->with('success','Tambah kewajiban lain-lain berhasil!');
     }
 }

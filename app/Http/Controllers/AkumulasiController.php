@@ -22,6 +22,6 @@ class AkumulasiController extends Controller
 
         $a->save();
 
-        return redirect('/emkm/calk')->with('success','Tambah akumulasi berhasil!');
+        return redirect('/calk')->with('success','Tambah akumulasi berhasil!');
     }
 }

@@ -26,6 +26,6 @@ class KasbankController extends Controller
 
         $a->save();
 
-        return redirect('/emkm/calk')->with('success','Tambah kas berhasil!');
+        return redirect('/calk')->with('success','Tambah kas berhasil!');
     }
 }

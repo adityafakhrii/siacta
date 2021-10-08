@@ -75,6 +75,7 @@
 	                  </div>
 	                  <div class="form-group row">
 	                    <button type="submit" class="btn btn-primary mr-2"><i class="mdi mdi-file-check btn-icon-prepend"></i> Submit</button>
+	                    <a href="/jurnal-penyesuaian" class="btn btn-light">Batal</a>
 	                  </div>
                 	</form>
                 </div>

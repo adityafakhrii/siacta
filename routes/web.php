@@ -60,6 +60,9 @@ Route::group(['middleware' => ['auth','checkRole:bumdes']], function() {
 	// Route::get('/data-unit/hapus/{id}','UserController@destroyUnit');
 
 	Route::post('/bumdes/store-transaksi','TransaksiController@store');
+	
+	Route::get('/laporan-neraca','EMKMposisikeuanganController@index');
+	Route::get('/perubahan-ekuitas','PerubahanekuitasController@index');
 
 	// Route::get('/data-akun/edit/{id}','AkunController@edit');
 	// Route::post('/update-akun/{id}','AkunController@update');
@@ -68,78 +71,9 @@ Route::group(['middleware' => ['auth','checkRole:bumdes']], function() {
 
 
 
-
 Route::group(['middleware' => ['auth','checkRole:unitusaha']], function() {
-
-	
 	Route::post('/jasa/store-transaksi','TransaksiJasaController@store');
-
-	//LAPORAN EMKM
-	//laba rugi
-	Route::get('/emkm/laba-rugi','EMKMlabarugiController@index');
-
-	//posisi keuangan
-	Route::get('/emkm/posisi-keuangan','EMKMposisikeuanganController@index');
-
-	//CALK
-	Route::get('/emkm/calk','CalkController@index');
-	Route::get('/emkm/calk/pdf','CalkController@calkPDF');
-
-	Route::get('/emkm/calk/tambah-aset','AsetController@create');
-	Route::post('/emkm/calk/tambah-aset/store','AsetController@store');
-
-	Route::get('/emkm/calk/tambah-akumulasi','AkumulasiController@create');
-	Route::post('/emkm/calk/tambah-akumulasi/store','AkumulasiController@store');
-
-	Route::get('/emkm/calk/tambah-piutang','PiutangController@create');
-	Route::post('/emkm/calk/tambah-piutang/store','PiutangController@store');
-
-	Route::get('/emkm/calk/tambah-kas-bank','KasbankController@create');
-	Route::post('/emkm/calk/tambah-kas-bank/store','KasbankController@store');
-
-	Route::get('/emkm/calk/tambah-investasi-pendek','InvestasipendekController@create');
-	Route::post('/emkm/calk/tambah-investasi-pendek/store','InvestasipendekController@store');
-
-	Route::get('/emkm/calk/tambah-piutang-non','PiutangnonController@create');
-	Route::post('/emkm/calk/tambah-piutang-non/store','PiutangnonController@store');
-
-	Route::get('/emkm/calk/tambah-perlengkapan','PerlengkapanController@create');
-	Route::post('/emkm/calk/tambah-perlengkapan/store','PerlengkapanController@store');
-
-	Route::get('/emkm/calk/tambah-pembayaranmuka','PembayaranmukaController@create');
-	Route::post('/emkm/calk/tambah-pembayaranmuka/store','PembayaranmukaController@store');
-
-	Route::get('/emkm/calk/tambah-aset-lain','AsetlainController@create');
-	Route::post('/emkm/calk/tambah-aset-lain/store','AsetlainController@store');
-
-	Route::get('/emkm/calk/tambah-investasi-panjang','InvestasipanjangController@create');
-	Route::post('/emkm/calk/tambah-investasi-panjang/store','InvestasipanjangController@store');
-
-	Route::get('/emkm/calk/tambah-aset-tetap','AsettetapController@create');
-	Route::post('/emkm/calk/tambah-aset-tetap/store','AsettetapController@store');
-
-	Route::get('/emkm/calk/tambah-aset-leasing','AsetleasingController@create');
-	Route::post('/emkm/calk/tambah-aset-leasing/store','AsetleasingController@store');
-
-	Route::get('/emkm/calk/tambah-properti','PropertiController@create');
-	Route::post('/emkm/calk/tambah-properti/store','PropertiController@store');
-
-	Route::get('/emkm/calk/tambah-aset-tidakberwujud','AsettidakberwujudController@create');
-	Route::post('/emkm/calk/tambah-aset-tidakberwujud/store','AsettidakberwujudController@store');
-
-	Route::get('/emkm/calk/tambah-kewajiban-pendek','KewajibanpendekController@create');
-	Route::post('/emkm/calk/tambah-kewajiban-pendek/store','KewajibanpendekController@store');
-
-	Route::get('/emkm/calk/tambah-kewajiban-panjang','KewajibanpanjangController@create');
-	Route::post('/emkm/calk/tambah-kewajiban-panjang/store','KewajibanpanjangController@store');
-
-	Route::get('/emkm/calk/tambah-kewajiban-lain','KewajibanlainController@create');
-	Route::post('/emkm/calk/tambah-kewajiban-lain/store','KewajibanlainController@store');
-
-	Route::get('/emkm/calk/tambah-ekuitas','EkuitasController@create');
-	Route::post('/emkm/calk/tambah-ekuitas/store','EkuitasController@store');
-
-	Route::post('/emkm/calk/store','CalkController@store');
+	Route::get('/posisi-keuangan','EMKMposisikeuanganController@index');
 });
 
 Route::group(['middleware' => ['auth','checkRole:bumdes,unitusaha']], function() {
@@ -176,6 +110,72 @@ Route::group(['middleware' => ['auth','checkRole:bumdes,unitusaha']], function()
 	Route::get('/jurnal-penutup','JurnalpenutupController@index');
 
 	Route::get('/neraca-penutup','NeracapenutupController@index');
+
+
+	//LAPORAN
+	//laba rugi
+	Route::get('/laba-rugi','EMKMlabarugiController@index');
+
+	//CALK
+	Route::get('/calk','CalkController@index');
+	Route::get('/calk/pdf','CalkController@calkPDF');
+
+	Route::get('/calk/tambah-aset','AsetController@create');
+	Route::post('/calk/tambah-aset/store','AsetController@store');
+
+	Route::get('/calk/tambah-akumulasi','AkumulasiController@create');
+	Route::post('/calk/tambah-akumulasi/store','AkumulasiController@store');
+
+	Route::get('/calk/tambah-piutang','PiutangController@create');
+	Route::post('/calk/tambah-piutang/store','PiutangController@store');
+
+	Route::get('/calk/tambah-kas-bank','KasbankController@create');
+	Route::post('/calk/tambah-kas-bank/store','KasbankController@store');
+
+	Route::get('/calk/tambah-investasi-pendek','InvestasipendekController@create');
+	Route::post('/calk/tambah-investasi-pendek/store','InvestasipendekController@store');
+
+	Route::get('/calk/tambah-piutang-non','PiutangnonController@create');
+	Route::post('/calk/tambah-piutang-non/store','PiutangnonController@store');
+
+	Route::get('/calk/tambah-perlengkapan','PerlengkapanController@create');
+	Route::post('/calk/tambah-perlengkapan/store','PerlengkapanController@store');
+
+	Route::get('/calk/tambah-pembayaranmuka','PembayaranmukaController@create');
+	Route::post('/calk/tambah-pembayaranmuka/store','PembayaranmukaController@store');
+
+	Route::get('/calk/tambah-aset-lain','AsetlainController@create');
+	Route::post('/calk/tambah-aset-lain/store','AsetlainController@store');
+
+	Route::get('/calk/tambah-investasi-panjang','InvestasipanjangController@create');
+	Route::post('/calk/tambah-investasi-panjang/store','InvestasipanjangController@store');
+
+	Route::get('/calk/tambah-aset-tetap','AsettetapController@create');
+	Route::post('/calk/tambah-aset-tetap/store','AsettetapController@store');
+
+	Route::get('/calk/tambah-aset-leasing','AsetleasingController@create');
+	Route::post('/calk/tambah-aset-leasing/store','AsetleasingController@store');
+
+	Route::get('/calk/tambah-properti','PropertiController@create');
+	Route::post('/calk/tambah-properti/store','PropertiController@store');
+
+	Route::get('/calk/tambah-aset-tidakberwujud','AsettidakberwujudController@create');
+	Route::post('/calk/tambah-aset-tidakberwujud/store','AsettidakberwujudController@store');
+
+	Route::get('/calk/tambah-kewajiban-pendek','KewajibanpendekController@create');
+	Route::post('/calk/tambah-kewajiban-pendek/store','KewajibanpendekController@store');
+
+	Route::get('/calk/tambah-kewajiban-panjang','KewajibanpanjangController@create');
+	Route::post('/calk/tambah-kewajiban-panjang/store','KewajibanpanjangController@store');
+
+	Route::get('/calk/tambah-kewajiban-lain','KewajibanlainController@create');
+	Route::post('/calk/tambah-kewajiban-lain/store','KewajibanlainController@store');
+
+	Route::get('/calk/tambah-ekuitas','EkuitasController@create');
+	Route::post('/calk/tambah-ekuitas/store','EkuitasController@store');
+
+	Route::post('/calk/store','CalkController@store');
+
 
 	//PAJAK
 

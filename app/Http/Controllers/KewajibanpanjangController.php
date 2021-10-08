@@ -26,6 +26,6 @@ class KewajibanpanjangController extends Controller
 
         $a->save();
 
-        return redirect('/emkm/calk')->with('success','Tambah kewajiban jangka panjang berhasil!');
+        return redirect('/calk')->with('success','Tambah kewajiban jangka panjang berhasil!');
     }
 }

@@ -79,7 +79,7 @@ class CalkController extends Controller
         ->where('id',auth()->user()->id)
         ->update(['status_neracaawal'=>'final']);
 
-        return redirect('/emkm/calk')->with('success','Catatan berhasil disimpan');
+        return redirect('/calk')->with('success','Catatan berhasil disimpan');
     }
 
     public function calkPDF()

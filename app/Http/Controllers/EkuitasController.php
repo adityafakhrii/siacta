@@ -26,6 +26,6 @@ class EkuitasController extends Controller
 
         $a->save();
 
-        return redirect('/emkm/calk')->with('success','Tambah ekuitas berhasil!');
+        return redirect('/calk')->with('success','Tambah ekuitas berhasil!');
     }
 }

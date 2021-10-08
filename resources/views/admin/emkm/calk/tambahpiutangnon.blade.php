@@ -10,7 +10,7 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Tambah Piutang Non Usaha</h4>
-                  <form class="forms-sample" action="/emkm/calk/tambah-piutang-non/store" method="post">
+                  <form class="forms-sample" action="/calk/tambah-piutang-non/store" method="post">
                     @csrf
                     <div class="form-group">
                       <label for="nama">Pilih Akun</label>
@@ -28,6 +28,7 @@
                       <textarea name="keterangan" class="form-control" id="exampleTextarea1" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a href="{{ url()->previous() }}" class="btn btn-light">Batal</a>
                   </form>
                 </div>
               </div>

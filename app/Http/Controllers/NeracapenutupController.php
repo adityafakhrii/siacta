@@ -14,34 +14,19 @@ class NeracapenutupController extends Controller
                         ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
-                        ->where('no_akun','not like','81%')
-                        ->where('no_akun','not like','91%')
+                        ->where('no_akun','not like','8%')
+                        ->where('no_akun','not like','9%')
                         ->orderBy('no_akun','asc')
                         ->get();
-
 
         $labarugi_pendapatan = DB::table('bukubesarpenyesuaians')
                         ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
                         ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
-                        ->where('no_akun','like','81%')
-                        ->where('no_akun','!=','81.03.00')
+                        ->where('no_akun','like','8%')
+                        ->where('no_akun','!=','81.06.00')
                         ->orderBy('no_akun','asc')
-                        ->get();
-
-        $potongan_penjualan = DB::table('bukubesarpenyesuaians')
-                        ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
-                        ->where('id_user','=',auth()->user()->id)
-                        ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
-                        ->where('no_akun','=','81.03.00')
-                        ->get();
-
-        $potongan_pembelian = DB::table('bukubesarpenyesuaians')
-                        ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
-                        ->where('id_user','=',auth()->user()->id)
-                        ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
-                        ->where('no_akun','=','91.13.00')
                         ->get();
 
         $labarugi_beban = DB::table('bukubesarpenyesuaians')
@@ -49,8 +34,7 @@ class NeracapenutupController extends Controller
                         ->where('id_user','=',auth()->user()->id)
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
-                        ->where('no_akun','like','91%')
-                        ->where('no_akun','!=','91.13.00')
+                        ->where('no_akun','like','9%')
                         ->orderBy('no_akun','asc')
                         ->get();
 
@@ -59,28 +43,12 @@ class NeracapenutupController extends Controller
             $total_pendapatan += $lr->saldo;
         }
 
-        $total_ppen = 0;
-        foreach($potongan_penjualan as $ppen) {
-            $total_ppen += $ppen->saldo;
-        }
-
-        $pendapatan_bersih = $total_pendapatan - $total_ppen;
-
-        $total_ppem = 0;
-        foreach ($potongan_pembelian as $ppem) {
-            $total_ppem += $ppem->saldo;
-        }
-
-        $laba_kotor = $pendapatan_bersih + $total_ppem;
-
-        //////////
-
         $total_beban = 0;
         foreach($labarugi_beban as $lb) {
             $total_beban += $lb->saldo;
         }
 
-        $total_semua = $laba_kotor - $total_beban;
+        $total_semua = $total_pendapatan - $total_beban;
 
         $pajak = 0;
         // $pajak = $total_pendapatan * (0.5/100);

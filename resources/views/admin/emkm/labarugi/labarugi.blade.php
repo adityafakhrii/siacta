@@ -49,7 +49,7 @@
                           <td><strong>Rp{{ number_format($total_pendapatan,2,",",".") }}</strong></td>
                         </tr>
 
-                        <?php $total_ppen = 0; ?>
+                        {{-- <?php $total_ppen = 0; ?>
                         @foreach($potongan_penjualan as $ppen)
                         <tr>
                           <td colspan="2">{{$ppen->nama_akun}}</td>
@@ -58,14 +58,14 @@
                             $total_ppen += $ppen->saldo;
                           ?>
                         </tr>
-                        @endforeach
+                        @endforeach --}}
 
-                        <tr>
+                        {{-- <tr>
                           <td colspan="2"><strong>Pendapatan Bersih</strong></td>
                           <td><strong>Rp{{ number_format($pendapatan_bersih = $total_pendapatan - $total_ppen,2,",",".") }}</strong></td>
-                        </tr>
+                        </tr> --}}
 
-                        <?php $total_ppem = 0; ?>
+                        {{-- <?php $total_ppem = 0; ?>
                         @foreach($potongan_pembelian as $ppem)
                         <tr>
                           <td colspan="2">{{$ppem->nama_akun}}</td>
@@ -74,12 +74,12 @@
                             $total_ppem += $ppem->saldo;
                           ?>
                         </tr>
-                        @endforeach
+                        @endforeach --}}
 
-                        <tr style="background-color: #EAEAF1;">
+                        {{-- <tr style="background-color: #EAEAF1;">
                           <td colspan="2"><strong>Laba Kotor</strong></td>
-                          <td><strong>Rp{{ number_format( $laba_kotor = $pendapatan_bersih + $total_ppem,2,",",".") }}</strong></td>
-                        </tr>
+                          <td><strong>Rp{{ number_format( $laba_kotor =  + $total_ppem,2,",",".") }}</strong></td>
+                        </tr> --}}
 
                         <tr>
                           <td colspan="3"><h5><strong>Beban</strong></h5></td>
@@ -102,23 +102,30 @@
 
                         <tr style="background-color: #e8e6ff;">
                           <td colspan="2"><h5><strong>Laba (Rugi) bersih sebelum pajak</strong></h5></td>
-                          <td><strong>Rp{{ number_format( $total_semua = $laba_kotor - $total_beban,2,",",".") }}</strong></td>
+                          <td><strong>Rp{{ number_format( $total_semua = $total_pendapatan - $total_beban,2,",",".") }}</strong></td>
                         </tr>
 
-                        <?php $total_pajak = 0; ?>
-                        @foreach($pajaks as $pajak)
+                        
                         <tr>
-                          <td colspan="2">{{$pajak->nama_akun}}</td>
-                          <td>Rp{{ number_format($pajak->saldo,2,",",".") }}</td>
+                          <td colspan="2">Pajak</td>
                           <?php 
-                            $total_pajak += $pajak->saldo;
+                            if ($total_semua > 0) {
+                              $pajak = $total_semua * (0.5/100);
+                            }else{
+                              $pajak = 0;
+                            }
+                            
                           ?>
+                          @if($pajak > 0 )
+                            <td>Rp{{ number_format($pajak,2,",",".") }}</td>
+                          @else
+                          <td>-</td>
+                          @endif
                         </tr>
-                        @endforeach
 
                         <tr>
                           <td colspan="2"><h5><strong>Laba (Rugi) bersih setelah pajak</strong></h5></td>
-                          <td><strong>Rp{{ number_format($total_semua - $total_pajak,2,",",".") }}</strong></td>
+                          <td><strong>Rp{{ number_format($total_semua - $pajak,2,",",".") }}</strong></td>
                         </tr>
                       </tbody>
                     </table>
