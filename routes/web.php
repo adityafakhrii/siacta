@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth','checkRole:bumdes']], function() {
 	
 	Route::get('/laporan-neraca','EMKMposisikeuanganController@index');
 	Route::get('/perubahan-ekuitas','PerubahanekuitasController@index');
+	Route::get('/arus-kas','AruskasController@index');
 
 	// Route::get('/data-akun/edit/{id}','AkunController@edit');
 	// Route::post('/update-akun/{id}','AkunController@update');
