@@ -85,12 +85,14 @@ Route::group(['middleware' => ['auth','checkRole:bumdes,unitusaha']], function()
 	// Route::get('/data-akun/edit/{id}','AkunController@edit');
 	// Route::post('/update-akun/{id}','AkunController@update');
 
-	// Jasa
+
 	Route::get('/neraca-saldo-awal','NeracasaldoawalController@index');
 	Route::get('/neraca-saldo-awal/edit/{id}','NeracasaldoawalController@edit');
 	Route::get('/neraca-saldo-awal/hapus/{id}','NeracasaldoawalController@destroy');
 	Route::post('/neraca-saldo-awal/konfirmasi','NeracasaldoawalController@confirm');
 	Route::post('/update-neracaawal/{id}','NeracasaldoawalController@update');
+	Route::get('/neraca-saldo-awal/pdf','NeracasaldoawalController@pdf');
+
 
 	Route::get('/transaksi','TransaksiController@create');
 

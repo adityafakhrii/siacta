@@ -17,6 +17,7 @@ class AruskasController extends Controller
                             $query->where('no_akun','like','13%');
                             $query->orWhere('no_akun','like','81%');
                         })
+                        ->where('keterangan','!=','Saldo Awal')
                         ->orderBy('no_akun','asc')
                         ->get(); 
 
@@ -55,6 +56,7 @@ class AruskasController extends Controller
                             $query->orWhere('no_akun','=','50.20.00');
                             $query->orWhere('no_akun','=','50.21.00');
                         })
+                        ->where('keterangan','!=','Saldo Awal')
                         ->orderBy('no_akun','asc')
                         ->get();
 
@@ -69,6 +71,7 @@ class AruskasController extends Controller
                             $query->Where('no_akun','like','3%');
                             $query->orWhere('no_akun','like','42%');
                         })
+                        ->where('keterangan','!=','Saldo Awal')
                         ->orderBy('no_akun','asc')
                         ->get();
 
@@ -82,6 +85,8 @@ class AruskasController extends Controller
                             $query->orWhere('no_akun','like','12%');
                             $query->orWhere('no_akun','like','21%');
                         })
+                        ->where('keterangan','!=','Saldo Awal')
+
                         ->orderBy('no_akun','asc')
                         ->get(); 
 
@@ -94,6 +99,8 @@ class AruskasController extends Controller
                             $query->where('no_akun','like','3%');
                             $query->orWhere('no_akun','like','42%');
                         })
+                        ->where('keterangan','!=','Saldo Awal')
+
                         ->orderBy('no_akun','asc')
                         ->get();
 
@@ -103,11 +110,58 @@ class AruskasController extends Controller
                         ->where('saldo','!=',0)
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','=','16.03.00')
+                        ->where('keterangan','!=','Saldo Awal')
+
                         ->orderBy('no_akun','asc')
                         ->get();
 
+
+        $pendanaantambah = DB::table('bukubesarpenyesuaians')
+                        ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
+                        ->where('saldo','!=',0)
+                        ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
+                        ->where(function($query){
+                            $query->where('no_akun','like','82%');
+                            $query->orWhere('no_akun','=','70.01.00');
+                            $query->orWhere('no_akun','=','70.02.00');
+                            $query->orWhere('no_akun','=','70.03.00');
+                            $query->orWhere('no_akun','=','70.13.00');
+                            $query->orWhere('no_akun','=','70.14.00');
+                            $query->orWhere('no_akun','=','70.15.00');
+                        })
+                        ->where('keterangan','!=','Saldo Awal')
+
+                        ->orderBy('no_akun','asc')
+                        ->get();
+
+        $pendanaankurang = DB::table('bukubesarpenyesuaians')
+                        ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
+                        ->where('saldo','!=',0)
+                        ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
+                        ->where(function($query){
+                            $query->where('no_akun','like','99%');
+                            $query->orWhere('no_akun','like','61%');
+                            $query->orWhere('no_akun','like','62.02%');
+                            $query->orWhere('no_akun','=','70.04.00');
+                            $query->orWhere('no_akun','=','70.05.00');
+                            $query->orWhere('no_akun','=','70.10.00');
+                            $query->orWhere('no_akun','=','70.11.00');
+                            $query->orWhere('no_akun','=','70.16.00');
+                        })
+                        ->where('keterangan','!=','Saldo Awal')
+
+                        ->orderBy('no_akun','asc')
+                        ->get();
+
+        $saldoawal = DB::table('neracasaldoawals')
+                        ->join('akuns','neracasaldoawals.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
+                        ->where('no_akun','=','11.01.00')
+                        ->first();
                       
 
-        return view('admin.etap.aruskas.aruskas',compact('operasional','beban','investtambah','investkurang','investtambah2','investkurang2'));
+        return view('admin.etap.aruskas.aruskas',compact('operasional','beban','investtambah','investkurang','investtambah2','investkurang2','pendanaantambah','pendanaankurang','saldoawal'));
     }
 }

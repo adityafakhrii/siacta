@@ -32,7 +32,7 @@ class AkunController extends Controller
             $saldo->kredit = NULL;
         }
         else if ($akuns->saldo_normal == 'kredit') {
-            $saldo->debit = Null;
+            $saldo->debit = NUll;
             $saldo->kredit = 0;
         }
         $saldo->status = 'belum_final';

@@ -42,68 +42,88 @@
                     </h5>
                   </div>
                   
-                  @if(auth()->user()->status_neracaawal == 'belum_final')
-                               
-                  <form action="/neraca-saldo-awal/konfirmasi" method="post">
-                    @csrf
-                  <button onclick="return confirm('Konfirmasi saldo awal? data ini tidak bisa diubah!')" type="submit" href="/neraca-saldo-awal/konfirmasi" class="float-right btn btn-sm btn-primary btn-icon-text">
-                    <i class="mdi mdi-content-save btn-icon-prepend"></i>
-                          Konfirmasi
-                  </button>
-                  </form>
-                  
-                  @endif
+                  <div class="row float-right">
+                    @if(auth()->user()->status_neracaawal == 'belum_final')
+                    <form action="/neraca-saldo-awal/konfirmasi" method="post">
+                      @csrf
+                      <button type="submit" class="btn btn-primary btn-icon-text" onclick="return confirm('Konfirmasi saldo awal? data ini tidak bisa diubah!')">
+                        Konfirmasi
+                        <i class="mdi mdi-content-save btn-icon-prepend"></i>
+                      </button>
+                    </form>
+                    @else
+                    <div class="col">
+                      <a href="/neraca-saldo-awal/pdf" class="btn btn-info btn-icon-text">
+                        Cetak PDF
+                        <i class="mdi mdi-printer btn-icon-append"></i>
+                      </a>
+                    </div>
+                    @endif
+                  </div>
+
 
                   <div class="table-responsive">
                     <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th>#</th>
+                          <th>No.</th>
                           <th>Nomor Akun</th>
                           <th>Nama Akun</th>
                           <th>Debit</th>
                           <th>Kredit</th>
+                          @if(auth()->user()->status_neracaawal == 'belum_final')
                           <th>Aksi</th>
+                          @endif
                         </tr>
                       </thead>
-                      <tbody>
-                        <?php $no = 1; ?>
-                        @foreach($neracasaldoawal as $awal)
-                        <tr>
-                          <td>{{$no++}}</td>
-                          <td>{{$awal->akun->no_akun}}</td>
-                          <td>{{$awal->akun->nama_akun}}</td>
-                          @if($awal->debit != NULL)
-                          <td>
-                          Rp{{ number_format($awal->debit,2,",",".") }}
-                          </td>
-                          @else
-                          <td>-</td>
-                          @endif
-                          @if($awal->kredit != NULL)
-                          <td>
-                          Rp{{ number_format($awal->kredit,2,",",".") }}
-                          </td>
-                          @else
-                          <td>-</td>
-                          @endif
-                          <td>
-                            @if(auth()->user()->status_neracaawal == 'belum_final')
-                              @if(($awal->debit == NULL || $awal->debit == 0) && ($awal->kredit == NULL || $awal->kredit == 0))
-                                <a class="btn btn-sm btn-inverse-warning" href="/neraca-saldo-awal/edit/{{$awal->id}}"><i class="mdi mdi-pencil-box-outline btn-icon-prepend"></i>
-                                  Tambah Saldo
-                                </a>
-                              @else
-
-                              @endif
+                        <tbody>
+                          <?php
+                           $no = 1; 
+                           $total_debit = 0;
+                           $total_kredit = 0;
+                          ?>
+                          @foreach($neracasaldoawal as $awal)
+                          <tr>
+                            <td>{{$no++}}</td>
+                            <td>{{$awal->akun->no_akun}}</td>
+                            <td>{{$awal->akun->nama_akun}}</td>
+                            @if($awal->debit != NULL)
+                            <td>
+                            Rp{{ number_format($awal->debit,2,",",".") }}
+                            </td>
+                            @else
+                            <td>-</td>
                             @endif
+                            @if($awal->kredit != NULL)
+                            <td>
+                            Rp{{ number_format($awal->kredit,2,",",".") }}
+                            </td>
+                            @else
+                            <td>-</td>
+                            @endif
+                            @if(auth()->user()->status_neracaawal == 'belum_final')
+                            <td>
+                                @if(($awal->debit == NULL || $awal->debit == 0) && ($awal->kredit == NULL || $awal->kredit == 0))
+                                  <a class="btn btn-sm btn-inverse-warning" href="/neraca-saldo-awal/edit/{{$awal->id}}"><i class="mdi mdi-pencil-box-outline btn-icon-prepend"></i>
+                                    Tambah Saldo
+                                  </a>
+                                @else
 
-                            {{-- <a class="btn btn-sm btn-inverse-danger" href="/neraca-saldo-awal/hapus/{{$awal->id}}" onclick="return confirm('Apakah anda yakin?')"><i class="mdi mdi-delete-forever btn-icon-prepend"></i>
-                            Hapus</a> --}}
-                          </td>
-                        </tr>
-                        @endforeach
-                      </tbody>
+                                @endif
+                            </td>
+                            @endif
+                          </tr>
+                          <?php
+                            $total_debit += $awal->debit;
+                            $total_kredit += $awal->kredit;
+                          ?>
+                          @endforeach
+                        </tbody>
+                        <tfoot>
+                          <td align="center" colspan="3"> <h5><strong>Total</strong></h5> </td>
+                          <td> <strong>Rp{{ number_format($total_debit,2,",",".") }}</strong></td>
+                          <td><strong>Rp{{ number_format($total_kredit,2,",",".") }}</strong></td>
+                        </tfoot>
                     </table>
                   </div>
                 </div>

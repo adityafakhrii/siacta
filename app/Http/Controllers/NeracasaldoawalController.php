@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Bukubesar;
 use App\Models\Bukubesarpenyesuaian;
 use Auth;
+use PDF;
 use App\Models\Neracasaldoawal;
 use Illuminate\Http\Request;
 
@@ -14,10 +15,19 @@ class NeracasaldoawalController extends Controller
 
     public function index(){
 
-        $neracasaldoawal = Neracasaldoawal::whereHas('akun',function ($query){
-            $query->where('id_user','=',Auth::user()->id);
-        })
-        ->get();
+        if (Auth::user()->status_neracaawal == 'final') {
+            $neracasaldoawal = Neracasaldoawal::whereHas('akun',function ($query){
+                $query->where('id_user','=',Auth::user()->id);
+            })
+            ->where('debit','!=','NULL')
+            ->orWhere('kredit','!=','NULL')
+            ->get();
+        }else{
+            $neracasaldoawal = Neracasaldoawal::whereHas('akun',function ($query){
+                $query->where('id_user','=',Auth::user()->id);
+            })
+            ->get();
+        }
 
     	return view('admin.neracasaldoawal.index',compact('neracasaldoawal'));
     }
@@ -94,4 +104,19 @@ class NeracasaldoawalController extends Controller
         $saldoawal->delete();
         return redirect('/neraca-saldo-awal')->with('delete','Akun berhasil dihapus');
     }
+
+    public function pdf()
+    {
+        $neracasaldoawal = Neracasaldoawal::whereHas('akun',function ($query){
+            $query->where('id_user','=',Auth::user()->id);
+        })
+        ->where('debit','!=','NULL')
+        ->orWhere('kredit','!=','NULL')
+        ->get();
+
+        // $pdf = ;
+
+        return PDF::loadView('admin.neracasaldoawal.exportneracaawal',compact('neracasaldoawal'))->stream('Neraca Saldo Awal - SIACTA.pdf');
+    }
+
 }

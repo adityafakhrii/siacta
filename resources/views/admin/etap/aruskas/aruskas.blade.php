@@ -42,8 +42,6 @@
                         <?php $total_po = 0; ?>
                         @foreach($operasional as $po)
                         <tr>
-                          <td>{{$po->no_akun}}</td>
-
                           <td>{{$po->nama_akun}}</td>
                           <td>Rp{{ number_format($po->saldo,2,",",".") }}</td>
                           <td></td>
@@ -65,7 +63,6 @@
                         <?php $total_bo = 0; ?>
                         @foreach($beban as $bo)
                         <tr>
-                          <td>{{$bo->no_akun}}</td>
                           <td>{{$bo->nama_akun}}</td>
                           <td>Rp{{ number_format($bo->saldo,2,",",".") }}</td>
                           <td></td>
@@ -83,7 +80,7 @@
                         <tr>
                           <td><h5><strong>Arus Kas dari Aktivitas Operasional</strong></h5></td>
                           <td></td>
-                          <td><strong>Rp{{ number_format($total_po-$total_bo,2,",",".") }}</strong></td>
+                          <td><strong>Rp{{ number_format($total_operasional = $total_po-$total_bo,2,",",".") }}</strong></td>
                         </tr>
 
                         <tr>
@@ -98,7 +95,6 @@
                         <?php $total_intambah = 0; ?>
                         @foreach($investtambah as $in)
                         <tr>
-                          <td>{{$in->no_akun}}</td>
                           <td>{{$in->nama_akun}}</td>
                           <td>Rp{{ number_format($in->kredit,2,",",".") }}</td>
                           <td></td>
@@ -110,7 +106,6 @@
                         <?php $total_intambah2 = 0; ?>
                         @foreach($investtambah2 as $in)
                         <tr>
-                          <td>{{$in->no_akun}}</td>
                           <td>{{$in->nama_akun}}</td>
                           <td>Rp{{ number_format($in->saldo,2,",",".") }}</td>
                           <td></td>
@@ -137,7 +132,6 @@
                         <?php $total_inkurang = 0; ?>
                         @foreach($investkurang as $in)
                         <tr>
-                          <td>{{$in->no_akun}}</td>
                           <td>{{$in->nama_akun}}</td>
                           <td>Rp{{ number_format($in->debit,2,",",".") }}</td>
                           <td></td>
@@ -150,7 +144,6 @@
                         <?php $total_inkurang2 = 0; ?>
                         @foreach($investkurang2 as $in)
                         <tr>
-                          <td>{{$in->no_akun}}</td>
                           <td>{{$in->nama_akun}}</td>
                           <td>Rp{{ number_format($in->saldo,2,",",".") }}</td>
                           <td></td>
@@ -170,12 +163,82 @@
                         <tr>
                           <td><h5><strong>Arus Kas dari Aktivitas Investasi</strong></h5></td>
                           <td></td>
-                          <td><strong>Rp{{ number_format($total_tambah-$total_kurang,2,",",".") }}</strong></td>
+                          <td><strong>Rp{{ number_format($total_investasi = $total_tambah-$total_kurang,2,",",".") }}</strong></td>
                         </tr>
 
                         <tr>
                           <td colspan="2"><h5><strong>Aktivitas Pendanaan</strong></h5></td>
                           <td></td>
+                        </tr>
+
+                        <tr>
+                          <td colspan="2"><strong>Pendapatan Pendanaan</strong></td>
+                          <td></td>
+                        </tr>
+
+                        <?php $total_pendtambah = 0; ?>
+                        @foreach($pendanaantambah as $pt)
+                        <tr>
+                          <td>{{$pt->nama_akun}}</td>
+                          <td>Rp{{ number_format($pt->saldo,2,",",".") }}</td>
+                          <td></td>
+                          <?php 
+                            $total_pendtambah += $pt->saldo;
+                          ?>
+                        </tr>
+                        @endforeach
+                        <tr>
+                          <td><strong>Total Pendapatan Pendanaan</strong></td>
+                          <td></td>
+                          <td><strong>Rp{{ number_format($total_pendtambah,2,",",".") }}</strong></td>
+                        </tr>
+
+                        <tr>
+                          <td colspan="2"><strong>Beban Pendanaan</strong></td>
+                          <td></td>
+                        </tr>
+
+                        <?php $total_pendkurang = 0; ?>
+                        @foreach($pendanaankurang as $pk)
+                        <tr>
+                          <td>{{$pk->nama_akun}}</td>
+                          <td>Rp{{ number_format($pk->saldo,2,",",".") }}</td>
+                          <td></td>
+                          <?php 
+                            $total_pendkurang += $pk->saldo;
+                          ?>
+                        </tr>
+                        @endforeach
+                        <tr>
+                          <td><strong>Total Pendapatan Pendanaan</strong></td>
+                          <td></td>
+                          <td><strong>Rp{{ number_format($total_pendkurang,2,",",".") }}</strong></td>
+                        </tr>
+
+                        <tr>
+                          <td><h5><strong>Arus Kas dari Aktivitas Pendanaan</strong></h5></td>
+                          <td></td>
+                          <td><strong>Rp{{ number_format($total_pendanaan = $total_pendtambah-$total_pendkurang,2,",",".") }}</strong></td>
+                        </tr>
+                        
+                        <tr>
+                          <td colspan="3"><hr></td>
+                        </tr>
+
+                        <tr>
+                          <td class="saldoawal"><h5><strong>Kenaikan (penurunan) Bersih Kas</strong></h5></td>
+                          <td></td>
+                          <td><strong>Rp{{ number_format($total_semua = $total_operasional+$total_investasi+$total_pendanaan,2,",",".") }}</strong></td>
+                        </tr>
+                        <tr>
+                          <td class="saldoawal"><h5><strong>Saldo Awal Kas</strong></h5></td>
+                          <td></td>
+                          <td><strong>Rp{{ number_format($total_saldoawal = $saldoawal->debit,2,",",".") }}</strong></td>
+                        </tr>
+                        <tr>
+                          <td class="saldoawal"><h5><strong>Saldo Akhir Kas</strong></h5></td>
+                          <td></td>
+                          <td><strong>Rp{{ number_format($total_semua + $total_saldoawal,2,",",".") }}</strong></td>
                         </tr>
 
                       </tbody>

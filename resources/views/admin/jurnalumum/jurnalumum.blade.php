@@ -53,7 +53,7 @@
 
                       </div>  
                       <div class="col-lg-4 grid-margin grid-margin-lg-0">
-                          <form action="/jasa/jurnal-umum" method="GET">
+                          <form action="/jurnal-umum" method="GET">
                             <div id="datepicker-popup" class="input-group date datepicker">
                               <input placeholder="Pilih tanggal transaksi" type="text" class="form-control" name="tgl" required autocomplete="off">
                               <span class="input-group-addon input-group-append border-left">
