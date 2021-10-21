@@ -116,7 +116,7 @@ class TransbaruController extends Controller
                 Bukubesarpenyesuaian::insert($bb);
             }
 
-            return redirect('/jasa/jurnal-penyesuaian')->with('success','Transaksi berhasil ditambahkan');
+            return redirect('/jurnal-penyesuaian')->with('success','Transaksi berhasil ditambahkan');
         }
     }
 }

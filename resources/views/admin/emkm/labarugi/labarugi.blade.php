@@ -49,38 +49,6 @@
                           <td><strong>Rp{{ number_format($total_pendapatan,2,",",".") }}</strong></td>
                         </tr>
 
-                        {{-- <?php $total_ppen = 0; ?>
-                        @foreach($potongan_penjualan as $ppen)
-                        <tr>
-                          <td colspan="2">{{$ppen->nama_akun}}</td>
-                          <td>Rp{{ number_format($ppen->saldo,2,",",".") }}</td>
-                          <?php 
-                            $total_ppen += $ppen->saldo;
-                          ?>
-                        </tr>
-                        @endforeach --}}
-
-                        {{-- <tr>
-                          <td colspan="2"><strong>Pendapatan Bersih</strong></td>
-                          <td><strong>Rp{{ number_format($pendapatan_bersih = $total_pendapatan - $total_ppen,2,",",".") }}</strong></td>
-                        </tr> --}}
-
-                        {{-- <?php $total_ppem = 0; ?>
-                        @foreach($potongan_pembelian as $ppem)
-                        <tr>
-                          <td colspan="2">{{$ppem->nama_akun}}</td>
-                          <td>Rp{{ number_format($ppem->saldo,2,",",".") }}</td>
-                          <?php 
-                            $total_ppem += $ppem->saldo;
-                          ?>
-                        </tr>
-                        @endforeach --}}
-
-                        {{-- <tr style="background-color: #EAEAF1;">
-                          <td colspan="2"><strong>Laba Kotor</strong></td>
-                          <td><strong>Rp{{ number_format( $laba_kotor =  + $total_ppem,2,",",".") }}</strong></td>
-                        </tr> --}}
-
                         <tr>
                           <td colspan="3"><h5><strong>Beban</strong></h5></td>
                         </tr>
@@ -117,7 +85,7 @@
                             
                           ?>
                           @if($pajak > 0 )
-                            <td>Rp{{ number_format($pajak,2,",",".") }}</td>
+                            <td>Rp{{ number_format(floor($pajak),2,",",".") }}</td>
                           @else
                           <td>-</td>
                           @endif
@@ -125,7 +93,7 @@
 
                         <tr>
                           <td colspan="2"><h5><strong>Laba (Rugi) bersih setelah pajak</strong></h5></td>
-                          <td><strong>Rp{{ number_format($total_semua - $pajak,2,",",".") }}</strong></td>
+                          <td><strong>Rp{{ number_format( floor($total_semua - $pajak),2,",",".") }}</strong></td>
                         </tr>
                       </tbody>
                     </table>

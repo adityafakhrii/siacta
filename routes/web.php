@@ -102,6 +102,7 @@ Route::group(['middleware' => ['auth','checkRole:bumdes,unitusaha']], function()
 	Route::get('/buku-besar/akun','BukubesarController@akun');
 
 	Route::get('/neraca-saldo','NeracasaldoController@index');
+	Route::get('/neraca-saldo/pdf','NeracasaldoController@pdf');
 
 	Route::get('/jurnal-penyesuaian','JurnalpenyesuaianController@index');
 
@@ -109,10 +110,12 @@ Route::group(['middleware' => ['auth','checkRole:bumdes,unitusaha']], function()
 	Route::post('/jurnal-penyesuaian/store-transaksi','TransbaruController@store');
 
 	Route::get('/neraca-saldo/setelah-disesuaikan','NeracasaldosetelahpenController@index');
+	Route::get('/neraca-saldo/setelah-disesuaikan/pdf','NeracasaldosetelahpenController@pdf');
 
 	Route::get('/jurnal-penutup','JurnalpenutupController@index');
 
 	Route::get('/neraca-penutup','NeracapenutupController@index');
+	Route::get('/neraca-penutup/pdf','NeracapenutupController@pdf');
 
 
 	//LAPORAN

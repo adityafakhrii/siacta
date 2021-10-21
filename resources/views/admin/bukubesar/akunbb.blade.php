@@ -117,7 +117,7 @@
                   </div>
                   <br><br><br><br>
                   @else
-                    <h4 class="text-center">Tidak ada transaksi hari ini</h4>
+                    <h4 class="text-center">Belum ada transaksi</h4>
                   @endif
                 </div>
               </div>

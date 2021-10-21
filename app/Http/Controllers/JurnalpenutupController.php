@@ -17,10 +17,10 @@ class JurnalpenutupController extends Controller
                     ->where('id_user','=',auth()->user()->id)
                     ->where('saldo', '!=', 0)
                     ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
-                    ->where('no_akun', 'like', '9%')
                     ->where('saldo_normal','!=','kredit')
-                    ->orWhere(function($query){
-                        $query->where('no_akun','=','81.06.00');
+                    ->Where(function($query){
+                        $query->where('no_akun', 'like', '9%');
+                        $query->orWhere('no_akun','=','81.06.00');
                         $query->orWhere('no_akun','=','81.07.00');
                         $query->orWhere('no_akun','=','81.05.00');
                     })
@@ -31,11 +31,11 @@ class JurnalpenutupController extends Controller
                     ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
                     ->where('saldo', '!=', 0)
                     ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
-                    ->where('no_akun', 'like', '8%')
                     ->where('saldo_normal','!=','debit')
                     ->where('id_user','=',auth()->user()->id)
-                    ->orWhere(function($query){
-                        $query->where('no_akun','=','91.01.04');
+                    ->Where(function($query){
+                        $query->where('no_akun', 'like', '8%');
+                        $query->orWhere('no_akun','=','91.01.04');
                         $query->orWhere('no_akun','=','91.01.02');
                         $query->orWhere('no_akun','=','91.01.03');
                     })

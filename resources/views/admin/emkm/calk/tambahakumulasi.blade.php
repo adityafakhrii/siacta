@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group">
                       <label for="jumlah">Jumlah Unit</label>
-                      <input name="jumlah_unit" type="number" class="form-control" id="jumlah" placeholder="Password">
+                      <input name="jumlah_unit" type="number" class="form-control" id="jumlah" placeholder="Jumlah Unit...">
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <a href="{{ url()->previous() }}" class="btn btn-light">Batal</a>

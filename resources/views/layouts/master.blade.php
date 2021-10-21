@@ -258,7 +258,7 @@
 
 
         //Penghasilan Kena Pajak
-        var resultkenapajak = Math.round(resultakhir-g);
+        var resultkenapajak = Math.floor((resultakhir-g)/1000)*1000;
 
         if (resultkenapajak == Number.POSITIVE_INFINITY || resultkenapajak == Number.NEGATIVE_INFINITY) {
           outputkenapajak.value = 0;
@@ -478,7 +478,11 @@
           outputneto.value =  resultneto;
         }
 
-        var resultpengsebulan = Math.round((resultneto-ptkp1)/1000)*1000;
+        var resultpengsebulan = Math.floor((resultneto-ptkp1)/1000)*1000;
+        if (resultpengsebulan < 0) {
+          resultpengsebulan = 0;
+        }
+
         if (resultpengsebulan == Number.POSITIVE_INFINITY || resultpengsebulan == Number.NEGATIVE_INFINITY) {
           outputpengsebulan.value = 0;
         }else{

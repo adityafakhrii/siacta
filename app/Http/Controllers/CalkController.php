@@ -77,7 +77,7 @@ class CalkController extends Controller
 
         $user = User::where('status_neracaawal','belum_final')
         ->where('id',auth()->user()->id)
-        ->update(['status_neracaawal'=>'final']);
+        ->update(['status_calk'=>'final']);
 
         return redirect('/calk')->with('success','Catatan berhasil disimpan');
     }

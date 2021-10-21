@@ -29,11 +29,13 @@ class TransaksiController extends Controller
     	$akuns = Akun::where('id_user','=',auth()->user()->id)->orderBy('no_akun','asc')->get();
 
         $akundebit = DB::table('akuns')
-                    ->where('no_akun', 'like', '91%')
+                    ->where('no_akun', 'like', '9%')
+                    ->where('id_user','=', auth()->user()->id)
                     ->get(); 
 
         $akunkredit = DB::table('akuns')
                     ->where('no_akun', 'like', '31%')
+                    ->where('id_user','=', auth()->user()->id)
                     ->get();
 
     	return view('admin.transaksi.tambah-transaksi',compact('akuns','akundebit','akunkredit'));

@@ -57,7 +57,9 @@
       					    color: #3b3b3b;
                     margin-bottom: 30px;
       					    ">
+                    @if(Auth::user()->role == "unitusaha")
                     <b>Unit Usaha Air PAMDes</b>
+                    @endif
       						</p>
                   <p style="
                     font-size: 1.25rem;
@@ -134,15 +136,15 @@
                                 $no = 1;
                                 $total = 0;
                               ?>
-                              @foreach($akumulasis as $akumulasis)
+                              @foreach($akumulasis as $akumulasi)
                               <tr>
                                 <td>{{$no++}}</td>
-                                <td>{{$akumulasis->nama_aset}}</td>
-                                <td>Rp{{ number_format($akumulasis->nilai_aset,2,",",".") }}</td>
-                                <td>{{$akumulasis->jumlah_unit}}</td>
-                                <td>Rp{{ number_format($akumulasis->total_harga,2,",",".") }}</td>
+                                <td>{{$akumulasi->nama_aset}}</td>
+                                <td>Rp{{ number_format($akumulasi->nilai_aset,2,",",".") }}</td>
+                                <td>{{$akumulasi->jumlah_unit}}</td>
+                                <td>Rp{{ number_format($akumulasi->total_harga,2,",",".") }}</td>
 
-                                <?php $total += $akumulasis->total_harga; ?>
+                                <?php $total += $akumulasi->total_harga; ?>
                               </tr>
                               @endforeach
                             </tbody>

@@ -86,15 +86,15 @@
                               $no = 1;
                               $total = 0;
                             ?>
-                            @foreach($akumulasis as $akumulasis)
+                            @foreach($akumulasis as $akumulasi)
                             <tr>
                               <td>{{$no++}}</td>
-                              <td>{{$akumulasis->nama_aset}}</td>
-                              <td>Rp{{ number_format($akumulasis->nilai_aset,2,",",".") }}</td>
-                              <td>{{$akumulasis->jumlah_unit}}</td>
-                              <td>Rp{{ number_format($akumulasis->total_harga,2,",",".") }}</td>
+                              <td>{{$akumulasi->nama_aset}}</td>
+                              <td>Rp{{ number_format($akumulasi->nilai_aset,2,",",".") }}</td>
+                              <td>{{$akumulasi->jumlah_unit}}</td>
+                              <td>Rp{{ number_format($akumulasi->total_harga,2,",",".") }}</td>
 
-                              <?php $total += $akumulasis->total_harga; ?>
+                              <?php $total += $akumulasi->total_harga; ?>
                             </tr>
                             @endforeach
                           </tbody>
@@ -649,9 +649,11 @@
                       <h4 class="card-title">
                         <strong>BUMDes Sauyunan</strong>
                       </h4>
+                      @if(Auth::user()->role == "unitusaha")
                       <h4 class="card-title">
-                        <strong>Unit Usaha {{Auth::user()->unitusaha->jenis}}</strong>
+                        <strong>Unit Usaha Air PAMDes</strong>
                       </h4>
+                      @endif
                       <h4 class="card-title">
                         Catatan Atas Laporan Keuangan
                       </h4>
@@ -714,15 +716,15 @@
                                 $no = 1;
                                 $total = 0;
                               ?>
-                              @foreach($akumulasis as $akumulasis)
+                              @foreach($akumulasis as $akumulasi)
                               <tr>
                                 <td>{{$no++}}</td>
-                                <td>{{$akumulasis->nama_aset}}</td>
-                                <td>Rp{{ number_format($akumulasis->nilai_aset,2,",",".") }}</td>
-                                <td>{{$akumulasis->jumlah_unit}}</td>
-                                <td>Rp{{ number_format($akumulasis->total_harga,2,",",".") }}</td>
+                                <td>{{$akumulasi->nama_aset}}</td>
+                                <td>Rp{{ number_format($akumulasi->nilai_aset,2,",",".") }}</td>
+                                <td>{{$akumulasi->jumlah_unit}}</td>
+                                <td>Rp{{ number_format($akumulasi->total_harga,2,",",".") }}</td>
 
-                                <?php $total += $akumulasis->total_harga; ?>
+                                <?php $total += $akumulasi->total_harga; ?>
                               </tr>
                               @endforeach
                             </tbody>
