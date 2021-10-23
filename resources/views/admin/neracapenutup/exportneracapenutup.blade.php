@@ -129,7 +129,7 @@
                           @if($total_labarugi < 0)
                             <td><strong>Rp{{ number_format($total_kredit+$total_labarugi,2,",",".") }}</strong></td>
                           @elseif($total_labarugi > 0)
-                            <td><strong>Rp{{ number_format($total_kredit-$total_labarugi,2,",",".") }}</strong></td>
+                            <td><strong>Rp{{ number_format($total_kredit+$total_labarugi,2,",",".") }}</strong></td>
                           @endif
                         </tr>
                       </tbody>

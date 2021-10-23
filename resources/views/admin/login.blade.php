@@ -27,10 +27,12 @@
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
                 {{-- <img src="../../../../images/logo-dark.svg" alt="logo"> --}}
-                <h2>SIACTA</h2>
+                <center><h2>SIACTA | Login</h2></center>
               </div>
-              <h4>Hello! let's get started</h4>
-              <h6 class="font-weight-light">Sign in to continue.</h6>
+              <center>
+                <h4>Hello! let's get started</h4>
+                <h6 class="font-weight-light">Sign in to continue.</h6>
+              </center>
               <form class="pt-3" action="/do_login" method="post">
                 @csrf
                 <div class="form-group">
@@ -44,10 +46,6 @@
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
-                    <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input">
-                      Keep me signed in
-                    </label>
                   </div>
                   <a href="#" class="auth-link text-black">Forgot password?</a>
                 </div>

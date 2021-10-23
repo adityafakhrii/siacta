@@ -12,6 +12,10 @@ use Session;
 
 class UserController extends Controller
 {
+    public function landing(){
+        return view('landing.index');
+    }
+
     public function login(){
     	return view('admin.login');
     }

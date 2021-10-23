@@ -7,14 +7,7 @@ Route::get('/coba',function(){
 	return view('admin.coba');
 });
 
-Route::get('/', function() {
-    if (Auth::check()){
-        return redirect('/dashboard');
-    }
-    else{
-        return view('admin.login');
-    }
-});
+Route::get('/','UserController@landing');
 
 Route::get('/registrasi-pengguna','UserController@register');
 Route::post('/do_registrasi', 'UserController@do_registrasi');
