@@ -28,7 +28,6 @@ class AruskasController extends Controller
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where(function($query){
                             $query->where('no_akun','like','92%');
-                            $query->orWhere('no_akun','like','92%');
                             $query->orWhere('no_akun','like','93%');
                             $query->orWhere('no_akun','like','94%');
                             $query->orWhere('no_akun','like','95%');

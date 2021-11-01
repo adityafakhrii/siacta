@@ -16,6 +16,14 @@ class UserController extends Controller
         return view('landing.index');
     }
 
+    public function siacta(){
+        return view('landing.siacta');
+    }
+
+    public function profilbumdes(){
+        return view('landing.bumdes');
+    }
+
     public function login(){
     	return view('admin.login');
     }
@@ -81,7 +89,29 @@ class UserController extends Controller
             $total_beban += $lb->saldo;
         }
 
-    	return view('admin.akun.index',compact('total_pendapatan','total_beban','pajaks'));
+        $piutang = DB::table('bukubesarpenyesuaians')
+                        ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
+                        ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
+                        ->where('no_akun','=','13.01.00')
+                        ->get();
+        $total_piut = 0;
+        foreach ($piutang as $piut) {
+            $total_piut += $piut->saldo;
+        }
+
+        $utang = DB::table('bukubesarpenyesuaians')
+                        ->join('akuns','bukubesarpenyesuaians.id_akun','=','akuns.id')
+                        ->where('id_user','=',auth()->user()->id)
+                        ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
+                        ->where('no_akun','=','50.01.00')
+                        ->get();
+        $total_ut = 0;
+        foreach ($utang as $ut) {
+            $total_ut += $ut->saldo;
+        }                       
+
+    	return view('admin.akun.index',compact('total_pendapatan','total_beban','pajaks','total_piut','total_ut'));
     }
 
     public function register(){

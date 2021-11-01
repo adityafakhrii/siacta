@@ -12,8 +12,8 @@
           </div>
           <div class="row">
             <div class="col-sm-3 grid-margin stretch-card">
-              <div class="card card-variant-border-danger">
-                <div class="card-variant-triangle-danger"></div>
+              <div class="card card-variant-border-success">
+                <div class="card-variant-triangle-success"></div>
                 <div class="card-body">
                   <div class="d-xl-flex d-lg-block d-sm-block  d-flex align-items-center">
                     <i class="mdi mdi-arrow-top-right large-icons text-success mr-3"></i>
@@ -26,8 +26,8 @@
               </div>
             </div>
             <div class="col-sm-3 grid-margin stretch-card">
-              <div class="card card-variant-border-dark">
-                  <div class="card-variant-triangle-dark"></div>
+              <div class="card card-variant-border-danger">
+                  <div class="card-variant-triangle-danger"></div>
                 <div class="card-body">
                   <div class="d-xl-flex d-lg-block d-sm-block  d-flex align-items-center">
                     <i class="mdi mdi-arrow-top-right large-icons text-success mr-3"></i>
@@ -70,6 +70,36 @@
                     <div>
                       <p class="text-dark font-weight-medium">Laba Setelah Pajak</p>
                       <h4 class="text-dark  font-weight-medium">Rp{{ number_format( floor($total_semua - $pajak),2,",",".") }}</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 grid-margin stretch-card">
+              <div class="card card-variant-border-success">
+                <div class="card-variant-triangle-success"></div>
+                <div class="card-body">
+                  <div class="d-xl-flex d-lg-block d-sm-block  d-flex align-items-center">
+                    <i class="mdi mdi-arrow-top-right large-icons text-success mr-3"></i>
+                    <div>
+                      <p class="text-dark font-weight-medium">Piutang</p>
+                      <h4 class="text-dark  font-weight-medium">Rp{{ number_format($total_piut,2,",",".") }}</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 grid-margin stretch-card">
+              <div class="card card-variant-border-danger">
+                  <div class="card-variant-triangle-danger"></div>
+                <div class="card-body">
+                  <div class="d-xl-flex d-lg-block d-sm-block  d-flex align-items-center">
+                    <i class="mdi mdi-arrow-top-right large-icons text-success mr-3"></i>
+                    <div>
+                      <p class="text-dark font-weight-medium">Utang</p>
+                      <h4 class="text-dark  font-weight-medium">Rp{{ number_format($total_ut,2,",",".") }}</h4>
                     </div>
                   </div>
                 </div>

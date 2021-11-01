@@ -173,7 +173,7 @@ section {
   font-weight: 700;
   letter-spacing: 1px;
   color: #012970;
-  font-family: "Nunito", sans-serif;
+  font-family: "Poppins", sans-serif;
   margin-top: 3px;
 }
 
@@ -388,9 +388,9 @@ section {
   color: #012970;
 }
 .hero h2 {
-  color: #444444;
+  color: #898989;
   margin: 15px 0 0 0;
-  font-size: 26px;
+  font-size: 18px;
 }
 .hero .btn-get-started {
   margin-top: 30px;

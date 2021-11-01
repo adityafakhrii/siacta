@@ -8,6 +8,8 @@ Route::get('/coba',function(){
 });
 
 Route::get('/','UserController@landing');
+Route::get('/tentang-siacta','UserController@siacta');
+Route::get('/profil-bumdes','UserController@profilbumdes');
 
 Route::get('/registrasi-pengguna','UserController@register');
 Route::post('/do_registrasi', 'UserController@do_registrasi');
