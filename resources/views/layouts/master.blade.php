@@ -7,22 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>SIACTA | System Information Accounting & Tax</title>
     <!-- base:css -->
-    <link rel="stylesheet" href="../../vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="{{'../../vendors/mdi/css/materialdesignicons.min.css'}}">
+    <link rel="stylesheet" href="{{'../../vendors/css/vendor.bundle.base.css'}}">
     <!-- endinject -->
     <!-- plugin css for this page -->
-    <link rel="stylesheet" href="../../../../vendors/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../../../../vendors/select2/select2.min.css">
-    <link rel="stylesheet" href="../../../../vendors/jquery-toast-plugin/jquery.toast.min.css">
-    <link rel="stylesheet" href="../../../../vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
-    <link rel="stylesheet" href="../../../../vendors/dropify/dropify.min.css">
-    <link rel="stylesheet" href="../../../../vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="{{'../../../../vendors/font-awesome/css/font-awesome.min.css'}}">
+    <link rel="stylesheet" href="{{'../../../../vendors/select2/select2.min.css'}}">
+    <link rel="stylesheet" href="{{'../../../../vendors/jquery-toast-plugin/jquery.toast.min.css'}}">
+    <link rel="stylesheet" href="{{'../../../../vendors/select2-bootstrap-theme/select2-bootstrap.min.css'}}">
+    <link rel="stylesheet" href="{{'../../../../vendors/bootstrap-datepicker/bootstrap-datepicker.min.css'}}">
 
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="{{asset('../../css/vertical-layout-light/style.css')}} ">
     <!-- endinject -->
-    <link rel="shortcut icon" href="../../images/favicon.png" />
+    <link rel="shortcut icon" href="{{'../../images/favicon.png'}}" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
     {{-- Logika JS SPT PPH 23 --}}
@@ -72,50 +71,38 @@
     <!-- container-scroller -->
     
     <!-- base:js -->
-    <script src="../../vendors/js/vendor.bundle.base.js"></script>
+    <script src="{{asset('../../vendors/js/vendor.bundle.base.js')}}"></script>
     <!-- endinject -->
     <!-- Plugin js for this page-->
     <!-- End plugin js for this page-->
     <!-- inject:js -->
-    <script src="../../js/off-canvas.js"></script>
-    <script src="../../js/hoverable-collapse.js"></script>
-    <script src="../../js/template.js"></script>
-    <script src="../../js/settings.js"></script>
-    <script src="../../js/todolist.js"></script>
+    <script src="{{asset('../../js/off-canvas.js')}}"></script>
+    <script src="{{asset('../../js/hoverable-collapse.js')}}"></script>
+    <script src="{{asset('../../js/template.js')}}"></script>
+    <script src="{{asset('../../js/settings.js')}}"></script>
     <!-- endinject -->
    <!-- plugin js for this page -->
-   <script src="../../../../vendors/typeahead.js/typeahead.bundle.min.js"></script>
-   <script src="../../../../vendors/select2/select2.min.js"></script>
-   <script src="../../vendors/progressbar.js/progressbar.min.js"></script>
-   <script src="../../vendors/flot/jquery.flot.js"></script>
-   <script src="../../vendors/flot/jquery.flot.resize.js"></script>
-   <script src="../../vendors/chart.js/Chart.min.js"></script>
-   <script src="../../../../vendors/jquery-validation/jquery.validate.min.js"></script>
-   <script src="../../../../vendors/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-   <script src="../../../../js/form-validation.js"></script>
-   <script src="../../../../js/bt-maxLength.js"></script>
-   <script src="../../../../vendors/sweetalert/sweetalert.min.js"></script>
-   <script src="../../../../vendors/jquery.avgrund/jquery.avgrund.min.js"></script>
-   <script src="../../../../vendors/dropify/dropify.min.js"></script>
-   <script src="../../../../vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-   <script src="../../../../vendors/inputmask/jquery.inputmask.bundle.js"></script>
+   <script src="{{asset('../../../../vendors/select2/select2.min.js')}}"></script>
+   <script src="{{asset('../../vendors/progressbar.js/progressbar.min.js')}}"></script>
+   <script src="{{asset('../../../../vendors/jquery-validation/jquery.validate.min.js')}}"></script>
+   <script src="{{asset('../../../../vendors/bootstrap-maxlength/bootstrap-maxlength.min.js')}}"></script>
+   <script src="{{asset('../../../../js/form-validation.js')}}"></script>
+   <script src="{{asset('../../../../js/bt-maxLength.js')}}"></script>
+   <script src="{{asset('../../../../vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+   <script src="{{asset('../../../../vendors/inputmask/jquery.inputmask.bundle.js')}}"></script>
 
    <!-- End plugin js for this page -->
    <!-- Custom js for this page-->
-   <script src="../../../../js/typeahead.js"></script>
-   <script src="../../../../js/select2.js"></script>
-   <script src="../../js/chart.flot.sampledata.js"></script>
-   <script src="../../js/dashboard.sampledata.js"></script>
-   <script src="../../vendors/patternomaly/patternomaly.js"></script>
-   <script src="../../js/dashboard.js"></script> 
-   <script src="../../../../js/file-upload.js"></script>
-   <script src="../../../../js/iCheck.js"></script>
-   <script src="../../../../js/alerts.js"></script>
-   <script src="../../../../js/avgrund.js"></script>
-   <script src="../../../../js/dropify.js"></script>
-   <script src="../../../../js/formpickers.js"></script>
-   <script src="../../../../js/inputmask.js"></script>
-   <script src="../../../../js/spt.js"></script>
+   <script src="{{asset('../../../../js/typeahead.js')}}"></script>
+   <script src="{{asset('../../../../js/select2.js')}}"></script>
+   <script src="{{asset('../../js/dashboard.js')}}"></script> 
+   <script src="{{asset('../../../../js/file-upload.js')}}"></script>
+   <script src="{{asset('../../../../js/iCheck.js')}}"></script>
+   <script src="{{asset('../../../../js/alerts.js')}}"></script>
+   <script src="{{asset('../../../../js/avgrund.js')}}"></script>
+   <script src="{{asset('../../../../js/formpickers.js')}}"></script>
+   <script src="{{asset('../../../../js/inputmask.js')}}"></script>
+   <script src="{{asset('../../../../js/spt.js')}}"></script>
 
    <!-- End custom js for this page-->
 

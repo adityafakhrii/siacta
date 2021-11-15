@@ -126,8 +126,6 @@
                   <li class="nav-item"> <a class="nav-link" href="/pph21">PPh 21 - SPT</a></li>
                   <li class="nav-item"><a class="nav-link" href="/pph22/bukti-potong"><p>PPh 22 - </p> <p>Bukti Potong</p> </a></li>
                   <li class="nav-item"> <a class="nav-link" href="/pph22">PPh 22 - SPT</a></li>
-                  <li class="nav-item"><a class="nav-link" href="/pph23/bukti-potong"><p>PPh 23 - </p> <p>Bukti Potong</p> </a></li>
-                  <li class="nav-item"> <a class="nav-link" href="/pph23">PPh 23 - SPT</a></li>
                   <li class="nav-item"><a class="nav-link" href="/pph4ayat2"><p>PPh Pasal 4 - </p> <p>Ayat 2 - SPT</p> </a></li>
                 </ul>
               </div>

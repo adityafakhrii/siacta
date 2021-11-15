@@ -25,6 +25,16 @@
                       Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
                     </h5>
                   </div>
+
+                  <div class="row float-right">
+                    <div class="col">
+                      <a href="/perubahan-ekuitas/pdf" class="btn btn-primary btn-icon-text">
+                        Cetak PDF
+                        <i class="mdi mdi-printer btn-icon-append"></i>
+                      </a>
+                    </div>
+                  </div>
+
                   <div class="table-responsive">
                     <table class="table table-hover">
 

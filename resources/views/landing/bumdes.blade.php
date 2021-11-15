@@ -60,7 +60,7 @@
           <li><a class="nav-link scrollto" href="/#team">Team</a></li>
           <li><a class="nav-link scrollto" href="/#kontak">Kontak</a></li>
           @if(Auth::check())
-          <li><a class="getstarted scrollto" href="/login">Login</a></li>
+          <li><a class="getstarted scrollto" href="/dashboard">Dashboard</a></li>
           @else
           <li><a class="getstarted scrollto" href="/login">Login</a></li>
           @endif
@@ -103,16 +103,15 @@
 
               <div class="entry-content" style="text-align: justify; text-justify: inter-word;">
                 <p>
-                  System Information Accounting and Tax merupakan sebuah aplikasi  yang terintegrasi berbasis web yang dibuat dan dikembangkan menggunakan bahasa pemrograman PHP yang dikombinasikan dengan framework Laravel.
-                 Kami memulai pembuatan aplikasi ini dengan menentukan rancangan-rancangan dasar atau konsep sebelum ke tahap pengkodean program. 
+                 Desa Cihideung adalah desa yang terletak di kecamatan Parongpong Kabupaten Bandung Barat Provinsi Jawa Barat Indinesia, memiliki jumlah penduduk yang tercatat pada tahun 2020 sebanyak 13.968 jiwa. Berada di ketinggian 1200 diatas permukaan laut (mdpl) dengan lokasi yang merupakan perbatasan antara Kabupten Bandung Barat dengan Kotamadya bandung, memiliki 4 cantilan/kampung yaitu kampung sukamulya cantilan 1 terdiri dari 5 RW, cantilan 2 kampung Cihideung terdiri dari 4 RW, cantilan 3 kampung panyairan terdiri dari 3 RW, dan cantilan 4 yang terdiri dari 5 RW.
                 </p>
 
                 <p>
-                  Gambaran konsep kami buat dalam bentuk flowchart yang dimulai dari proses input hingga proses output aplikasi tersebut berakhir. Kemudian untuk rancangan database sistem, kami menggunakan konsep ERD atau Entity Relationship Diagram agar mudah dipahami saat pembuatan sistem berlangsung.
+                 Dengan 17 rukun warga (RW) dibagi menjadi 58 rukun tetangga, mayoritas penduduk Desa Cihideung adalah sebagai petani diantaranya peternak sapi, petani sayur, petani buah buahan, petani bunga hias dan bunga potong, decorasi taman, dan dekorasi gedung pernikahan. Desa cihideung merupakan desa wisata berbasic lingkungan dengan mengedepankan wisata alam seperti kebun binatang, pusat belanja tanaman, rekreasi edukasi, tempat olah raga dll.
                 </p>
 
                 <p>
-                  Dengan perencanaan flowchart yang tersusun dengan baik dan rancangan database yang matang, kami dapat membangun aplikasi ini dengan baik dan efisien. Lalu untuk membuat tampilan, kami membuatnya dengan html, css, bootstrap, javascript, dan berbagai macam library javascript sebagai pendukung agar aplikasi lebih interaktif dan memudahkan pengguna.
+                  Dengan banyaknya tempat wisata di desa cihideung membuat perekonomian masyarakat desa cihideung terbilang sejahtera karena parawisata kerap membeli souvenir dari warga sekitar seperti bunga hias. namun sayangnya pada hari libur panjang selalu terjadi kemacetan di jalan desa cihideung karena kendaraan parawisata dan kendaraan pengangkut barang yang datang berbarengan jadi mohon berhati hati saat libur panjang.
                 </p>
 
               </div>
@@ -153,8 +152,8 @@
           <div class="col-lg-3 col-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><i class="bi bi-chevron-right"></i> <a href="/#tentang">Home</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="/#tentang">Tentang</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="/#">Home</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="/tentang-siacta">Tentang</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="/#kelebihan">Kelebihan</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="/#laporan">Laporan</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="/#team">Team</a></li>

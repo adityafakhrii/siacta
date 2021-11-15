@@ -84,25 +84,25 @@ class CalkController extends Controller
 
     public function calkPDF()
     {
-        $asets = Aset::where('id_user','=',auth()->user()->id)->get();
-        $akumulasis = Akumulasi::where('id_user','=',auth()->user()->id)->get();
-        $piutangs = Piutangusaha::where('id_user','=',auth()->user()->id)->get();
-        $kasbanks = Kasbank::where('id_user','=',auth()->user()->id)->get();
-        $investasipendek = Investasipendek::where('id_user','=',auth()->user()->id)->get();
-        $nonusaha = Piutangnon::where('id_user','=',auth()->user()->id)->get();
-        $perlengkapan = Perlengkapan::where('id_user','=',auth()->user()->id)->get();
-        $pembayaran = Pembayaranmuka::where('id_user','=',auth()->user()->id)->get();
-        $asetlain = Asetlain::where('id_user','=',auth()->user()->id)->get();
-        $investasipanjang = Investasipanjang::where('id_user','=',auth()->user()->id)->get();
-        $asettetap = Asettetap::where('id_user','=',auth()->user()->id)->get();
-        $asetleasing = Asetleasing::where('id_user','=',auth()->user()->id)->get();
-        $properti = Properti::where('id_user','=',auth()->user()->id)->get();
-        $asettidakberwujud = Asettidakberwujud::where('id_user','=',auth()->user()->id)->get();
-        $kewajibanpendek = Kewajibanpendek::where('id_user','=',auth()->user()->id)->get();
-        $kewajibanpanjang = Kewajibanpanjang::where('id_user','=',auth()->user()->id)->get();
-        $kewajibanlain = Kewajibanlain::where('id_user','=',auth()->user()->id)->get();
-        $ekuitas = Ekuitas::where('id_user','=',auth()->user()->id)->get();
-        $calks = Calk::where('id_user','=',auth()->user()->id)->get();
+        $asets = Aset::where('id_user','=',4)->get();
+        $akumulasis = Akumulasi::where('id_user','=',4)->get();
+        $piutangs = Piutangusaha::where('id_user','=',4)->get();
+        $kasbanks = Kasbank::where('id_user','=',4)->get();
+        $investasipendek = Investasipendek::where('id_user','=',4)->get();
+        $nonusaha = Piutangnon::where('id_user','=',4)->get();
+        $perlengkapan = Perlengkapan::where('id_user','=',4)->get();
+        $pembayaran = Pembayaranmuka::where('id_user','=',4)->get();
+        $asetlain = Asetlain::where('id_user','=',4)->get();
+        $investasipanjang = Investasipanjang::where('id_user','=',4)->get();
+        $asettetap = Asettetap::where('id_user','=',4)->get();
+        $asetleasing = Asetleasing::where('id_user','=',4)->get();
+        $properti = Properti::where('id_user','=',4)->get();
+        $asettidakberwujud = Asettidakberwujud::where('id_user','=',4)->get();
+        $kewajibanpendek = Kewajibanpendek::where('id_user','=',4)->get();
+        $kewajibanpanjang = Kewajibanpanjang::where('id_user','=',4)->get();
+        $kewajibanlain = Kewajibanlain::where('id_user','=',4)->get();
+        $ekuitas = Ekuitas::where('id_user','=',4)->get();
+        $calks = Calk::where('id_user','=',4)->get();
 
 
         $calkPDF = PDF::loadView('admin.emkm.calk.calkPDF',
@@ -128,7 +128,61 @@ class CalkController extends Controller
                 'calks'
             ));
 
-        return $calkPDF->stream('Catatan Atas Laporan Keuangan - SIACTA.pdf');
+        return $calkPDF->stream('Catatan Atas Laporan Keuangan BUMDes Sauyunan - SIACTA.pdf');
+    }
+
+    public function calkPDFlogin()
+    {
+        $asets = Aset::where('id_user','=',auth()->user()->id)->get();
+        $akumulasis = Akumulasi::where('id_user','=',auth()->user()->id)->get();
+        $piutangs = Piutangusaha::where('id_user','=',auth()->user()->id)->get();
+        $kasbanks = Kasbank::where('id_user','=',auth()->user()->id)->get();
+        $investasipendek = Investasipendek::where('id_user','=',auth()->user()->id)->get();
+        $nonusaha = Piutangnon::where('id_user','=',auth()->user()->id)->get();
+        $perlengkapan = Perlengkapan::where('id_user','=',auth()->user()->id)->get();
+        $pembayaran = Pembayaranmuka::where('id_user','=',auth()->user()->id)->get();
+        $asetlain = Asetlain::where('id_user','=',auth()->user()->id)->get();
+        $investasipanjang = Investasipanjang::where('id_user','=',auth()->user()->id)->get();
+        $asettetap = Asettetap::where('id_user','=',auth()->user()->id)->get();
+        $asetleasing = Asetleasing::where('id_user','=',auth()->user()->id)->get();
+        $properti = Properti::where('id_user','=',auth()->user()->id)->get();
+        $asettidakberwujud = Asettidakberwujud::where('id_user','=',auth()->user()->id)->get();
+        $kewajibanpendek = Kewajibanpendek::where('id_user','=',auth()->user()->id)->get();
+        $kewajibanpanjang = Kewajibanpanjang::where('id_user','=',auth()->user()->id)->get();
+        $kewajibanlain = Kewajibanlain::where('id_user','=',auth()->user()->id)->get();
+        $ekuitas = Ekuitas::where('id_user','=',auth()->user()->id)->get();
+        $calks = Calk::where('id_user','=',auth()->user()->id)->get();
+
+
+        $calkPDF = PDF::loadView('admin.emkm.calk.calkPDFlogin',
+            compact(
+                'asets',
+                'akumulasis',
+                'piutangs',
+                'kasbanks',
+                'investasipendek',
+                'nonusaha',
+                'perlengkapan',
+                'pembayaran',
+                'asetlain',
+                'investasipanjang',
+                'asettetap',
+                'asetleasing',
+                'properti',
+                'asettidakberwujud',
+                'kewajibanpendek',
+                'kewajibanpanjang',
+                'kewajibanlain',
+                'ekuitas',
+                'calks'
+            ));
+
+        if (auth()->user()->role == 'unitusaha') {
+                return $calkPDF->stream('Catatan Atas Laporan Keuangan PAMDes Sauyunan - SIACTA.pdf');
+        }else{
+                return $calkPDF->stream('Catatan Atas Laporan Keuangan BUMDes Sauyunan - SIACTA.pdf');
+        }
+        
     }
 
 }

@@ -28,7 +28,7 @@
 
                   <div class="row float-right">
                     <div class="col">
-                      <a href="/neraca-penutup/pdf" class="btn btn-info btn-icon-text">
+                      <a href="/neraca-penutup/pdf" class="btn btn-primary btn-icon-text">
                         Cetak PDF
                         <i class="mdi mdi-printer btn-icon-append"></i>
                       </a>

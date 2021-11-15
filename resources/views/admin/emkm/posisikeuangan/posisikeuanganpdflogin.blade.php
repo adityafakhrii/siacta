@@ -1,52 +1,129 @@
-@extends('layouts.master')
-<title>Laporan Posisi Keuangan | SIACTA</title>
-@section('content')
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<style>
 
-      <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="text-center">
-                    <h4 class="card-title">
-                      <strong>BUMDes Sauyunan</strong>
-                    </h4>
-                    @if(Auth::user()->role == "unitusaha")
-                    <h4 class="card-title">
-                      <strong>Unit Usaha Air PAMDes</strong>
-                    </h4>
-                    <h4 class="card-title">
-                      Laporan Posisi Keuangan
-                    </h4>
-                    @else
-                    <h4 class="card-title">
-                      Laporan Neraca
-                    </h4>
-                    @endif
-                    <h5 class="card-title h6">
-                      Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
-                    </h5>
-                  </div>
-                  <div class="row float-right">
-                    <div class="col">
-                      <a href="/laporan-neraca/pdflogin" class="btn btn-primary btn-icon-text">
-                        Cetak PDF
-                        <i class="mdi mdi-printer btn-icon-append"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
+  *{
+    box-sizing: border-box;
+  }
+
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+	.page-break {
+	    page-break-after: always;
+	}
+	.abu{
+		color: #595959;
+	}
+	
+  .row {
+  margin-left:-5px;
+  margin-right:-5px;
+}
+  
+.column {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+</style>
+<body style="    
+    font-family: 'Montserrat', sans-serif;">
+
+	
+	<section id="container">
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <div class="col-lg-12 mt">
+          <div class="row content-panel">
+            <div class="col-lg-10 col-lg-offset-1">
+              <div class="invoice-body">
+                <div class="pull-left">
+                  <p style="
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    line-height: 1.1px;
+                    text-align: center;
+                    color: #3b3b3b;
+                    margin-bottom: 35px;
+                    ">
+                    <b>BUMDes Sauyunan</b>
+                  </p>
                   
-                  <div class="table-responsive">
-                    <table class="table table-hover">
+                  @if(Auth::user()->role == "unitusaha")
+                	<p style="
+                  	font-size: 1.3rem;
+                  	font-weight: 700;
+      					    line-height: 1.1px;
+      					    text-align: center;
+      					    color: #3b3b3b;
+                    margin-bottom: 30px;
+      					    ">
+                    <b>Unit Usaha Air PAMDes</b>
+      						</p>
+                  <p style="
+                    font-size: 1.25rem;
+                    line-height: 1.1px;
+                    font-weight: 500;
+                    text-align: center;
+                    color: #3b3b3b;
+                    margin-bottom: 30px;
+                    ">
+                    <b>Laporan Posisi Keuangan</b>
+                  </p>
+                  @else
+                  <p style="
+                    font-size: 1.25rem;
+                    line-height: 1.1px;
+                    font-weight: 500;
+                    text-align: center;
+                    color: #3b3b3b;
+                    margin-bottom: 30px;
+                    ">
+                    <b>Laporan Neraca</b>
+                  </p>
+                  @endif
+
+                  <p style="
+                    font-size: 1rem;
+                    font-weight: 300;
+                    line-height: 1.1px;
+                    text-align: center;
+                    color: #3b3b3b;
+                    margin-bottom: 30px;
+                    ">
+                    <b>Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}</b>
+                  </p>
+                </div>
+                <!-- /pull-left -->
+                
+                
+
+                <div class="row">
+                  <div class="column">
+                    <table>
                       <tbody>
                         <tr>
                           <td align="center" colspan="3"> <strong>ASET</strong> </td>
@@ -55,8 +132,8 @@
                         <tr>
                           <td colspan="3"> <strong>Aset Lancar</strong> </td>
                         </tr>
-                      	<?php $total_aslan = 0; ?>
-                      	@foreach($asetlancar as $aslan)
+                        <?php $total_aslan = 0; ?>
+                        @foreach($asetlancar as $aslan)
                         <tr>
                           <td>{{$aslan->no_akun}}</td>
                           <td>{{$aslan->nama_akun}}</td>
@@ -131,16 +208,9 @@
                       </tfoot>
                     </table>
                   </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  
-                  <div class="table-responsive">
-                    <table class="table table-hover">
+                  <div class="column">
+                    <table>
                       <tbody>
                         <tr>
                           <td align="center" colspan="3"> <strong>KEWAJIBAN & EKUITAS</strong> </td>
@@ -222,17 +292,15 @@
                       </tfoot>
                     </table>
                   </div>
+                  
                 </div>
+                
+                <br>
+                <br>
               </div>
-            </div>
-            
-          </div>
-        </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-        @include('layouts.__footer')
-        <!-- partial -->
-      </div>
-      <!-- main-panel ends -->
-
-@endsection
+              
+      </section>
+    </section>
+</section>
+	
+</body>

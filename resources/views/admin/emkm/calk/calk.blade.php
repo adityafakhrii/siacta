@@ -663,7 +663,7 @@
                     </div>
                   </div>
                   <div class="col mb-5">
-                    <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/pdf"><i class="mdi mdi-download btn-icon-prepend"></i> Cetak Laporan</a>  
+                    <a class="btn btn-sm btn-primary btn-icon-text float-right" href="/calk/pdflogin"><i class="mdi mdi-download btn-icon-prepend"></i> Cetak Laporan</a>  
                   </div>
                   @foreach($calks as $calk)
                     <form class="forms-sample" action="/calk/store" method="post">

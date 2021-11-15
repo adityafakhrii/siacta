@@ -60,7 +60,7 @@
           <li><a class="nav-link scrollto" href="/#team">Team</a></li>
           <li><a class="nav-link scrollto" href="/#kontak">Contact</a></li>
           @if(Auth::check())
-          <li><a class="getstarted scrollto" href="/login">Login</a></li>
+          <li><a class="getstarted scrollto" href="/dashboard">Dashboard</a></li>
           @else
           <li><a class="getstarted scrollto" href="/login">Login</a></li>
           @endif
@@ -154,7 +154,7 @@
             <h4>Useful Links</h4>
             <ul>
               <li><i class="bi bi-chevron-right"></i> <a href="/#tentang">Home</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="/#tentang">Tentang</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="/tentang-siacta">Tentang</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="/#kelebihan">Kelebihan</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="/#laporan">Laporan</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="/#team">Team</a></li>

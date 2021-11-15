@@ -9,7 +9,9 @@
 	.abu{
 		color: #595959;
 	}
-
+	td {
+	    vertical-align: middle;
+	}
   table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -51,8 +53,7 @@
                     ">
                     <b>BUMDes Sauyunan</b>
                   </p>
-                  @if(Auth::user()->role == "unitusaha")
-                  <p style="
+                	<p style="
                   	font-size: 1.3rem;
                   	font-weight: 700;
       					    line-height: 1.1px;
@@ -60,9 +61,10 @@
       					    color: #3b3b3b;
                     margin-bottom: 30px;
       					    ">
+                    @if(Auth::user()->role == "unitusaha")
                     <b>Unit Usaha Air PAMDes</b>
-      			  </p>
-      			  @endif
+                    @endif
+      						</p>
                   <p style="
                     font-size: 1.25rem;
                     line-height: 1.1px;
@@ -71,7 +73,7 @@
                     color: #3b3b3b;
                     margin-bottom: 30px;
                     ">
-                    <b>Neraca Saldo Sebelum Penyesuaian</b>
+                    <b>Laporan Perubahan Ekuitas</b>
                   </p>
                   <p style="
                     font-size: 1rem;
@@ -86,60 +88,73 @@
                 </div>
                 <!-- /pull-left -->
                 
-                <table>
-                      <thead>
-                        <tr>
-                          <th>Nomor Akun</th>
-                          <th>Nama Akun</th>
-                          <th>Debit</th>
-                          <th>Kredit</th>
-                      </thead>
-                      <tbody>
+                <table border="1" width="100%">
+                	<tbody>
 
-                        <?php
-                          $total_debit = 0;
-                          $total_kredit = 0;
-                        ?>
-                        @foreach($neracapenutup as $neraca)
+                        <?php $total_ma = 0; ?>
+                        @foreach($modal_awal as $ma)
                         <tr>
-                          <td>{{$neraca->no_akun}}</td>
-                          <td>{{$neraca->nama_akun}}</td>
-                          @if($neraca->saldo_normal == 'debit')
-                            <td>Rp{{ number_format($neraca->saldo,2,",",".") }}</td>
-                            <td>-</td>  
-                            <?php 
-                              $total_debit += $neraca->saldo;
-                            ?>
-                          @elseif($neraca->saldo_normal == 'kredit')
-                            <td>-</td>
-                            <td>Rp{{ number_format($neraca->saldo,2,",",".") }}</td>
-                            <?php 
-                              $total_kredit += $neraca->saldo;
-                            ?>
-                          @endif
+                          <td>{{$ma->nama_akun}}</td>
+                          <td></td>
+                          <td>Rp{{ number_format($ma->saldo,2,",",".") }}</td>
+                          <?php 
+                            $total_ma += $ma->saldo;
+                          ?>
                         </tr>
                         @endforeach
 
-                        @foreach($modals as $modals)
+                        <?php $total_tm = 0; ?>
+                      	@foreach($tambahan_modal as $tm)
                         <tr>
-                          <td>{{$modals->no_akun}}</td>
-                          <td>{{$modals->nama_akun}}</td>
-                          <td>-</td>
+                          <td>{{$tm->nama_akun}}</td>
+                          <td></td>
+                          <td>Rp{{ number_format($tm->saldo,2,",",".") }}</td>
+                          <?php 
+                            $total_tm += $tm->saldo;
+                          ?>
+                        </tr>
+                        @endforeach
+
+                        <tr>
+                          <td colspan="2">Total Tambahan Modal</td>
+                          <td>Rp{{ number_format($total_tm,2,",",".") }}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2"><strong>Perubahan Modal</strong></td>
+                          <td><strong>Rp{{ number_format($perubahan = $total_tm + $total_ma ,2,",",".") }}</strong></td>
+                        </tr>
+
+                        <tr>
+                          <td>Laba (Rugi) Bersih</td>
                           <td>Rp{{ number_format($total_labarugi,2,",",".") }}</td>
+                          <td></td>
+                        </tr>
+
+                        <?php $total_prive = 0; ?>
+                        @foreach($prive as $p)
+                        <tr>
+                          <td>{{$p->nama_akun}}</td>
+                          <td>Rp{{ number_format($p->saldo,2,",",".") }}</td>
+                          <td></td>
+                          <?php 
+                            $total_prive += $p->saldo;
+                          ?>
                         </tr>
                         @endforeach
-                        <tr>
-                          <td colspan="3" align="center"><h4>Total</h4></td>
-                          <td><strong>Rp{{ number_format($total_debit,2,",",".") }}</strong></td>
 
-                          @if($total_labarugi < 0)
-                            <td><strong>Rp{{ number_format($total_kredit+$total_labarugi,2,",",".") }}</strong></td>
-                          @elseif($total_labarugi > 0)
-                            <td><strong>Rp{{ number_format($total_kredit+$total_labarugi,2,",",".") }}</strong></td>
-                          @endif
+                        <tr>
+                          <td colspan="2"><h5><strong>Kenaikan (penurunan) modal</strong></h5></td>
+                          <td><strong>Rp{{ number_format($kenaikan = $total_labarugi - $total_prive,2,",",".") }}</strong></td>
+                        </tr>
+
+                        <tr>
+                          <td colspan="2"><h5><strong>Modal Akhir</strong></h5></td>
+                          <td><strong>Rp{{ number_format($perubahan + $kenaikan,2,",",".") }}</strong></td>
                         </tr>
                       </tbody>
-                    </table>
+                      
+                </table>
+                
                 <br>
                 <br>
               </div>

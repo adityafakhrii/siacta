@@ -1,8 +1,8 @@
 <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-between">
-          <a class="navbar-brand brand-logo" href="index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
-          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+          <a class="navbar-brand brand-logo" href="/"><img src="{{asset('../../images/logo-mini.svg')}}" alt="logo"/></a>
+          <a class="navbar-brand brand-logo-mini" href="/"><img src="{{asset('../../images/logo-mini.svg')}}" alt="logo"/></a>
           <div class="notification"> <i class="mdi mdi-bell-outline"></i> <span class="indicator"></span></div>
         </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
@@ -37,13 +37,6 @@
                 <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{asset('img/user.jpg')}}" alt="">
               </div>
               <div class="p-2">
-                <a class="dropdown-item py-1 px-2 d-flex align-items-center justify-content-between" href="#">
-                  <span>Profile</span>
-                  <span class="p-0">
-                    <span class="badge badge-success">1</span>
-                    <i class="mdi mdi-account-outline ml-1"></i>
-                  </span>
-                </a>
                 <a class="dropdown-item py-1  px-2 d-flex align-items-center justify-content-between" href="/logout">
                   <span>Log Out</span>
                   <i class="mdi mdi-logout ml-1"></i>

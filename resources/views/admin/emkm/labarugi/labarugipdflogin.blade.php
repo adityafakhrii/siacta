@@ -9,7 +9,9 @@
 	.abu{
 		color: #595959;
 	}
-  
+	td {
+	    vertical-align: middle;
+	}
   table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -51,8 +53,7 @@
                     ">
                     <b>BUMDes Sauyunan</b>
                   </p>
-                  @if(Auth::user()->role == "unitusaha")
-                  <p style="
+                	<p style="
                   	font-size: 1.3rem;
                   	font-weight: 700;
       					    line-height: 1.1px;
@@ -60,9 +61,10 @@
       					    color: #3b3b3b;
                     margin-bottom: 30px;
       					    ">
+                    @if(Auth::user()->role == "unitusaha")
                     <b>Unit Usaha Air PAMDes</b>
-      			  </p>
-      			  @endif
+                    @endif
+      						</p>
                   <p style="
                     font-size: 1.25rem;
                     line-height: 1.1px;
@@ -71,7 +73,7 @@
                     color: #3b3b3b;
                     margin-bottom: 30px;
                     ">
-                    <b>Neraca Saldo Setelah Disesuaikan</b>
+                    <b>Laporan Laba Rugi</b>
                   </p>
                   <p style="
                     font-size: 1rem;
@@ -87,49 +89,68 @@
                 <!-- /pull-left -->
                 
                 <table border="1" width="100%">
-                      <thead>
+
+                      <tbody>
+
                         <tr>
-                          <th>Nomor Akun</th>
-                          <th>Nama Akun</th>
-                          <th>Debit</th>
-                          <th>Kredit</th>
-                      </thead>
-                        <tbody>
-                          <?php
-                           $total_debit = 0;
-                           $total_kredit = 0;
+                          <td colspan="3"><strong>Pendapatan</strong></td>
+                        </tr>
+                        <?php $total_pendapatan = 0; ?>
+                      	@foreach($labarugi_pendapatan as $lr)
+                        <tr>
+                          <td>{{$lr->nama_akun}}</td>
+                          <td>Rp{{ number_format($lr->saldo,2,",",".") }}</td>
+                          <?php 
+                            $total_pendapatan += $lr->saldo;
                           ?>
-                          @foreach($neracasaldo as $ns)
-                          <tr>
-                            <td align="left">{{$ns->akun->no_akun}}</td>
-                            <td align="left">{{$ns->akun->nama_akun}}</td>
-                            @if($ns->debit != NULL)
-                            <td align="right">
-                            Rp{{ number_format($ns->debit,2,",",".") }}
-                            </td>
-                            @else
-                            <td align="center">-</td>
-                            @endif
-                            @if($ns->kredit != NULL)
-                            <td align="right">
-                            Rp{{ number_format($ns->kredit,2,",",".") }}
-                            </td>
-                            @else
-                            <td align="center">-</td>
-                            @endif
-                          </tr>
-                          <?php
-                            $total_debit += $ns->debit;
-                            $total_kredit += $ns->kredit;
+                        </tr>
+                        @endforeach
+
+                        <tr>
+                          <td colspan="2"><strong>Total Pendapatan</strong></td>
+                          <td><strong>Rp{{ number_format($total_pendapatan,2,",",".") }}</strong></td>
+                        </tr>
+
+                        <tr>
+                          <td colspan="3"><strong>Beban</strong></td>
+                        </tr>
+                        <?php $total_beban = 0; ?>
+                        @foreach($labarugi_beban as $lb)
+                        <tr>
+                          <td>{{$lb->nama_akun}}</td>
+                          <td colspan="2">Rp{{ number_format($lb->saldo,2,",",".") }}</td>
+                          <?php 
+                            $total_beban += $lb->saldo;
                           ?>
-                          @endforeach
-                          <tr>
-                          	<td align="center" colspan="2"> <h5><strong>Total</strong></h5> </td>
-	                          <td align="right"> <strong>Rp{{ number_format($total_debit,2,",",".") }}</strong></td>
-	                          <td align="right"><strong>Rp{{ number_format($total_kredit,2,",",".") }}</strong></td>
-                          </tr>
-                        </tbody>
+                        </tr>
+                        @endforeach
+
+                        <tr style="background-color: #EAEAF1;">
+                          <td colspan="2"><strong>Total Beban</strong></td>
+                          <td><strong>Rp{{ number_format($total_beban,2,",",".") }}</strong></td>
+                        </tr>
+
+                        <tr style="background-color: #e8e6ff;">
+                          <td colspan="2"><strong>Laba (Rugi) bersih sebelum pajak</strong></td>
+                          <td><strong>Rp{{ number_format( $total_semua = $total_pendapatan - $total_beban,2,",",".") }}</strong></td>
+                        </tr>
+
+                        
+                        <tr>
+                          <td colspan="2">Pajak</td>
+                          <?php 
+                              $pajak = $total_pendapatan * (0.5/100);
+                          ?>
+                            <td>Rp{{ number_format(floor($pajak),2,",",".") }}</td>
+                        </tr>
+
+                        <tr>
+                          <td colspan="2"><strong>Laba (Rugi) bersih setelah pajak</strong></td>
+                          <td><strong>Rp{{ number_format( floor($total_semua - $pajak),2,",",".") }}</strong></td>
+                        </tr>
+                      </tbody>
                     </table>
+                
                 <br>
                 <br>
               </div>

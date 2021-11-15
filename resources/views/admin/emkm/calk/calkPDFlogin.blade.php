@@ -55,6 +55,18 @@
                     ">
                     <b>BUMDes Sauyunan</b>
                   </p>
+                	<p style="
+                  	font-size: 1.3rem;
+                  	font-weight: 700;
+      					    line-height: 1.1px;
+      					    text-align: center;
+      					    color: #3b3b3b;
+                    margin-bottom: 30px;
+      					    ">
+                    @if(Auth::user()->role == "unitusaha")
+                    <b>Unit Usaha Air PAMDes</b>
+                    @endif
+      						</p>
                   <p style="
                     font-size: 1.25rem;
                     line-height: 1.1px;

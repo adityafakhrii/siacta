@@ -10,6 +10,12 @@
 		color: #595959;
 	}
 
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+  }
+
 	.table{
 		width: 100%;
 	    max-width: 100%;

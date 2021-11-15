@@ -11,9 +11,6 @@ Route::get('/','UserController@landing');
 Route::get('/tentang-siacta','UserController@siacta');
 Route::get('/profil-bumdes','UserController@profilbumdes');
 
-Route::get('/registrasi-pengguna','UserController@register');
-Route::post('/do_registrasi', 'UserController@do_registrasi');
-
 
 Route::get('/login', function() {
     if (Auth::check()){
@@ -30,7 +27,6 @@ Route::get('/logout', 'UserController@logout');
 Route::group(['middleware' => ['auth','checkRole:unitusaha,bumdes,superadmin']], function() {
 	Route::get('/dashboard','UserController@dashboard');
 });
-
 
 
 
@@ -56,9 +52,6 @@ Route::group(['middleware' => ['auth','checkRole:bumdes']], function() {
 
 	Route::post('/bumdes/store-transaksi','TransaksiController@store');
 	
-	Route::get('/laporan-neraca','EMKMposisikeuanganController@index');
-	Route::get('/perubahan-ekuitas','PerubahanekuitasController@index');
-	Route::get('/arus-kas','AruskasController@index');
 
 	// Route::get('/data-akun/edit/{id}','AkunController@edit');
 	// Route::post('/update-akun/{id}','AkunController@update');
@@ -115,11 +108,9 @@ Route::group(['middleware' => ['auth','checkRole:bumdes,unitusaha']], function()
 
 	//LAPORAN
 	//laba rugi
-	Route::get('/laba-rugi','EMKMlabarugiController@index');
 
 	//CALK
 	Route::get('/calk','CalkController@index');
-	Route::get('/calk/pdf','CalkController@calkPDF');
 
 	Route::get('/calk/tambah-aset','AsetController@create');
 	Route::post('/calk/tambah-aset/store','AsetController@store');
@@ -177,7 +168,6 @@ Route::group(['middleware' => ['auth','checkRole:bumdes,unitusaha']], function()
 
 	Route::post('/calk/store','CalkController@store');
 
-
 	//PAJAK
 
 	//PPH 21
@@ -219,4 +209,22 @@ Route::group(['middleware' => ['auth','checkRole:bumdes,unitusaha']], function()
 	Route::get('/pph4ayat2','Pph4ayat2Controller@index');
 	Route::get('/pph4ayat2/tambah','Pph4ayat2Controller@create');
 	Route::post('/store-pph4ayat2','Pph4ayat2Controller@store');
+
+	Route::get('/laba-rugi','EMKMlabarugiController@index');
+	Route::get('/laporan-neraca','EMKMposisikeuanganController@index');
+	Route::get('/perubahan-ekuitas','PerubahanekuitasController@index');
+	Route::get('/arus-kas','AruskasController@index');
+
+	Route::get('/calk/pdflogin','CalkController@calkPDFlogin');
+	Route::get('/laba-rugi/pdflogin','EMKMlabarugiController@PDFlogin');
+	Route::get('/laporan-neraca/pdflogin','EMKMposisikeuanganController@pdflogin');
+	Route::get('/perubahan-ekuitas/pdflogin','PerubahanekuitasController@pdflogin');
+	Route::get('/arus-kas/pdflogin','AruskasController@pdflogin');
 });
+
+
+Route::get('/calk/pdf','CalkController@calkPDF');
+Route::get('/laba-rugi/pdf','EMKMlabarugiController@PDF');
+Route::get('/laporan-neraca/pdf','EMKMposisikeuanganController@pdf');
+Route::get('/perubahan-ekuitas/pdf','PerubahanekuitasController@pdf');
+Route::get('/arus-kas/pdf','AruskasController@pdf');

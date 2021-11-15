@@ -12,7 +12,6 @@
 
   <!-- Favicons -->
   <link href="assets/img/logo.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -59,11 +58,12 @@
           <li><a class="nav-link scrollto" href="#kelebihan">Kelebihan</a></li>
           <li><a class="nav-link scrollto" href="#laporan">Report</a></li>
           <li><a class="nav-link scrollto" href="#team">Team</a></li>
-          <li><a class="nav-link scrollto" href="#kontak">Contact</a></li>
-          @if(Auth::check())
+          <li><a class="nav-link scrollto" href="#kontak">Kontak</a></li>
+          
+          @if(!Auth::check())
           <li><a class="getstarted scrollto" href="/login">Login</a></li>
           @else
-          <li><a class="getstarted scrollto" href="/login">Login</a></li>
+          <li><a class="getstarted scrollto" href="/dashboard">Dashboard</a></li>
           @endif
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -157,14 +157,14 @@
             <div class="box">
               <h3 style="color: #07d5c0;">Laporan Laba Rugi</h3>
               
-              <a href="#" class="btn-buy">Download</a>
+              <a href="/laba-rugi/pdf" class="btn-buy">Download</a>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
             <div class="box">
               <h3 style="color: #65c600;">Laporan Neraca</h3>
-              <a href="#" class="btn-buy">Download</a>
+              <a href="/laporan-neraca/pdf" class="btn-buy">Download</a>
             </div>
           </div>
 
@@ -172,7 +172,7 @@
             <div class="box">
               <h3 style="color: #ff901c;">Laporan Perubahan Ekuitas</h3>
               
-              <a href="#" class="btn-buy">Download</a>
+              <a href="/perubahan-ekuitas/pdf" class="btn-buy">Download</a>
             </div>
           </div>
 
@@ -183,7 +183,7 @@
             <div class="box">
               <h3 style="color: #ff0071;">Laporan Arus Kas</h3>
               
-              <a href="#" class="btn-buy">Download</a>
+              <a href="/arus-kas/pdf" class="btn-buy">Download</a>
             </div>
           </div>
 
@@ -191,7 +191,7 @@
             <div class="box">
               <h3 style="color: #f700ff;">Catatan Atas Laporan Keuangan</h3>
               
-              <a href="#" class="btn-buy">Download</a>
+              <a href="/calk/pdf" class="btn-buy">Download</a>
             </div>
           </div>
         </div>
@@ -199,6 +199,7 @@
       </div>
 
     </section><!-- End Pricing Section -->
+
 
 
     <!-- ======= Team Section ======= -->
@@ -216,13 +217,8 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
             <div class="member">
               <div class="member-img">
-                <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+                <img src="assets/img/team/1.jpg" class="img-fluid" alt="">
+                
               </div>
               <div class="member-info">
                 <h4>Daniel Nababan,S.E.,M.Acc</h4>
@@ -234,13 +230,8 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
             <div class="member">
               <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+                <img src="assets/img/team/2.jpg" class="img-fluid" alt="">
+                
               </div>
               <div class="member-info">
                 <h4>Devi Rosanti Wijaya</h4>
@@ -252,13 +243,8 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
             <div class="member">
               <div class="member-img">
-                <img src="assets/img/team/team-2.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+                <img src="assets/img/team/3.jpg" class="img-fluid" alt="">
+                
               </div>
               <div class="member-info">
                 <h4>Firdha Amelia</h4>
@@ -270,13 +256,8 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
             <div class="member">
               <div class="member-img">
-                <img src="assets/img/team/team-4.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+                <img src="assets/img/team/4.jpg" class="img-fluid" alt="">
+                
               </div>
               <div class="member-info">
                 <h4>Fiany Pradita Shanda</h4>
@@ -292,13 +273,8 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
             <div class="member">
               <div class="member-img">
-                <img src="assets/img/team/team-4.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+                <img src="assets/img/team/5.jpg" class="img-fluid" alt="">
+                
               </div>
               <div class="member-info">
                 <h4>Anita Natalina Andriyanto</h4>
@@ -310,13 +286,8 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
             <div class="member">
               <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+                <img src="assets/img/team/6.jpg" class="img-fluid" alt="">
+                
               </div>
               <div class="member-info">
                 <h4>Vina Rustandy</h4>
@@ -328,13 +299,8 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
             <div class="member">
               <div class="member-img">
-                <img src="assets/img/team/team-2.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+                <img src="assets/img/team/7.jpg" class="img-fluid" alt="">
+                
               </div>
               <div class="member-info">
                 <h4>Fanny Asri Rahmasari</h4>
@@ -346,13 +312,8 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
             <div class="member">
               <div class="member-img">
-                <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
+                <img src="assets/img/team/8.jpg" class="img-fluid" alt="">
+                
               </div>
               <div class="member-info">
                 <h4>Aditya Fakhri Riansyah</h4>
@@ -450,7 +411,7 @@
             <h4>Useful Links</h4>
             <ul>
               <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#tentang">Tentang</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="/tentang-siacta">Tentang</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="#kelebihan">Kelebihan</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="#laporan">Laporan</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="#team">Team</a></li>

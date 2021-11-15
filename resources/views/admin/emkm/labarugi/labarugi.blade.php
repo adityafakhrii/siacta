@@ -25,6 +25,16 @@
                       Periode tanggal {{ date('d F Y', strtotime('last day of this month', time())) }}
                     </h5>
                   </div>
+
+                  <div class="row float-right">
+                    <div class="col">
+                      <a href="/laba-rugi/pdflogin" class="btn btn-primary btn-icon-text">
+                        Cetak PDF
+                        <i class="mdi mdi-printer btn-icon-append"></i>
+                      </a>
+                    </div>
+                  </div>
+
                   <div class="table-responsive">
                     <table class="table table-hover">
 
@@ -77,18 +87,9 @@
                         <tr>
                           <td colspan="2">Pajak</td>
                           <?php 
-                            if ($total_semua > 0) {
-                              $pajak = $total_semua * (0.5/100);
-                            }else{
-                              $pajak = 0;
-                            }
-                            
+                              $pajak = $total_pendapatan * (0.5/100);
                           ?>
-                          @if($pajak > 0 )
                             <td>Rp{{ number_format(floor($pajak),2,",",".") }}</td>
-                          @else
-                          <td>-</td>
-                          @endif
                         </tr>
 
                         <tr>

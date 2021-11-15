@@ -47,7 +47,7 @@
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
                   </div>
-                  <a href="#" class="auth-link text-black">Forgot password?</a>
+                  <a href="/" class="auth-link text-black">Kembali ke menu utama</a>
                 </div>
               </form>
               @if(Session::has('fail'))
