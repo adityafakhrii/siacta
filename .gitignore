@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
+.env
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
@@ -13,3 +14,6 @@ yarn-error.log
 /.idea
 /.vscode
 siacta-fix.zip
+.DS_Store
+Thumbs.db
+*.log
