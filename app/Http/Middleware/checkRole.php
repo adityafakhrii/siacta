@@ -7,12 +7,18 @@ use Illuminate\Http\Request;
 
 class checkRole
 {
-    public function handle($request, Closure $next,...$roles)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (in_array($request->user()->role,$roles)) {
-            return $next($request);
-        }else{
-            return redirect('/');
+        if (!auth()->guard()->check()) {
+            return redirect('/login');
         }
+
+        $userRole = auth()->guard()->user()->role; // Sesuaikan dengan nama kolom role di database
+
+        if (!in_array($userRole, $roles)) {
+            abort(403, 'Unauthorized');
+        }
+
+        return $next($request);
     }
 }
