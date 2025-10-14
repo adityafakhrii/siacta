@@ -50,7 +50,7 @@ class NeracasaldoawalController extends Controller
         {
             $neraca->kredit = $request->nominal;
         }
-        
+
         if ($neraca->save()) {
             $bbesar = new Bukubesar;
             $bbesar->id_akun = $neraca->akun->id;
@@ -81,9 +81,9 @@ class NeracasaldoawalController extends Controller
 
                 $bbesar_pen->save();
             }
-            
+
         }
-        
+
         return redirect('/neraca-saldo-awal')->with('create','Saldo berhasil ditambahkan');
     }
 

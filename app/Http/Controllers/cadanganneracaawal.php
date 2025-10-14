@@ -8,7 +8,7 @@ use Auth;
 use App\Models\Neracasaldoawal;
 use Illuminate\Http\Request;
 
-class NeracasaldoawalController extends Controller
+class CadanganNeracasaldoawalController extends Controller
 {
 
     public function index(){
@@ -76,7 +76,7 @@ class NeracasaldoawalController extends Controller
                     $bbesar->saldo = $request->nominal;
                     $bbesar->keterangan = 'Saldo Awal';
 
-                    $bbesar->save(); 
+                    $bbesar->save();
                 }
 
                 else if($neraca->akun->status == 'penyesuaian')
@@ -94,9 +94,9 @@ class NeracasaldoawalController extends Controller
                     $bbesar->saldo = $request->nominal;
                     $bbesar->keterangan = 'Saldo Awal';
 
-                    $bbesar->save(); 
+                    $bbesar->save();
                 }
-                
+
              };
 
             $user = User::where('id','=',auth()->user()->id)
@@ -106,7 +106,7 @@ class NeracasaldoawalController extends Controller
             ]);
 
         }
-        
+
         return redirect('/neraca-saldo-awal')->with('create','Neraca saldo awal berhasil ditambahkan');
     }
 

@@ -78,7 +78,7 @@ class UserController extends Controller
                         ->whereRaw('bukubesarpenyesuaians.id IN ( SELECT MAX(id) FROM bukubesarpenyesuaians GROUP BY id_akun)')
                         ->where('no_akun','=','92.14.00')
                         ->get();
-        
+
         $total_pendapatan = 0;
         foreach ($labarugi_pendapatan as $lr) {
             $total_pendapatan += $lr->saldo;
@@ -109,7 +109,7 @@ class UserController extends Controller
         $total_ut = 0;
         foreach ($utang as $ut) {
             $total_ut += $ut->saldo;
-        }                       
+        }
 
     	return view('admin.akun.index',compact('total_pendapatan','total_beban','pajaks','total_piut','total_ut'));
     }
@@ -158,7 +158,7 @@ class UserController extends Controller
         $user->id_unitusaha = $request->id_unitusaha;
         $user->status_neracaawal = 'belum_final';
         $user->status_calk = 'null';
-        
+
 
         if ($user->save()) {
             $anggota = new Anggota;
@@ -204,7 +204,7 @@ class UserController extends Controller
         $user->id_unitusaha = NULL;
         $user->status_neracaawal = NULL;
         $user->status_calk = NULL;
-        
+
 
         if ($user->save()) {
             $anggota = new Anggota;

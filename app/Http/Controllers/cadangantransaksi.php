@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
 
-class TransaksiController extends Controller
+class CadanganTransaksiController extends Controller
 {
     public function index(){
 
@@ -30,7 +30,7 @@ class TransaksiController extends Controller
     }
 
     public function store(Request $request){
-        
+
         $akun = Akun::all();
 
     	$trans = new Transaksi;
@@ -620,7 +620,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->keterangan,
                                     'created_at' => Carbon::now(),
                                     'updated_at' => null,
-                                    ),                                    
+                                    ),
                                     $akun_bb = array(
                                     'id_transaksi' => $trans->id,
                                     'id_akun' => $request->id_akun,
@@ -1080,7 +1080,7 @@ class TransaksiController extends Controller
 
             // Pembelian Tunai
             else if ($trans->status == 'pembelian' && $trans->jenis_pembayaran == 'tunai') {
-                
+
                 // Jika tidak ada PAJAK dan tidak ada diskon dan ada pph23 tidak ada pph22
                 if($trans->nominal_ppn == 0 && $request->diskon == 0 && $request->nominal_pph22 == 0 && $request->nominal_pph23 != 0){
                         $data = array(
@@ -1119,7 +1119,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -1204,9 +1204,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                        
-                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
+
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -1290,7 +1290,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -1374,9 +1374,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                        
-                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
+
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -1460,9 +1460,9 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                        
-                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
+
+                        $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
                                 array(
@@ -1600,8 +1600,8 @@ class TransaksiController extends Controller
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                        
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
+
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
@@ -1683,7 +1683,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -1779,8 +1779,8 @@ class TransaksiController extends Controller
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                        
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
+
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
@@ -1991,8 +1991,8 @@ class TransaksiController extends Controller
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
-                        
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
+
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
@@ -2091,11 +2091,11 @@ class TransaksiController extends Controller
                                     'updated_at' => null,
                                     ),
                         );
-                        
+
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbkas = Bukubesar::where('id_akun','=',1)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -2145,7 +2145,7 @@ class TransaksiController extends Controller
 
             // Pembelian Kredit
             else if ($trans->status == 'pembelian' && $trans->jenis_pembayaran == 'kredit') {
-                
+
                 // Jika tidak ada PAJAK dan tidak ada diskon dan ada pph23 tidak ada pph22
                 if($trans->nominal_ppn == 0 && $request->diskon == 0 && $request->nominal_pph22 == 0 && $request->nominal_pph23 != 0){
                         $data = array(
@@ -2184,7 +2184,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -2268,7 +2268,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -2353,7 +2353,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -2437,7 +2437,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -2522,7 +2522,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -2660,7 +2660,7 @@ class TransaksiController extends Controller
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -2783,7 +2783,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -2910,7 +2910,7 @@ class TransaksiController extends Controller
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -3063,7 +3063,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -3210,7 +3210,7 @@ class TransaksiController extends Controller
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -3363,7 +3363,7 @@ class TransaksiController extends Controller
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
-                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail(); 
+                        $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
@@ -3452,8 +3452,8 @@ class TransaksiController extends Controller
             }
 
             // Pembelian DP
-            else if ($trans->status == 'pembelian' && $trans->jenis_pembayaran == 'dp') {     
-                
+            else if ($trans->status == 'pembelian' && $trans->jenis_pembayaran == 'dp') {
+
                 // Jika ada PAJAK dan tidak ada diskon dan ada pph22 dan tidak ada pph23
                 if($trans->nominal_ppn != 0 && $request->diskon == 0 && $request->nominal_pph22 != 0 && $request->nominal_pph23 == 0){
                         $data = array(
@@ -3829,7 +3829,7 @@ class TransaksiController extends Controller
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                        
+
                         $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
@@ -4012,7 +4012,7 @@ class TransaksiController extends Controller
                         $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                        
+
                         $bbpph22 = Bukubesar::where('id_akun','=',14)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
@@ -4489,7 +4489,7 @@ class TransaksiController extends Controller
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                        
+
                         $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
@@ -4608,7 +4608,7 @@ class TransaksiController extends Controller
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
                 }
-                
+
                 // Jika tidak ada PAJAK dan ada diskon dan ada pph23 tidak ada pph22
                 else if($trans->nominal_ppn == 0 && $request->diskon != 0 && $request->nominal_pph22 == 0 && $request->nominal_pph23 != 0){
                         $data = array(
@@ -4672,7 +4672,7 @@ class TransaksiController extends Controller
                         $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                        
+
                         $bbpph23 = Bukubesar::where('id_akun','=',15)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bb = array(
@@ -4827,7 +4827,7 @@ class TransaksiController extends Controller
                         $bbutang = Bukubesar::where('id_akun','=',16)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                        
+
                         $bb = array(
                                 array(
                                     'id_akun' => $request->id_akun,
@@ -5079,7 +5079,7 @@ class TransaksiController extends Controller
                         $bbppn = Bukubesar::where('id_akun','=',13)->orderBy('id','DESC')->limit(1)->firstOrFail();
 
                         $bbdiskon = Bukubesar::where('id_akun','=',350)->orderBy('id','DESC')->limit(1)->firstOrFail();
-                        
+
                         $bb = array(
                                 array(
                                     'id_akun' => $request->id_akun,
@@ -5366,7 +5366,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        
+
                         if (Bukubesar::insert($bb)) {
                                     $bbpen = array(
                                             $bb1 = array(
@@ -5482,7 +5482,7 @@ class TransaksiController extends Controller
                                 'created_at' => Carbon::now(),
                                 'updated_at' => null,
                                 ),
-                    );   
+                    );
 
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
@@ -5606,7 +5606,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        
+
                         if (Bukubesar::insert($bb)) {
                                     $bbpen = array(
                                                 array(
@@ -5630,7 +5630,7 @@ class TransaksiController extends Controller
                                     );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
-                }    
+                }
             }
 
             // Retur Penjualan Kredit
@@ -5707,7 +5707,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        
+
                         if (Bukubesar::insert($bb)) {
                                     $bbpen = array(
                                                 array(
@@ -5793,7 +5793,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        
+
                         if (Bukubesar::insert($bb)) {
                                     $bbpen = array(
                                                 array(
@@ -5817,7 +5817,7 @@ class TransaksiController extends Controller
                                     );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
-                }    
+                }
             }
 
             // Retur Pembelian Tunai
@@ -5856,7 +5856,7 @@ class TransaksiController extends Controller
                                 'created_at' => Carbon::now(),
                                 'updated_at' => null,
                                 ),
-                    );    
+                    );
 
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
@@ -5894,7 +5894,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        
+
                         if (Bukubesar::insert($bb)) {
                                     $bbpen = array(
                                                 array(
@@ -5953,7 +5953,7 @@ class TransaksiController extends Controller
                                 'created_at' => Carbon::now(),
                                 'updated_at' => null,
                                 ),
-                    ); 
+                    );
 
                         // MASUKKAN KE BUKU BESAR
                         $bbesar = Bukubesar::where('id_akun','=',$request->id_akun)->orderBy('id','DESC')->limit(1)->firstOrFail();
@@ -5980,7 +5980,7 @@ class TransaksiController extends Controller
                                     'keterangan' => $request->status,
                                 ),
                         );
-                        
+
                         if (Bukubesar::insert($bb)) {
                                     $bbpen = array(
                                                 array(
@@ -6004,7 +6004,7 @@ class TransaksiController extends Controller
                                     );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
-                }    
+                }
             }
 
             // Retur Pembelian Kredit
@@ -6080,7 +6080,7 @@ class TransaksiController extends Controller
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
                                 ),
-                                
+
                         );
 
                         if (Bukubesar::insert($bb)) {
@@ -6165,9 +6165,9 @@ class TransaksiController extends Controller
                                     'created_at' => Carbon::now(),
                                     'updated_at' => Carbon::now(),
                                     'keterangan' => $request->status,
-                                ),                                
+                                ),
                         );
-                        
+
                         if (Bukubesar::insert($bb)) {
                                     $bbpen = array(
                                                 array(
@@ -6191,15 +6191,15 @@ class TransaksiController extends Controller
                                     );
                             Bukubesarpenyesuaian::insert($bbpen);
                         }
-                }    
+                }
             }
         }
 
         if (Jurnalumum::insert($data)) {
-            
+
         }
 
        	return redirect('/jurnal-umum')->with('success','Transaksi berhasil ditambahkan');
-        
+
     }
 }

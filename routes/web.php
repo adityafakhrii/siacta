@@ -1,15 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
 
 
-Route::get('/coba',function(){
-	return view('admin.coba');
+Route::get('/coba', function () {
+    return view('admin.coba');
 });
 
-Route::get('/','UserController@landing');
-Route::get('/tentang-siacta','UserController@siacta');
-Route::get('/profil-bumdes','UserController@profilbumdes');
+// Ganti ke controller berbasis kelas
+Route::get('/', [UserController::class, 'landing']);
+Route::get('/tentang-siacta', [UserController::class, 'siacta']);
+Route::get('/profil-bumdes', [UserController::class, 'profilbumdes']);
 
 
 Route::get('/login', function() {
@@ -21,22 +24,22 @@ Route::get('/login', function() {
     }
 })->name('login');
 
-Route::post('/do_login', 'UserController@do_login');
-Route::get('/logout', 'UserController@logout');
+Route::post('/do_login', [UserController::class, 'do_login']);
+Route::get('/logout', [UserController::class, 'logout']);
 
-Route::group(['middleware' => ['auth','checkRole:unitusaha,bumdes,superadmin']], function() {
-	Route::get('/dashboard','UserController@dashboard');
+Route::group(['middleware' => ['auth','checkRole:unitusaha,bumdes,superadmin']], function () {
+    Route::get('/dashboard', [UserController::class, 'dashboard']);
 });
 
 
 
-Route::group(['middleware' => ['auth','checkRole:superadmin']], function() {
-	Route::get('/data-bumdes','UserController@bumdes');
-	Route::get('/data-bumdes/tambah','UserController@addBumdes');
-	Route::post('/store-bumdes','UserController@storeBumdes');
-	Route::get('/data-bumdes/edit/{id}','UserController@editBumdes');
-	Route::post('/update-bumdes/{id}','UserController@updateBumdes');
-	Route::get('/data-bumdes/hapus/{id}','UserController@destroyBumdes');
+Route::group(['middleware' => ['auth','checkRole:superadmin']], function () {
+    Route::get('/data-bumdes', [UserController::class, 'bumdes']);
+    Route::get('/data-bumdes/tambah', [UserController::class, 'addBumdes']);
+    Route::post('/store-bumdes', [UserController::class, 'storeBumdes']);
+    Route::get('/data-bumdes/edit/{id}', [UserController::class, 'editBumdes']);
+    Route::post('/update-bumdes/{id}', [UserController::class, 'updateBumdes']);
+    Route::get('/data-bumdes/hapus/{id}', [UserController::class, 'destroyBumdes']);
 });
 
 
